@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Estilos base y del carrito */
+        /* ===== Estilos Base ===== */
         body { background: #fefce8; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
         .transition { transition: all 0.2s ease; }
         .btn-primary { background-color: #f59e0b; color: white; }
@@ -18,7 +18,7 @@
         .card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
         .section-title { font-size: 2rem; font-weight: 700; color: #1e293b; margin-bottom: 1rem; }
         
-        /* Estilos del carrito (sidebar) */
+        /* ===== Estilos del Carrito (Sidebar) ===== */
         .cart-sidebar {
             position: fixed;
             top: 0;
@@ -45,49 +45,54 @@
             display: none;
         }
         .cart-overlay.open { display: block; }
+        
+        /* ===== Ajustes responsive - LOGO 3 VECES MÁS GRANDE ===== */
         @media (max-width: 768px) {
-    button, a, .add-to-cart-btn, .btn-primary, .btn-secondary {
-        min-height: 44px; /* Altura mínima para dedos */
-        touch-action: manipulation;
-    }
-    .nav-container a, .mobile-menu a {
-        padding-top: 0.75rem;
-        padding-bottom: 0.75rem;
-    }
-    input, select, textarea {
-        font-size: 16px !important; /* Evita zoom en iOS */
-    }
-    .cart-sidebar {
-        width: 90%; /* Un poco más ancho en móvil pero sin llegar al borde */
-        max-width: 380px;
-    }
-}
-/* Feedback al tocar */
-button:active, .add-to-cart-btn:active, .btn-primary:active {
-    transform: scale(0.97);
-    transition: transform 0.05s;
-}
-/* Ajustes responsive existentes - LOGO 3 VECES MÁS GRANDE */
-@media (max-width: 768px) {
-    .nav-container { min-height: 12rem !important; }
-    .logo-img { height: 9rem !important; width: auto; }
-    .nav-text { display: none; }
-}
-@media (min-width: 769px) and (max-width: 1024px) {
-    .nav-container { min-height: 15rem !important; }
-    .logo-img { height: 12rem !important; }
-}
-@media (min-width: 1025px) {
-    .nav-container { min-height: 18rem !important; }
-    .logo-img { height: 15rem !important; }
-}
-html { scroll-padding-top: 80px; }
-@media (max-width: 768px) { html { scroll-padding-top: 70px; } }
-
-/* Separación del texto junto al logo */
-.nav-text {
-    padding-left: 1rem;
-}
+            .nav-container { min-height: 12rem !important; }
+            .logo-img { height: 9rem !important; width: auto; }
+            .nav-text { display: none; }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .nav-container { min-height: 15rem !important; }
+            .logo-img { height: 12rem !important; }
+        }
+        @media (min-width: 1025px) {
+            .nav-container { min-height: 18rem !important; }
+            .logo-img { height: 15rem !important; }
+        }
+        html { scroll-padding-top: 80px; }
+        @media (max-width: 768px) { html { scroll-padding-top: 70px; } }
+        
+        /* Separación del texto junto al logo */
+        .nav-text {
+            padding-left: 1rem;
+        }
+        
+        /* Mejoras táctiles para móviles */
+        @media (max-width: 768px) {
+            button, a, .add-to-cart-btn, .btn-primary, .btn-secondary {
+                min-height: 44px;
+                touch-action: manipulation;
+            }
+            .nav-container a, .mobile-menu a {
+                padding-top: 0.75rem;
+                padding-bottom: 0.75rem;
+            }
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+            .cart-sidebar {
+                width: 90%;
+                max-width: 380px;
+            }
+        }
+        button:active, .add-to-cart-btn:active, .btn-primary:active {
+            transform: scale(0.97);
+            transition: transform 0.05s;
+        }
+    </style>
+</head>
+<body class="bg-amber-50 text-gray-800 font-sans">
 
     <!-- ==================== NAVEGACIÓN CON CARRITO ==================== -->
     <nav class="bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-amber-200">
@@ -397,7 +402,7 @@ html { scroll-padding-top: 80px; }
             </div>
         </section>
 
-        <!-- ==================== SOBRE MÍ (con foto izquierda, texto derecha) ==================== -->
+        <!-- ==================== SOBRE MÍ (foto izquierda, texto derecha) ==================== -->
         <section id="sobre-mi" class="py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
@@ -440,7 +445,7 @@ html { scroll-padding-top: 80px; }
     </main>
 
     <script>
-        // ==================== CARRITO DE COMPRAS (JavaScript) ====================
+        // ==================== CARRITO DE COMPRAS ====================
         let cart = [];
 
         function loadCart() {
@@ -561,6 +566,7 @@ html { scroll-padding-top: 80px; }
             const mobileMenu = document.getElementById('mobile-menu');
             if (menuBtn) menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
             
+            // Formulario descarga
             const form = document.getElementById('downloadForm');
             if (form) {
                 form.addEventListener('submit', (e) => {
