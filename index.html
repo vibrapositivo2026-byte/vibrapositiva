@@ -45,7 +45,28 @@
             display: none;
         }
         .cart-overlay.open { display: block; }
-        
+        @media (max-width: 768px) {
+    button, a, .add-to-cart-btn, .btn-primary, .btn-secondary {
+        min-height: 44px; /* Altura mínima para dedos */
+        touch-action: manipulation;
+    }
+    .nav-container a, .mobile-menu a {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+    input, select, textarea {
+        font-size: 16px !important; /* Evita zoom en iOS */
+    }
+    .cart-sidebar {
+        width: 90%; /* Un poco más ancho en móvil pero sin llegar al borde */
+        max-width: 380px;
+    }
+}
+/* Feedback al tocar */
+button:active, .add-to-cart-btn:active, .btn-primary:active {
+    transform: scale(0.97);
+    transition: transform 0.05s;
+}
         /* Ajustes responsive existentes */
         @media (max-width: 768px) {
             .nav-container { min-height: 4rem !important; }
