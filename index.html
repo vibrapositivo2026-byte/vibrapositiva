@@ -102,7 +102,7 @@
         </div>
     </nav>
 
-    <!-- ==================== SIDEBAR DEL CARRITO ==================== -->
+    <!-- ==================== SIDEBAR DEL CARRITO CON PAYPAL Y REVOLUT ==================== -->
     <div id="cart-overlay" class="cart-overlay"></div>
     <div id="cart-sidebar" class="cart-sidebar">
         <div class="p-4 border-b flex justify-between items-center bg-amber-50">
@@ -117,10 +117,15 @@
                 <span>Total:</span>
                 <span id="cart-total">€0.00</span>
             </div>
-            <button id="checkout-btn" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-full transition flex items-center justify-center gap-2">
-                <i class="fab fa-paypal"></i> Proceder al Pago con PayPal
-            </button>
-            <p class="text-xs text-center text-gray-500 mt-3">También aceptamos <i class="fab fa-cc-visa"></i> <i class="fab fa-cc-mastercard"></i> vía Revolut.</p>
+            <div class="flex flex-col gap-3">
+                <button id="checkout-paypal-btn" class="w-full bg-[#003087] hover:bg-[#002c6a] text-white font-bold py-3 rounded-full transition flex items-center justify-center gap-2">
+                    <i class="fab fa-paypal"></i> Pagar con PayPal
+                </button>
+                <button id="checkout-revolut-btn" class="w-full bg-[#0077B5] hover:bg-[#006494] text-white font-bold py-3 rounded-full transition flex items-center justify-center gap-2">
+                    <i class="fas fa-credit-card"></i> Pagar con Revolut
+                </button>
+            </div>
+            <p class="text-xs text-center text-gray-500 mt-3">Ambos métodos son seguros. Serás redirigido a la pasarela de pago.</p>
         </div>
     </div>
 
@@ -367,7 +372,7 @@
             </div>
         </section>
 
-        <!-- ==================== SOBRE MÍ (con foto a la izquierda y texto a la derecha) ==================== -->
+        <!-- ==================== SOBRE MÍ (con foto izquierda, texto derecha) ==================== -->
         <section id="sobre-mi" class="py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
@@ -501,24 +506,36 @@
         }
         function openCart() { document.getElementById('cart-sidebar')?.classList.add('open'); document.getElementById('cart-overlay')?.classList.add('open'); }
         function closeCart() { document.getElementById('cart-sidebar')?.classList.remove('open'); document.getElementById('cart-overlay')?.classList.remove('open'); }
-        function handleCheckout() {
+        
+        // PAGOS
+        function handlePayPalCheckout() {
             if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío. Agrega algún servicio primero.'); return; }
             const total = getCartTotal();
             const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=JavierAyala168@paypal.com&amount=${total.toFixed(2)}&currency_code=EUR&item_name=Compra%20en%20Vibrapositiva&no_shipping=1`;
             window.open(paypalUrl, '_blank');
             showNotification(`🔔 Redirigiendo a PayPal para pagar €${total.toFixed(2)}`);
         }
+        function handleRevolutCheckout() {
+            if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío. Agrega algún servicio primero.'); return; }
+            const total = getCartTotal();
+            const revolutUrl = `https://revolut.me/javier47j`;
+            window.open(revolutUrl, '_blank');
+            showNotification(`🔔 Redirigiendo a Revolut. Por favor, introduce el importe de €${total.toFixed(2)} manualmente.`);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             loadCart();
             bindAddToCartEvents();
             document.getElementById('cart-icon-btn')?.addEventListener('click', openCart);
             document.getElementById('close-cart-btn')?.addEventListener('click', closeCart);
             document.getElementById('cart-overlay')?.addEventListener('click', closeCart);
-            document.getElementById('checkout-btn')?.addEventListener('click', handleCheckout);
+            document.getElementById('checkout-paypal-btn')?.addEventListener('click', handlePayPalCheckout);
+            document.getElementById('checkout-revolut-btn')?.addEventListener('click', handleRevolutCheckout);
+            
             const menuBtn = document.getElementById('menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
             if (menuBtn) menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-            // Formulario de descarga
+            
             const form = document.getElementById('downloadForm');
             if (form) {
                 form.addEventListener('submit', (e) => {
