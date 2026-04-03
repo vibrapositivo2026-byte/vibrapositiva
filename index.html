@@ -2,13 +2,12 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vibrapositiva - Carrito de Compras</title>
-    <!-- Tailwind CSS, Font Awesome y tus estilos personalizados -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>VIBRAPOSITIVA | Bienestar, fortalezas y cambio personal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ===== Estilos Base ===== */
+        /* Estilos base y del carrito */
         body { background: #fefce8; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
         .transition { transition: all 0.2s ease; }
         .btn-primary { background-color: #f59e0b; color: white; }
@@ -17,8 +16,9 @@
         .btn-secondary:hover { background-color: #fef3c7; }
         .card { background: white; border-radius: 1rem; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); transition: all 0.2s; }
         .card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
-
-        /* ===== Estilos del Carrito (Sidebar) ===== */
+        .section-title { font-size: 2rem; font-weight: 700; color: #1e293b; margin-bottom: 1rem; }
+        
+        /* Estilos del carrito (sidebar) */
         .cart-sidebar {
             position: fixed;
             top: 0;
@@ -45,21 +45,29 @@
             display: none;
         }
         .cart-overlay.open { display: block; }
-        .cart-item-image {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 0.5rem;
+        
+        /* Ajustes responsive existentes */
+        @media (max-width: 768px) {
+            .nav-container { min-height: 4rem !important; }
+            .logo-img { height: 3rem !important; width: auto; }
+            .nav-text { display: none; }
         }
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .logo-img { height: 4rem !important; }
+        }
+        @media (min-width: 1025px) {
+            .logo-img { height: 5rem !important; }
+        }
+        html { scroll-padding-top: 80px; }
+        @media (max-width: 768px) { html { scroll-padding-top: 70px; } }
     </style>
 </head>
 <body class="bg-amber-50 text-gray-800 font-sans">
 
-    <!-- ===== BARRA DE NAVEGACIÓN CON ICONO DEL CARRITO ===== -->
+    <!-- ==================== NAVEGACIÓN CON CARRITO ==================== -->
     <nav class="bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-amber-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center nav-container" style="min-height: 5rem;">
-                <!-- Logo y texto -->
                 <div class="flex items-center space-x-3">
                     <img src="logo.png" alt="VIBRAPOSITIVA" class="logo-img h-16 md:h-20 w-auto">
                     <div class="hidden sm:block nav-text">
@@ -67,7 +75,6 @@
                         <div class="text-xs text-amber-600">Especialista en bienestar, fortalezas y cambio personal</div>
                     </div>
                 </div>
-                <!-- Menú escritorio -->
                 <div class="hidden md:flex space-x-6 lg:space-x-8 font-medium">
                     <a href="#home" class="text-gray-700 hover:text-amber-600">Inicio</a>
                     <a href="#sobre-mi" class="text-gray-700 hover:text-amber-600">Sobre mí</a>
@@ -76,7 +83,6 @@
                     <a href="#faq" class="text-gray-700 hover:text-amber-600">Preguntas frecuentes</a>
                     <a href="#contacto" class="text-gray-700 hover:text-amber-600">Contacto</a>
                 </div>
-                <!-- Botón Carrito + Hamburguesa -->
                 <div class="flex items-center gap-4">
                     <button id="cart-icon-btn" class="relative text-amber-700 focus:outline-none">
                         <i class="fas fa-shopping-cart text-2xl"></i>
@@ -85,7 +91,6 @@
                     <button id="menu-btn" class="md:hidden text-amber-700 focus:outline-none"><i class="fas fa-bars text-2xl"></i></button>
                 </div>
             </div>
-            <!-- Menú móvil -->
             <div id="mobile-menu" class="hidden md:hidden pb-4 flex flex-col space-y-3 text-center bg-white/95 rounded-b-lg">
                 <a href="#home" class="text-gray-700 hover:text-amber-600 py-1">Inicio</a>
                 <a href="#sobre-mi" class="text-gray-700 hover:text-amber-600 py-1">Sobre mí</a>
@@ -97,7 +102,7 @@
         </div>
     </nav>
 
-    <!-- ===== SIDEBAR DEL CARRITO (HTML ESTRUCTURAL) ===== -->
+    <!-- ==================== SIDEBAR DEL CARRITO ==================== -->
     <div id="cart-overlay" class="cart-overlay"></div>
     <div id="cart-sidebar" class="cart-sidebar">
         <div class="p-4 border-b flex justify-between items-center bg-amber-50">
@@ -105,7 +110,6 @@
             <button id="close-cart-btn" class="text-gray-500 hover:text-gray-800"><i class="fas fa-times text-xl"></i></button>
         </div>
         <div id="cart-items-container" class="flex-grow overflow-y-auto p-4 space-y-4">
-            <!-- Los items se renderizarán aquí dinámicamente con JS -->
             <div class="text-center text-gray-500 py-8">Tu carrito está vacío.</div>
         </div>
         <div class="p-4 border-t bg-white">
@@ -121,7 +125,7 @@
     </div>
 
     <main class="overflow-hidden">
-        <!-- ===== SECCIÓN HOME ===== -->
+        <!-- ==================== HOME ==================== -->
         <section id="home" class="py-12 md:py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-4">Recupera tu bienestar <span class="text-amber-600">sin perder quién eres</span></h1>
@@ -134,55 +138,130 @@
             </div>
         </section>
 
-        <!-- ===== SECCIÓN SERVICIOS / PRODUCTOS (CON BOTONES "AGREGAR") ===== -->
-        <section id="servicios" class="py-12 md:py-16">
+        <!-- ==================== EL PROBLEMA ==================== -->
+        <section class="bg-white py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="section-title text-center text-2xl md:text-3xl font-bold text-gray-800 mb-4">Cómo puedo acompañarte</h2>
-                <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">Elige el servicio que mejor se adapte a ti y agrégalo a tu carrito.</p>
-                <div class="grid md:grid-cols-3 gap-6 md:gap-8">
-                    
-                    <!-- Producto 1: Sesión Diagnóstica -->
-                    <div class="card p-5 md:p-6 flex flex-col" data-id="serv-diagnostica" data-name="Sesión Diagnóstica" data-price="50">
-                        <i class="fas fa-stethoscope text-amber-500 text-3xl md:text-4xl mb-3"></i>
-                        <h3 class="text-xl md:text-2xl font-bold">Sesión diagnóstica</h3>
-                        <p class="text-xl md:text-2xl font-semibold text-amber-600 mt-2">€50 <span class="text-sm md:text-base font-normal">| 60 minutos</span></p>
-                        <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Espacio para entendernos. Identificamos tu situación actual, lo que quieres cambiar y cómo puedo acompañarte. Sin compromiso. Solo claridad.</p>
-                        <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-4 transition flex items-center justify-center gap-2" data-id="serv-diagnostica">
-                            <i class="fas fa-cart-plus"></i> Agregar al carrito
-                        </button>
-                    </div>
+                <h2 class="section-title text-center text-2xl md:text-3xl">¿Reconoces alguno de estos momentos?</h2>
+                <div class="grid md:grid-cols-2 gap-6 mt-8">
+                    <ul class="space-y-3 text-gray-700">
+                        <li><i class="fas fa-circle text-amber-500 text-xs mr-2"></i> Esa sensación de estar "funcionando", pero no viviendo</li>
+                        <li><i class="fas fa-circle text-amber-500 text-xs mr-2"></i> Cansancio emocional sin un motivo claro</li>
+                        <li><i class="fas fa-circle text-amber-500 text-xs mr-2"></i> No sabes qué quieres; solo sabes que esto no es lo que buscas</li>
+                        <li><i class="fas fa-circle text-amber-500 text-xs mr-2"></i> Te cuesta conectar contigo mismo después de tanto tiempo</li>
+                        <li><i class="fas fa-circle text-amber-500 text-xs mr-2"></i> Mucho ruido externo y poco espacio interno</li>
+                    </ul>
+                    <ul class="space-y-3 text-gray-700">
+                        <li><i class="fas fa-circle text-amber-500 text-xs mr-2"></i> Hábitos que ya no te funcionan, pero no sabes cómo cambiarlos</li>
+                        <li><i class="fas fa-circle text-amber-500 text-xs mr-2"></i> Una autoestima que fluctúa según quién esté cerca</li>
+                        <li><i class="fas fa-circle text-amber-500 text-xs mr-2"></i> Momentos de claridad que duran una hora y se esfuman</li>
+                    </ul>
+                </div>
+                <p class="text-center text-amber-700 italic mt-8">Estos no son problemas clínicos. Son señales. Y están aquí para enseñarte algo.</p>
+            </div>
+        </section>
 
-                    <!-- Producto 2: Acompañamiento Individual -->
-                    <div class="card p-5 md:p-6 flex flex-col" data-id="serv-individual" data-name="Acompañamiento Individual" data-price="75">
-                        <i class="fas fa-user-friends text-amber-500 text-3xl md:text-4xl mb-3"></i>
-                        <h3 class="text-xl md:text-2xl font-bold">Acompañamiento individual</h3>
-                        <p class="text-xl md:text-2xl font-semibold text-amber-600 mt-2">€75 <span class="text-sm md:text-base font-normal">/sesión | Online o presencial</span></p>
-                        <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Sesiones estructuradas en las que trabajamos lo que de verdad importa. Con ejercicios prácticos, seguimiento entre sesiones y un plan diseñado para ti.</p>
-                        <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-4 transition flex items-center justify-center gap-2" data-id="serv-individual">
-                            <i class="fas fa-cart-plus"></i> Agregar al carrito
-                        </button>
-                    </div>
-
-                    <!-- Producto 3: Procesos Personalizados -->
-                    <div class="card p-5 md:p-6 flex flex-col" data-id="serv-procesos" data-name="Procesos Personalizados" data-price="280">
-                        <i class="fas fa-chart-line text-amber-500 text-3xl md:text-4xl mb-3"></i>
-                        <h3 class="text-xl md:text-2xl font-bold">Procesos personalizados</h3>
-                        <p class="text-xl md:text-2xl font-semibold text-amber-600 mt-2">Desde €280</p>
-                        <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Cuando necesitas ir más allá. Paquetes de 4, 8 o 12 sesiones con descuento progresivo. El cambio real requiere tiempo.</p>
-                        <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-4 transition flex items-center justify-center gap-2" data-id="serv-procesos">
-                            <i class="fas fa-cart-plus"></i> Agregar al carrito
-                        </button>
+        <!-- ==================== CONSECUENCIAS ==================== -->
+        <section class="bg-amber-50 py-12 md:py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="section-title text-center text-2xl md:text-3xl">Qué pasa si sigues igual</h2>
+                <p class="text-center text-gray-600 max-w-2xl mx-auto mb-10">Cada día que pasa sin conectar con lo que realmente te importa te deja un poco más atrás. No es algo dramático. Es lento. Y eso es lo que duele.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <ul class="space-y-2 text-gray-700">
+                        <li><i class="fas fa-angle-right text-amber-500 mr-2"></i> El cansancio emocional se normaliza</li>
+                        <li><i class="fas fa-angle-right text-amber-500 mr-2"></i> Tomas decisiones desde la inercia, no desde la claridad</li>
+                        <li><i class="fas fa-angle-right text-amber-500 mr-2"></i> Tus relaciones reflejan la desconexión que sientes contigo mismo</li>
+                        <li><i class="fas fa-angle-right text-amber-500 mr-2"></i> Pierdes confianza en tu propio criterio</li>
+                        <li><i class="fas fa-angle-right text-amber-500 mr-2"></i> El estrés y la ansiedad ocupan cada vez más espacio</li>
+                        <li><i class="fas fa-angle-right text-amber-500 mr-2"></i> Te adaptas tanto a lo que "deberías" hacer que olvidas lo que quieres</li>
+                    </ul>
+                    <div class="bg-white p-6 rounded-xl shadow-md flex items-center justify-center text-center">
+                        <p class="text-base md:text-lg text-amber-800 italic">"Lo bueno es que esto tiene solución. Y ya has reconocido que algo necesita cambiar. Ese es el primer paso."</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ===== OFERTAS (PLANES) CON BOTONES AGREGAR ===== -->
-        <section id="ofertas" class="py-12 md:py-16 bg-white">
+        <!-- ==================== TRANSFORMACIÓN POSIBLE ==================== -->
+        <section class="py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="section-title text-center text-2xl md:text-3xl font-bold text-gray-800 mb-4">Planes para acompañarte según el momento en el que estás</h2>
+                <h2 class="section-title text-center text-2xl md:text-3xl">Lo que cambia cuando recuperas tu bienestar</h2>
+                <p class="text-center text-gray-600 mb-10">No es magia. Es trabajo consciente. Y los resultados son reales.</p>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    <div class="card p-5 md:p-6 text-center"><i class="fas fa-lightbulb text-amber-500 text-3xl md:text-4xl mb-3"></i><h3 class="font-bold text-lg md:text-xl mb-2">Claridad</h3><p class="text-gray-600 text-sm md:text-base">Sabes qué quieres y por qué. Las decisiones se toman desde ahí.</p></div>
+                    <div class="card p-5 md:p-6 text-center"><i class="fas fa-heart text-amber-500 text-3xl md:text-4xl mb-3"></i><h3 class="font-bold text-lg md:text-xl mb-2">Confianza</h3><p class="text-gray-600 text-sm md:text-base">Recuperas la confianza en ti mismo. Tu criterio vuelve a importar.</p></div>
+                    <div class="card p-5 md:p-6 text-center"><i class="fas fa-bolt text-amber-500 text-3xl md:text-4xl mb-3"></i><h3 class="font-bold text-lg md:text-xl mb-2">Energía</h3><p class="text-gray-600 text-sm md:text-base">Ese cansancio emocional se transforma en energía genuina.</p></div>
+                    <div class="card p-5 md:p-6 text-center"><i class="fas fa-handshake text-amber-500 text-3xl md:text-4xl mb-3"></i><h3 class="font-bold text-lg md:text-xl mb-2">Relaciones</h3><p class="text-gray-600 text-sm md:text-base">Conectas de otra manera cuando tú también estás conectado.</p></div>
+                    <div class="card p-5 md:p-6 text-center"><i class="fas fa-tree text-amber-500 text-3xl md:text-4xl mb-3"></i><h3 class="font-bold text-lg md:text-xl mb-2">Resiliencia</h3><p class="text-gray-600 text-sm md:text-base">Los cambios ya no te asustan. Los atraviesas con recursos propios.</p></div>
+                    <div class="card p-5 md:p-6 text-center"><i class="fas fa-compass text-amber-500 text-3xl md:text-4xl mb-3"></i><h3 class="font-bold text-lg md:text-xl mb-2">Propósito</h3><p class="text-gray-600 text-sm md:text-base">Entiendes qué te importa de verdad y actúas en consecuencia.</p></div>
+                </div>
+                <p class="text-center text-amber-700 italic mt-10">No se trata de volver a ser quien eras. Se trata de ser quien quieres ser a partir de ahora.</p>
+            </div>
+        </section>
+
+        <!-- ==================== ENFOQUE ==================== -->
+        <section class="bg-amber-50 py-12 md:py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="section-title text-center text-2xl md:text-3xl">Mi enfoque: Psicología Positiva aplicada</h2>
+                <p class="text-center text-gray-600 max-w-2xl mx-auto mb-10">No trabajamos con diagnósticos ni etiquetas. Trabajamos con personas.</p>
+                <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-md text-center"><i class="fas fa-star text-amber-500 text-3xl mb-3"></i><h3 class="font-bold text-lg md:text-xl">Reconocimiento de fortalezas</h3><p class="text-gray-600 mt-2 text-sm md:text-base">Todos tenemos recursos dentro, pero la mayoría no los ve. Juntos los identificamos, los pulimos y los aplicamos a lo que realmente importa.</p></div>
+                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-md text-center"><i class="fas fa-heartbeat text-amber-500 text-3xl mb-3"></i><h3 class="font-bold text-lg md:text-xl">Claridad emocional</h3><p class="text-gray-600 mt-2 text-sm md:text-base">Entender qué sientes, por qué lo sientes y qué te está diciendo. Las emociones son información. Aprendemos a leerlas.</p></div>
+                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-md text-center"><i class="fas fa-chalkboard-user text-amber-500 text-3xl mb-3"></i><h3 class="font-bold text-lg md:text-xl">Cambio práctico</h3><p class="text-gray-600 mt-2 text-sm md:text-base">No es teoría bonita. Son herramientas concretas que puedes aplicar hoy mismo. Pequeños cambios, grandes resultados.</p></div>
+                </div>
+                <p class="text-center text-amber-700 italic mt-8">Todo esto sucede en un espacio seguro, sin prisas y a tu ritmo.</p>
+            </div>
+        </section>
+
+        <!-- ==================== SERVICIOS (CON BOTONES AGREGAR) ==================== -->
+        <section id="servicios" class="py-12 md:py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="section-title text-center text-2xl md:text-3xl">Cómo puedo acompañarte</h2>
                 <div class="grid md:grid-cols-3 gap-6 md:gap-8 mt-8">
-                    
+                    <!-- Servicio 1 -->
+                    <div class="card p-5 md:p-6 flex flex-col" data-id="serv-diagnostica" data-name="Sesión Diagnóstica" data-price="50">
+                        <i class="fas fa-stethoscope text-amber-500 text-3xl md:text-4xl mb-3"></i>
+                        <h3 class="text-xl md:text-2xl font-bold">Sesión diagnóstica</h3>
+                        <p class="text-xl md:text-2xl font-semibold text-amber-600 mt-2">€50 <span class="text-sm md:text-base font-normal">| 60 minutos</span></p>
+                        <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Espacio para entendernos. Identificamos tu situación actual, lo que quieres cambiar y cómo puedo acompañarte. Sin compromiso. Solo claridad.</p>
+                        <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-4 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
+                    </div>
+                    <!-- Servicio 2 -->
+                    <div class="card p-5 md:p-6 flex flex-col" data-id="serv-individual" data-name="Acompañamiento Individual" data-price="75">
+                        <i class="fas fa-user-friends text-amber-500 text-3xl md:text-4xl mb-3"></i>
+                        <h3 class="text-xl md:text-2xl font-bold">Acompañamiento individual</h3>
+                        <p class="text-xl md:text-2xl font-semibold text-amber-600 mt-2">€75 <span class="text-sm md:text-base font-normal">/sesión | Online o presencial</span></p>
+                        <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Sesiones estructuradas en las que trabajamos lo que de verdad importa. Con ejercicios prácticos, seguimiento entre sesiones y un plan diseñado para ti.</p>
+                        <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-4 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
+                    </div>
+                    <!-- Servicio 3 -->
+                    <div class="card p-5 md:p-6 flex flex-col" data-id="serv-procesos" data-name="Procesos Personalizados" data-price="280">
+                        <i class="fas fa-chart-line text-amber-500 text-3xl md:text-4xl mb-3"></i>
+                        <h3 class="text-xl md:text-2xl font-bold">Procesos personalizados</h3>
+                        <p class="text-xl md:text-2xl font-semibold text-amber-600 mt-2">Desde €280</p>
+                        <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Cuando necesitas ir más allá. Paquetes de 4, 8 o 12 sesiones con descuento progresivo. El cambio real requiere tiempo.</p>
+                        <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-4 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TESTIMONIOS ==================== -->
+        <section class="bg-amber-50 py-12 md:py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="section-title text-center text-2xl md:text-3xl">Lo que dicen quienes ya han caminado conmigo</h2>
+                <div class="grid md:grid-cols-3 gap-6 md:gap-8 mt-8">
+                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-md italic text-sm md:text-base">“Llegué pensando que necesitaba ‘arreglarme’. Y descubrí que solo necesitaba escucharme a mí misma. Las herramientas que me dio son cosas que uso cada día.”<br><span class="font-bold not-italic mt-4 block">— María, 38 años</span></div>
+                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-md italic text-sm md:text-base">“Por primera vez en años, tomo una decisión y me siento bien con ella. No es que ahora todo sea perfecto. Es que estoy más conectado con lo que quiero.”<br><span class="font-bold not-italic mt-4 block">— Javier, 42 años</span></div>
+                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-md italic text-sm md:text-base">“Pensé que venir aquí era fracasar. Resultó ser lo más inteligente que hice. Cambió la forma en que me relaciono conmigo mismo.”<br><span class="font-bold not-italic mt-4 block">— Laura, 35 años</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== OFERTAS (PLANES) ==================== -->
+        <section id="ofertas" class="py-12 md:py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="section-title text-center text-2xl md:text-3xl">Planes para acompañarte según el momento en el que estás</h2>
+                <div class="grid md:grid-cols-3 gap-6 md:gap-8 mt-8">
                     <!-- Plan 1 -->
                     <div class="card p-5 md:p-6 border-t-4 border-amber-500 flex flex-col" data-id="plan-conocer" data-name="Plan Conocer + Comenzar" data-price="330">
                         <h3 class="text-lg md:text-xl font-bold">Conocer + Comenzar</h3>
@@ -193,11 +272,8 @@
                             <li><i class="fas fa-check text-amber-500 mr-2"></i> 4 sesiones de acompañamiento</li>
                             <li><i class="fas fa-check text-amber-500 mr-2"></i> Recursos privados</li>
                         </ul>
-                        <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-6 transition flex items-center justify-center gap-2" data-id="plan-conocer">
-                            <i class="fas fa-cart-plus"></i> Agregar al carrito
-                        </button>
+                        <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-6 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
-
                     <!-- Plan 2 -->
                     <div class="card p-5 md:p-6 border-t-4 border-amber-500 flex flex-col" data-id="plan-transformacion" data-name="Plan Transformación Completa" data-price="775">
                         <h3 class="text-lg md:text-xl font-bold">Transformación completa</h3>
@@ -208,11 +284,8 @@
                             <li><i class="fas fa-check text-amber-500 mr-2"></i> 3 sesiones de seguimiento mensual</li>
                             <li><i class="fas fa-check text-amber-500 mr-2"></i> Grupo privado opcional</li>
                         </ul>
-                        <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-6 transition flex items-center justify-center gap-2" data-id="plan-transformacion">
-                            <i class="fas fa-cart-plus"></i> Agregar al carrito
-                        </button>
+                        <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-6 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
-
                     <!-- Plan 3 -->
                     <div class="card p-5 md:p-6 border-t-4 border-amber-500 flex flex-col" data-id="plan-liberacion" data-name="Plan Liberación Sostenible" data-price="875">
                         <h3 class="text-lg md:text-xl font-bold">Liberación sostenible</h3>
@@ -223,261 +296,244 @@
                             <li><i class="fas fa-check text-amber-500 mr-2"></i> 1 sesión de revisión a los 3 meses</li>
                             <li><i class="fas fa-check text-amber-500 mr-2"></i> Plan de mantenimiento personalizado</li>
                         </ul>
-                        <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-6 transition flex items-center justify-center gap-2" data-id="plan-liberacion">
-                            <i class="fas fa-cart-plus"></i> Agregar al carrito
-                        </button>
+                        <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-6 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ===== (El resto de tus secciones: Sobre mí, FAQ, Contacto, etc. se mantienen igual) ===== -->
-        <!-- Incluye aquí tus secciones existentes: Sobre mí, FAQ, Contacto, Footer -->
-        <!-- ... -->
+        <!-- ==================== LEAD MAGNET (DESCARGA GUÍA) ==================== -->
+        <section id="lead-magnet" class="bg-amber-50 py-12 md:py-16">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <i class="fas fa-file-pdf text-amber-600 text-4xl md:text-5xl mb-4"></i>
+                <h2 class="text-2xl md:text-3xl font-bold mb-2">¿Funcionas o vibras? Descubre dónde estás realmente</h2>
+                <p class="text-gray-600 mb-6">Descarga gratis la guía «7 señales de que necesitas reconectar contigo mismo»</p>
+                <form id="downloadForm" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                    <input type="email" id="emailInput" placeholder="Tu correo electrónico (opcional)" class="flex-grow px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm md:text-base">
+                    <button type="submit" class="btn-primary px-5 md:px-6 py-2 rounded-full font-semibold text-sm md:text-base">Descargar ahora</button>
+                </form>
+                <p class="text-xs text-gray-500 mt-4">No es necesario introducir tu correo. Al hacer clic, la guía se descargará automáticamente.</p>
+            </div>
+        </section>
 
+        <!-- ==================== SESIÓN DIAGNÓSTICA ==================== -->
+        <section id="sesion-diagnostica" class="py-12 md:py-16 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-10 md:mb-12">
+                    <h2 class="text-2xl md:text-4xl font-bold">Sesión diagnóstica: tu primer paso hacia la claridad</h2>
+                    <p class="text-base md:text-xl text-amber-600 font-semibold mt-2">€50 | 60 minutos | Sin compromiso | Respuesta en 24 horas</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+                    <div>
+                        <p class="text-gray-700 mb-6">Muchas veces sabemos que algo necesita cambiar, pero no sabemos por dónde empezar. Esta sesión es eso: un mapa. Vienes tal como eres, cuentas tu historia y, juntos, identificamos qué necesitas. No es una venta. Es una conversación honesta.</p>
+                        <h3 class="font-bold text-lg md:text-xl mb-3">¿Qué pasará durante la sesión?</h3>
+                        <ul class="space-y-2 mb-6 text-sm md:text-base">
+                            <li><i class="fas fa-clock text-amber-500 w-5"></i> <strong>Tu historia (15 min)</strong> – Me cuentas qué te trae hasta aquí.</li>
+                            <li><i class="fas fa-ear-listen text-amber-500"></i> <strong>Escucha y preguntas (25 min)</strong> – Yo escucho, pregunto e identificamos patrones.</li>
+                            <li><i class="fas fa-eye text-amber-500"></i> <strong>Mi perspectiva (15 min)</strong> – Te digo honestamente qué veo y cómo podríamos trabajarlo.</li>
+                            <li><i class="fas fa-comment text-amber-500"></i> <strong>Tus preguntas (5 min)</strong> – Todo lo que quieras saber, sin presión.</li>
+                        </ul>
+                        <h3 class="font-bold text-lg md:text-xl mb-2">¿Qué obtendrás?</h3>
+                        <ul class="space-y-1 mb-6 text-sm md:text-base">
+                            <li><i class="fas fa-check-circle text-green-600"></i> Claridad sobre tu situación</li>
+                            <li><i class="fas fa-check-circle text-green-600"></i> Dirección con pasos concretos</li>
+                            <li><i class="fas fa-check-circle text-green-600"></i> Confianza en que alguien te entiende</li>
+                            <li><i class="fas fa-check-circle text-green-600"></i> La libertad de decidir sin compromiso</li>
+                        </ul>
+                    </div>
+                    <div class="bg-amber-50 p-5 md:p-6 rounded-xl shadow-md text-center">
+                        <h3 class="font-bold text-lg md:text-xl mb-4">Reserva tu sesión ahora</h3>
+                        <p class="mb-4 text-sm md:text-base">Haz clic en el botón para agendar directamente en Google Calendar.</p>
+                        <a href="https://calendar.app.google/cJyW4weeZRJmbwde6" target="_blank" class="btn-primary w-full py-3 rounded-full font-bold inline-block text-center">Reservar mi sesión diagnóstica</a>
+                        <p class="text-center text-xs md:text-sm text-gray-500 mt-4">¿Tienes dudas? Escríbeme a <a href="mailto:vibrapositivo2026@gmail.com" class="text-amber-600">vibrapositivo2026@gmail.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== FAQ ==================== -->
+        <section id="faq" class="bg-gray-50 py-12 md:py-16">
+            <div class="max-w-4xl mx-auto px-4">
+                <h2 class="section-title text-center text-2xl md:text-3xl">Preguntas frecuentes</h2>
+                <div class="space-y-4 mt-8">
+                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Cuál es la diferencia entre esto y la terapia?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">La terapia aborda problemas clínicos. Esto es acompañamiento para entenderte mejor, clarificar qué quieres y desarrollar tus fortalezas. Si tienes un diagnóstico clínico, puede ser complementario, pero no lo sustituye.</p></details>
+                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Necesito estar "mal" para venir?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">No. La mayoría de mis clientes está "bien", pero quiere estar mejor: con más claridad, más propósito y más confianza real. Es para personas que ya funcionan y quieren volver a vibrar.</p></details>
+                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Cuánto tiempo lleva ver cambios?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">Pequeños cambios pueden aparecer desde la primera sesión. La claridad emocional suele llegar en 2 o 3 semanas; los cambios de hábitos más sólidos, en 4 a 6 semanas; y una transformación profunda, en 8 a 12 semanas. No te prometo rapidez; te ofrezco solidez.</p></details>
+                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Cómo es realmente una sesión?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">Es una conversación profunda de 55 a 60 minutos. Tú hablas, yo escucho y luego te hago preguntas para comprender más allá de lo obvio. Al final, saldrás con ejercicios prácticos para aplicar fuera de la sesión.</p></details>
+                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Qué pasa si estoy en una crisis seria?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">Si existe una situación de riesgo —como ideación suicida, autolesión o una crisis severa—, este no es el espacio adecuado. Te recomendaré acudir a un profesional especializado. Esto es para quien se siente fuera de sintonía, no para quien está en peligro.</p></details>
+                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Las sesiones son confidenciales?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">Sí. Lo que compartes conmigo se trata con total confidencialidad. Quiero que este sea un espacio en el que puedas ser completamente sincero.</p></details>
+                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Puedo hacer sesiones online o presenciales?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">Ambas opciones. La mayoría elige online por comodidad, y también resulta muy efectivo.</p></details>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SOBRE MÍ (con foto a la izquierda y texto a la derecha) ==================== -->
+        <section id="sobre-mi" class="py-12 md:py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div><img src="foto-perfil.png" alt="VIBRAPOSITIVA" class="rounded-2xl shadow-xl w-full max-w-md mx-auto"></div>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Por qué hago esto</h2>
+                        <p class="text-gray-700 mb-4 text-sm md:text-base">Hace años, yo también estaba ahí. Funcionaba perfectamente: iba al trabajo, tenía relaciones, me movía por la vida. Pero no vibraba. Pasé años buscando "la solución" en lugares equivocados, hasta que entendí algo: lo que me faltaba no era más información, sino conexión. Conmigo mismo. Desde ese momento, cambió todo.</p>
+                        <p class="text-gray-700 mb-4 text-sm md:text-base">Comencé a estudiar Psicología Positiva en serio. No para "arreglarme", sino para entender. Para descubrir que todos tenemos fortalezas que nunca miramos. Para aprender que la ansiedad y el estrés son mensajes, no enemigos. Cuando vi los resultados en mí mismo, supe que tenía que hacer esto con otros. No para "salvar" a nadie, sino para acompañar a personas inteligentes que ya saben que algo necesita cambiar.</p>
+                        <div class="flex flex-wrap gap-3 mt-6">
+                            <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs md:text-sm">Diplomado en Psicología</span>
+                            <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs md:text-sm">Especialización en Psicología Positiva</span>
+                            <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs md:text-sm">Desarrollo de fortalezas</span>
+                        </div>
+                        <a href="https://calendar.app.google/cJyW4weeZRJmbwde6" target="_blank" class="btn-primary inline-block mt-6 md:mt-8 px-5 md:px-6 py-2 md:py-3 rounded-full text-sm md:text-base">Quiero trabajar contigo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== CTA FINAL ==================== -->
+        <section class="bg-amber-600 text-white py-12 md:py-16 text-center">
+            <div class="max-w-3xl mx-auto px-4">
+                <h2 class="text-2xl md:text-4xl font-bold mb-4">Tu bienestar no puede esperar</h2>
+                <p class="text-base md:text-xl mb-6">Cada día que pasa sin conectar contigo es un día menos para vivir con claridad. La buena noticia es que eso puede cambiar hoy.</p>
+                <a href="https://calendar.app.google/cJyW4weeZRJmbwde6" target="_blank" class="bg-white text-amber-600 font-bold py-2 md:py-3 px-6 md:px-8 rounded-full inline-flex items-center gap-2 hover:bg-gray-100 transition text-sm md:text-base"><i class="fas fa-calendar-check"></i> Reserva tu sesión diagnóstica</a>
+                <p class="text-xs md:text-sm mt-4 opacity-90">Respuesta en 24 horas. Sesiones disponibles en horarios flexibles.</p>
+            </div>
+        </section>
+
+        <!-- ==================== FOOTER ==================== -->
+        <footer class="bg-gray-900 text-white py-6 md:py-8 text-center">
+            <div class="max-w-7xl mx-auto px-4">
+                <img src="logo.png" alt="VIBRAPOSITIVA" class="h-8 md:h-10 mx-auto mb-4 opacity-80">
+                <p class="text-xs md:text-sm">© 2025 VIBRAPOSITIVA – Todos los derechos reservados.</p>
+                <p class="text-xs text-gray-400 mt-2">Acompañamiento desde la Psicología Positiva. Este espacio no sustituye la terapia psicológica ni la atención clínica.</p>
+                <div class="flex justify-center gap-6 mt-4"><a href="https://wa.me/353876071214" target="_blank" class="text-gray-400 hover:text-green-400 transition text-xl md:text-2xl"><i class="fab fa-whatsapp"></i></a></div>
+                <p class="text-xs md:text-sm text-gray-400 mt-3">Contacto: <a href="mailto:vibrapositivo2026@gmail.com" class="text-amber-400 hover:underline">vibrapositivo2026@gmail.com</a></p>
+            </div>
+        </footer>
     </main>
 
     <script>
-        // ============================================================
-        // 1. MODELO DE DATOS Y FUNCIONES DEL CARRITO (JavaScript Puro)
-        // ============================================================
+        // ==================== CARRITO DE COMPRAS (JavaScript) ====================
         let cart = [];
 
-        // Cargar carrito desde localStorage al iniciar la página
         function loadCart() {
-            const storedCart = localStorage.getItem('vibrapositiva_cart');
-            if (storedCart) {
-                cart = JSON.parse(storedCart);
-            } else {
-                cart = [];
-            }
+            const stored = localStorage.getItem('vibrapositiva_cart');
+            if (stored) cart = JSON.parse(stored);
+            else cart = [];
             updateCartDisplay();
         }
-
-        // Guardar carrito en localStorage
-        function saveCart() {
-            localStorage.setItem('vibrapositiva_cart', JSON.stringify(cart));
-        }
-
-        // Agregar un producto al carrito
+        function saveCart() { localStorage.setItem('vibrapositiva_cart', JSON.stringify(cart)); }
         function addToCart(product) {
-            // Verificar si el producto ya existe en el carrito
-            const existingItem = cart.find(item => item.id === product.id);
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    quantity: 1
-                });
-            }
+            const existing = cart.find(item => item.id === product.id);
+            if (existing) existing.quantity += 1;
+            else cart.push({ id: product.id, name: product.name, price: product.price, quantity: 1 });
             saveCart();
             updateCartDisplay();
             showNotification(`✅ "${product.name}" añadido al carrito`);
         }
-
-        // Eliminar un producto del carrito
         function removeFromCart(productId) {
             const index = cart.findIndex(item => item.id === productId);
             if (index !== -1) {
-                const removedItem = cart[index];
+                const removed = cart[index];
                 cart.splice(index, 1);
                 saveCart();
                 updateCartDisplay();
-                showNotification(`❌ "${removedItem.name}" eliminado del carrito`);
+                showNotification(`❌ "${removed.name}" eliminado del carrito`);
             }
         }
-
-        // Actualizar la cantidad de un producto
-        function updateQuantity(productId, newQuantity) {
-            if (newQuantity < 1) {
-                removeFromCart(productId);
-                return;
-            }
-            const item = cart.find(item => item.id === productId);
-            if (item) {
-                item.quantity = newQuantity;
-                saveCart();
-                updateCartDisplay();
-            }
+        function updateQuantity(productId, newQty) {
+            if (newQty < 1) { removeFromCart(productId); return; }
+            const item = cart.find(i => i.id === productId);
+            if (item) { item.quantity = newQty; saveCart(); updateCartDisplay(); }
         }
-
-        // Calcular el total del carrito
-        function getCartTotal() {
-            return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-        }
-
-        // Renderizar el contenido del carrito en el sidebar
+        function getCartTotal() { return cart.reduce((sum, i) => sum + (i.price * i.quantity), 0); }
         function renderCartItems() {
             const container = document.getElementById('cart-items-container');
             if (!container) return;
-
-            if (cart.length === 0) {
-                container.innerHTML = '<div class="text-center text-gray-500 py-8">Tu carrito está vacío.</div>';
-                return;
-            }
-
+            if (cart.length === 0) { container.innerHTML = '<div class="text-center text-gray-500 py-8">Tu carrito está vacío.</div>'; return; }
             container.innerHTML = '';
             cart.forEach(item => {
-                const itemElement = document.createElement('div');
-                itemElement.className = 'flex gap-3 border-b pb-3';
-                itemElement.innerHTML = `
-                    <div class="flex-shrink-0">
-                        <div class="w-16 h-16 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600 text-xl">
-                            <i class="fas fa-hands-helping"></i>
-                        </div>
-                    </div>
-                    <div class="flex-grow">
-                        <h4 class="font-semibold text-gray-800">${escapeHtml(item.name)}</h4>
-                        <div class="flex justify-between items-center mt-1">
-                            <span class="text-amber-700 font-bold">€${item.price.toFixed(2)}</span>
-                            <div class="flex items-center gap-2">
-                                <button class="decr-qty w-6 h-6 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center justify-center text-xs font-bold" data-id="${item.id}">-</button>
-                                <span class="w-6 text-center text-sm font-medium">${item.quantity}</span>
-                                <button class="incr-qty w-6 h-6 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center justify-center text-xs font-bold" data-id="${item.id}">+</button>
-                                <button class="remove-item text-red-500 hover:text-red-700 text-sm ml-1" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button>
-                            </div>
-                        </div>
-                    </div>
+                const div = document.createElement('div');
+                div.className = 'flex gap-3 border-b pb-3';
+                div.innerHTML = `
+                    <div class="flex-shrink-0"><div class="w-16 h-16 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600 text-xl"><i class="fas fa-hands-helping"></i></div></div>
+                    <div class="flex-grow"><h4 class="font-semibold text-gray-800">${escapeHtml(item.name)}</h4>
+                    <div class="flex justify-between items-center mt-1"><span class="text-amber-700 font-bold">€${item.price.toFixed(2)}</span>
+                    <div class="flex items-center gap-2"><button class="decr-qty w-6 h-6 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center justify-center text-xs font-bold" data-id="${item.id}">-</button>
+                    <span class="w-6 text-center text-sm font-medium">${item.quantity}</span>
+                    <button class="incr-qty w-6 h-6 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center justify-center text-xs font-bold" data-id="${item.id}">+</button>
+                    <button class="remove-item text-red-500 hover:text-red-700 text-sm ml-1" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button></div></div></div></div>
                 `;
-                container.appendChild(itemElement);
+                container.appendChild(div);
             });
-
-            // Añadir event listeners a los nuevos botones
-            document.querySelectorAll('.decr-qty').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = btn.getAttribute('data-id');
-                    const item = cart.find(i => i.id === id);
-                    if (item) updateQuantity(id, item.quantity - 1);
-                });
-            });
-            document.querySelectorAll('.incr-qty').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = btn.getAttribute('data-id');
-                    const item = cart.find(i => i.id === id);
-                    if (item) updateQuantity(id, item.quantity + 1);
-                });
-            });
-            document.querySelectorAll('.remove-item').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = btn.getAttribute('data-id');
-                    removeFromCart(id);
-                });
-            });
+            document.querySelectorAll('.decr-qty').forEach(btn => btn.addEventListener('click', (e) => { const id = btn.getAttribute('data-id'); const it = cart.find(i => i.id === id); if (it) updateQuantity(id, it.quantity - 1); }));
+            document.querySelectorAll('.incr-qty').forEach(btn => btn.addEventListener('click', (e) => { const id = btn.getAttribute('data-id'); const it = cart.find(i => i.id === id); if (it) updateQuantity(id, it.quantity + 1); }));
+            document.querySelectorAll('.remove-item').forEach(btn => btn.addEventListener('click', (e) => { const id = btn.getAttribute('data-id'); removeFromCart(id); }));
         }
-
-        // Actualizar contador y total en la UI
         function updateCartDisplay() {
-            const cartCountSpan = document.getElementById('cart-count');
-            const cartTotalSpan = document.getElementById('cart-total');
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            if (cartCountSpan) cartCountSpan.textContent = totalItems;
-            if (cartTotalSpan) cartTotalSpan.textContent = `€${getCartTotal().toFixed(2)}`;
+            const countSpan = document.getElementById('cart-count');
+            const totalSpan = document.getElementById('cart-total');
+            const totalItems = cart.reduce((sum, i) => sum + i.quantity, 0);
+            if (countSpan) countSpan.textContent = totalItems;
+            if (totalSpan) totalSpan.textContent = `€${getCartTotal().toFixed(2)}`;
             renderCartItems();
         }
-
-        // Notificación temporal simple
-        function showNotification(message) {
+        function showNotification(msg) {
             const notif = document.createElement('div');
-            notif.className = 'fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm animate-bounce';
-            notif.textContent = message;
+            notif.className = 'fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm';
+            notif.textContent = msg;
             document.body.appendChild(notif);
             setTimeout(() => notif.remove(), 2000);
         }
-
-        // Escapar HTML para prevenir XSS
-        function escapeHtml(str) {
-            return str.replace(/[&<>]/g, function(m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                return m;
-            });
-        }
-
-        // ============================================================
-        // 2. INICIALIZAR EVENTOS DEL CARRITO (Botones "Agregar")
-        // ============================================================
+        function escapeHtml(str) { return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); }
         function bindAddToCartEvents() {
-            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                // Evitar duplicados si se llama múltiples veces
-                button.removeEventListener('click', addToCartHandler);
-                button.addEventListener('click', addToCartHandler);
+            document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                btn.removeEventListener('click', addToCartHandler);
+                btn.addEventListener('click', addToCartHandler);
             });
         }
-
         function addToCartHandler(e) {
             const btn = e.currentTarget;
             const productCard = btn.closest('[data-id]');
             if (!productCard) return;
-            
             const id = productCard.getAttribute('data-id');
             const name = productCard.getAttribute('data-name');
             const price = parseFloat(productCard.getAttribute('data-price'));
-            
-            if (id && name && !isNaN(price)) {
-                addToCart({ id, name, price });
-            } else {
-                console.warn('Faltan atributos data-* en el elemento:', productCard);
-            }
+            if (id && name && !isNaN(price)) addToCart({ id, name, price });
+            else console.warn('Faltan atributos data-* en:', productCard);
         }
-
-        // ============================================================
-        // 3. MANEJO DEL SIDEBAR Y CHECKOUT (PayPal)
-        // ============================================================
-        function openCart() {
-            document.getElementById('cart-sidebar')?.classList.add('open');
-            document.getElementById('cart-overlay')?.classList.add('open');
-        }
-
-        function closeCart() {
-            document.getElementById('cart-sidebar')?.classList.remove('open');
-            document.getElementById('cart-overlay')?.classList.remove('open');
-        }
-
+        function openCart() { document.getElementById('cart-sidebar')?.classList.add('open'); document.getElementById('cart-overlay')?.classList.add('open'); }
+        function closeCart() { document.getElementById('cart-sidebar')?.classList.remove('open'); document.getElementById('cart-overlay')?.classList.remove('open'); }
         function handleCheckout() {
-            if (cart.length === 0) {
-                showNotification('⚠️ Tu carrito está vacío. Agrega algún servicio primero.');
-                return;
-            }
+            if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío. Agrega algún servicio primero.'); return; }
             const total = getCartTotal();
-            // Redirigir a PayPal con el monto total
             const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=JavierAyala168@paypal.com&amount=${total.toFixed(2)}&currency_code=EUR&item_name=Compra%20en%20Vibrapositiva&no_shipping=1`;
             window.open(paypalUrl, '_blank');
             showNotification(`🔔 Redirigiendo a PayPal para pagar €${total.toFixed(2)}`);
-            // Opcional: limpiar carrito después de redirigir
-            // cart = []; saveCart(); updateCartDisplay(); closeCart();
         }
-
-        // ============================================================
-        // 4. EVENTOS DEL DOM Y LOCALSTORAGE
-        // ============================================================
         document.addEventListener('DOMContentLoaded', () => {
             loadCart();
             bindAddToCartEvents();
-            
-            // Botones del sidebar
-            const cartIcon = document.getElementById('cart-icon-btn');
-            const closeCartBtn = document.getElementById('close-cart-btn');
-            const overlay = document.getElementById('cart-overlay');
-            const checkoutBtn = document.getElementById('checkout-btn');
-            
-            if (cartIcon) cartIcon.addEventListener('click', openCart);
-            if (closeCartBtn) closeCartBtn.addEventListener('click', closeCart);
-            if (overlay) overlay.addEventListener('click', closeCart);
-            if (checkoutBtn) checkoutBtn.addEventListener('click', handleCheckout);
-            
-            // Menú móvil
+            document.getElementById('cart-icon-btn')?.addEventListener('click', openCart);
+            document.getElementById('close-cart-btn')?.addEventListener('click', closeCart);
+            document.getElementById('cart-overlay')?.addEventListener('click', closeCart);
+            document.getElementById('checkout-btn')?.addEventListener('click', handleCheckout);
             const menuBtn = document.getElementById('menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
-            if (menuBtn) {
-                menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            if (menuBtn) menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            // Formulario de descarga
+            const form = document.getElementById('downloadForm');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const link = document.createElement('a');
+                    link.href = 'pdfs/guia-reconectar-contigo-vibra-positivo-v2.pdf';
+                    link.download = 'guia-reconectar-contigo-vibra-positivo-v2.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    alert('✅ ¡Gracias por tu interés! La guía se está descargando. Revisa tu carpeta de descargas.');
+                    document.getElementById('emailInput').value = '';
+                });
             }
         });
     </script>
-    <!-- Incluye aquí el resto de tus secciones estáticas (Sobre mí, FAQ, Footer, etc.) que ya tenías -->
-    <!-- ... -->
 </body>
 </html>
