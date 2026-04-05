@@ -46,33 +46,22 @@
         }
         .cart-overlay.open { display: block; }
         
-        /* ===== Ajustes responsive - LOGO GRANDE Y VISIBLE ===== */
+        /* ===== Ajustes navbar SIN LOGO ===== */
         @media (max-width: 768px) {
-            .nav-container { min-height: 5rem !important; }
-            .logo-img { height: 4rem !important; width: auto; } /* 64px en móvil (mucho más grande que antes) */
-            .nav-text { display: none; }
+            .nav-container { min-height: 4rem !important; }
         }
         @media (min-width: 769px) and (max-width: 1024px) {
-            .nav-container { min-height: 6rem !important; }
-            .logo-img { height: 5rem !important; } /* 80px en tablet */
+            .nav-container { min-height: 4.5rem !important; }
         }
         @media (min-width: 1025px) {
-            .nav-container { min-height: 7rem !important; }
-            .logo-img { height: 6rem !important; } /* 96px en escritorio (doble del original) */
+            .nav-container { min-height: 5rem !important; }
         }
-        
-        /* Scroll suave y ajuste para que el navbar fijo no tape el contenido */
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 90px; /* suficiente para que no tape el título */
+            scroll-padding-top: 80px;
         }
         @media (max-width: 768px) {
-            html { scroll-padding-top: 80px; }
-        }
-        
-        /* Separación del texto junto al logo */
-        .nav-text {
-            padding-left: 1rem;
+            html { scroll-padding-top: 70px; }
         }
         
         /* Mejoras táctiles para móviles */
@@ -101,19 +90,18 @@
 </head>
 <body class="bg-amber-50 text-gray-800 font-sans">
 
-    <!-- ==================== NAVEGACIÓN CON CARRITO (MEJORADA) ==================== -->
+    <!-- ==================== NAVEGACIÓN (sin logo) ==================== -->
     <nav class="bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-amber-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center nav-container" style="min-height: 5rem;">
-                <!-- Logo (más grande) -->
+                <!-- Texto marca (sin logo) -->
                 <div class="flex items-center space-x-3 flex-shrink-0">
-                    <img src="logo.png" alt="VIBRAPOSITIVA" class="logo-img h-16 md:h-20 w-auto">
-                    <div class="hidden sm:block nav-text">
+                    <div class="hidden sm:block">
                         <div class="text-lg md:text-xl font-bold text-amber-700 leading-tight">VIBRAPOSITIVA</div>
                         <div class="text-xs text-amber-600">Especialista en bienestar, fortalezas y cambio personal</div>
                     </div>
                 </div>
-                <!-- Menú escritorio CENTRADO y sin solapamiento -->
+                <!-- Menú escritorio centrado -->
                 <div class="hidden md:flex flex-1 justify-center space-x-6 lg:space-x-8 font-medium">
                     <a href="#home" class="text-gray-700 hover:text-amber-600">Inicio</a>
                     <a href="#sobre-mi" class="text-gray-700 hover:text-amber-600">Sobre mí</a>
@@ -122,7 +110,7 @@
                     <a href="#faq" class="text-gray-700 hover:text-amber-600">Preguntas frecuentes</a>
                     <a href="#contacto" class="text-gray-700 hover:text-amber-600">Contacto</a>
                 </div>
-                <!-- Carrito y botón menú móvil -->
+                <!-- Carrito y menú móvil -->
                 <div class="flex items-center gap-4 flex-shrink-0">
                     <button id="cart-icon-btn" class="relative text-amber-700 focus:outline-none">
                         <i class="fas fa-shopping-cart text-2xl"></i>
@@ -131,7 +119,7 @@
                     <button id="menu-btn" class="md:hidden text-amber-700 focus:outline-none"><i class="fas fa-bars text-2xl"></i></button>
                 </div>
             </div>
-            <!-- Menú móvil (se cierra al hacer clic en un enlace) -->
+            <!-- Menú móvil -->
             <div id="mobile-menu" class="hidden md:hidden pb-4 flex flex-col space-y-3 text-center bg-white/95 rounded-b-lg">
                 <a href="#home" class="text-gray-700 hover:text-amber-600 py-2">Inicio</a>
                 <a href="#sobre-mi" class="text-gray-700 hover:text-amber-600 py-2">Sobre mí</a>
@@ -143,7 +131,7 @@
         </div>
     </nav>
 
-    <!-- ==================== SIDEBAR DEL CARRITO (PayPal + Revolut) ==================== -->
+    <!-- ==================== SIDEBAR DEL CARRITO ==================== -->
     <div id="cart-overlay" class="cart-overlay"></div>
     <div id="cart-sidebar" class="cart-sidebar">
         <div class="p-4 border-b flex justify-between items-center bg-amber-50">
@@ -171,15 +159,21 @@
     </div>
 
     <main class="overflow-hidden">
-        <!-- ==================== HOME ==================== -->
+        <!-- ==================== HOME (con LOGO ENORME arriba a la izquierda) ==================== -->
         <section id="home" class="py-12 md:py-20">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-4">Recupera tu bienestar <span class="text-amber-600">sin perder quién eres</span></h1>
-                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-4">Acompañamiento práctico desde la Psicología Positiva. Fortalezas, claridad y cambio personal, a tu ritmo.</p>
-                <p class="text-base md:text-lg text-gray-500 max-w-2xl mx-auto mb-8">Hay un momento en el que sientes que algo no está funcionando. No estás mal, pero tampoco vibras. Ese cansancio emocional, esa sensación de estar fuera de sintonía contigo mismo, es real. Y puede ser el punto de partida perfecto.<br>No hemos venido aquí para "arreglarnos". Hemos venido a recuperar lo que ya tenemos dentro y a pulirlo.</p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="https://calendar.app.google/cJyW4weeZRJmbwde6" target="_blank" class="btn-primary font-semibold py-3 px-6 md:px-8 rounded-full inline-flex items-center justify-center gap-2 transition text-sm md:text-base"><i class="fas fa-calendar-check"></i> Reserva tu sesión diagnóstica</a>
-                    <a href="pdfs/guia-reconectar-contigo-vibra-positivo-v2.pdf" download class="btn-secondary font-semibold py-3 px-6 md:px-8 rounded-full inline-flex items-center justify-center gap-2 transition text-sm md:text-base"><i class="fas fa-download"></i> Descarga la guía gratuita</a>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Logo enorme alineado a la izquierda -->
+                <div class="flex justify-start mb-6">
+                    <img src="logo.png" alt="VIBRAPOSITIVA" class="w-48 md:w-64 lg:w-80 h-auto">
+                </div>
+                <div class="text-center">
+                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-4">Recupera tu bienestar <span class="text-amber-600">sin perder quién eres</span></h1>
+                    <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-4">Acompañamiento práctico desde la Psicología Positiva. Fortalezas, claridad y cambio personal, a tu ritmo.</p>
+                    <p class="text-base md:text-lg text-gray-500 max-w-2xl mx-auto mb-8">Hay un momento en el que sientes que algo no está funcionando. No estás mal, pero tampoco vibras. Ese cansancio emocional, esa sensación de estar fuera de sintonía contigo mismo, es real. Y puede ser el punto de partida perfecto.<br>No hemos venido aquí para "arreglarnos". Hemos venido a recuperar lo que ya tenemos dentro y a pulirlo.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="https://calendar.app.google/cJyW4weeZRJmbwde6" target="_blank" class="btn-primary font-semibold py-3 px-6 md:px-8 rounded-full inline-flex items-center justify-center gap-2 transition text-sm md:text-base"><i class="fas fa-calendar-check"></i> Reserva tu sesión diagnóstica</a>
+                        <a href="pdfs/guia-reconectar-contigo-vibra-positivo-v2.pdf" download class="btn-secondary font-semibold py-3 px-6 md:px-8 rounded-full inline-flex items-center justify-center gap-2 transition text-sm md:text-base"><i class="fas fa-download"></i> Descarga la guía gratuita</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -258,12 +252,11 @@
             </div>
         </section>
 
-        <!-- ==================== SERVICIOS (CON BOTONES AGREGAR) ==================== -->
+        <!-- ==================== SERVICIOS ==================== -->
         <section id="servicios" class="py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="section-title text-center text-2xl md:text-3xl">Cómo puedo acompañarte</h2>
                 <div class="grid md:grid-cols-3 gap-6 md:gap-8 mt-8">
-                    <!-- Servicio 1 -->
                     <div class="card p-5 md:p-6 flex flex-col" data-id="serv-diagnostica" data-name="Sesión Diagnóstica" data-price="50">
                         <i class="fas fa-stethoscope text-amber-500 text-3xl md:text-4xl mb-3"></i>
                         <h3 class="text-xl md:text-2xl font-bold">Sesión diagnóstica</h3>
@@ -271,7 +264,6 @@
                         <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Espacio para entendernos. Identificamos tu situación actual, lo que quieres cambiar y cómo puedo acompañarte. Sin compromiso. Solo claridad.</p>
                         <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-4 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
-                    <!-- Servicio 2 -->
                     <div class="card p-5 md:p-6 flex flex-col" data-id="serv-individual" data-name="Acompañamiento Individual" data-price="75">
                         <i class="fas fa-user-friends text-amber-500 text-3xl md:text-4xl mb-3"></i>
                         <h3 class="text-xl md:text-2xl font-bold">Acompañamiento individual</h3>
@@ -279,7 +271,6 @@
                         <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Sesiones estructuradas en las que trabajamos lo que de verdad importa. Con ejercicios prácticos, seguimiento entre sesiones y un plan diseñado para ti.</p>
                         <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-4 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
-                    <!-- Servicio 3 -->
                     <div class="card p-5 md:p-6 flex flex-col" data-id="serv-procesos" data-name="Procesos Personalizados" data-price="280">
                         <i class="fas fa-chart-line text-amber-500 text-3xl md:text-4xl mb-3"></i>
                         <h3 class="text-xl md:text-2xl font-bold">Procesos personalizados</h3>
@@ -303,12 +294,11 @@
             </div>
         </section>
 
-        <!-- ==================== OFERTAS (PLANES) ==================== -->
+        <!-- ==================== OFERTAS ==================== -->
         <section id="ofertas" class="py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="section-title text-center text-2xl md:text-3xl">Planes para acompañarte según el momento en el que estás</h2>
                 <div class="grid md:grid-cols-3 gap-6 md:gap-8 mt-8">
-                    <!-- Plan 1 -->
                     <div class="card p-5 md:p-6 border-t-4 border-amber-500 flex flex-col" data-id="plan-conocer" data-name="Plan Conocer + Comenzar" data-price="330">
                         <h3 class="text-lg md:text-xl font-bold">Conocer + Comenzar</h3>
                         <p class="text-2xl font-bold text-amber-600 my-2">€330</p>
@@ -320,7 +310,6 @@
                         </ul>
                         <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-6 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
-                    <!-- Plan 2 -->
                     <div class="card p-5 md:p-6 border-t-4 border-amber-500 flex flex-col" data-id="plan-transformacion" data-name="Plan Transformación Completa" data-price="775">
                         <h3 class="text-lg md:text-xl font-bold">Transformación completa</h3>
                         <p class="text-2xl font-bold text-amber-600 my-2">€775</p>
@@ -332,7 +321,6 @@
                         </ul>
                         <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-6 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
-                    <!-- Plan 3 -->
                     <div class="card p-5 md:p-6 border-t-4 border-amber-500 flex flex-col" data-id="plan-liberacion" data-name="Plan Liberación Sostenible" data-price="875">
                         <h3 class="text-lg md:text-xl font-bold">Liberación sostenible</h3>
                         <p class="text-2xl font-bold text-amber-600 my-2">€875</p>
@@ -348,7 +336,7 @@
             </div>
         </section>
 
-        <!-- ==================== LEAD MAGNET (DESCARGA GUÍA) ==================== -->
+        <!-- ==================== LEAD MAGNET ==================== -->
         <section id="lead-magnet" class="bg-amber-50 py-12 md:py-16">
             <div class="max-w-4xl mx-auto px-4 text-center">
                 <i class="fas fa-file-pdf text-amber-600 text-4xl md:text-5xl mb-4"></i>
@@ -413,7 +401,7 @@
             </div>
         </section>
 
-        <!-- ==================== SOBRE MÍ (foto izquierda, texto derecha) ==================== -->
+        <!-- ==================== SOBRE MÍ ==================== -->
         <section id="sobre-mi" class="py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
@@ -456,7 +444,7 @@
     </main>
 
     <script>
-        // ==================== CARRITO DE COMPRAS (Funcional y con cierre de menú móvil) ====================
+        // ==================== CARRITO DE COMPRAS (completo y funcional) ====================
         let cart = [];
 
         function loadCart() {
@@ -548,7 +536,6 @@
         function openCart() { document.getElementById('cart-sidebar')?.classList.add('open'); document.getElementById('cart-overlay')?.classList.add('open'); }
         function closeCart() { document.getElementById('cart-sidebar')?.classList.remove('open'); document.getElementById('cart-overlay')?.classList.remove('open'); }
         
-        // PAGOS
         function handlePayPalCheckout() {
             if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío. Agrega algún servicio primero.'); return; }
             const total = getCartTotal();
@@ -573,7 +560,6 @@
             document.getElementById('checkout-paypal-btn')?.addEventListener('click', handlePayPalCheckout);
             document.getElementById('checkout-revolut-btn')?.addEventListener('click', handleRevolutCheckout);
             
-            // Menú móvil: cerrar al hacer clic en un enlace
             const menuBtn = document.getElementById('menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
             if (menuBtn) {
@@ -586,7 +572,6 @@
                 });
             });
             
-            // Formulario descarga
             const form = document.getElementById('downloadForm');
             if (form) {
                 form.addEventListener('submit', (e) => {
