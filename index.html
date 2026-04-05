@@ -46,27 +46,22 @@
         }
         .cart-overlay.open { display: block; }
         
-        /* ===== Ajustes responsive - LOGO 3 VECES MÁS GRANDE ===== */
+               /* ===== Ajustes responsive - LOGO MÁS GRANDE (pero sin tapar) ===== */
         @media (max-width: 768px) {
-            .nav-container { min-height: 12rem !important; }
-            .logo-img { height: 9rem !important; width: auto; }
+            .nav-container { min-height: 5rem !important; }
+            .logo-img { height: 4rem !important; width: auto; }  /* 64px en móvil, más que los 48px originales */
             .nav-text { display: none; }
         }
         @media (min-width: 769px) and (max-width: 1024px) {
-            .nav-container { min-height: 15rem !important; }
-            .logo-img { height: 12rem !important; }
+            .nav-container { min-height: 6rem !important; }
+            .logo-img { height: 5rem !important; }  /* 80px en tablet */
         }
         @media (min-width: 1025px) {
-            .nav-container { min-height: 18rem !important; }
-            .logo-img { height: 15rem !important; }
+            .nav-container { min-height: 7rem !important; }
+            .logo-img { height: 6rem !important; }  /* 96px en escritorio (sigue siendo grande) */
         }
         html { scroll-padding-top: 80px; }
-        @media (max-width: 768px) { html { scroll-padding-top: 70px; } }
-        
-        /* Separación del texto junto al logo */
-        .nav-text {
-            padding-left: 1rem;
-        }
+        @media (max-width: 768px) { html { scroll-padding-top: 85px; } }
         
         /* Mejoras táctiles para móviles */
         @media (max-width: 768px) {
@@ -95,17 +90,20 @@
 <body class="bg-amber-50 text-gray-800 font-sans">
 
     <!-- ==================== NAVEGACIÓN CON CARRITO ==================== -->
+      <!-- ==================== NAVEGACIÓN CON CARRITO ==================== -->
     <nav class="bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-amber-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center nav-container" style="min-height: 5rem;">
-                <div class="flex items-center space-x-3">
+                <!-- Logo y texto -->
+                <div class="flex items-center space-x-3 flex-shrink-0">
                     <img src="logo.jpg" alt="VIBRAPOSITIVA" class="logo-img h-16 md:h-20 w-auto">
                     <div class="hidden sm:block nav-text">
                         <div class="text-lg md:text-xl font-bold text-amber-700 leading-tight">VIBRAPOSITIVA</div>
                         <div class="text-xs text-amber-600">Especialista en bienestar, fortalezas y cambio personal</div>
                     </div>
                 </div>
-                <div class="hidden md:flex space-x-6 lg:space-x-8 font-medium">
+                <!-- Menú escritorio centrado -->
+                <div class="hidden md:flex flex-1 justify-center space-x-6 lg:space-x-8 font-medium">
                     <a href="#home" class="text-gray-700 hover:text-amber-600">Inicio</a>
                     <a href="#sobre-mi" class="text-gray-700 hover:text-amber-600">Sobre mí</a>
                     <a href="#servicios" class="text-gray-700 hover:text-amber-600">Servicios</a>
@@ -113,7 +111,8 @@
                     <a href="#faq" class="text-gray-700 hover:text-amber-600">Preguntas frecuentes</a>
                     <a href="#contacto" class="text-gray-700 hover:text-amber-600">Contacto</a>
                 </div>
-                <div class="flex items-center gap-4">
+                <!-- Carrito y menú móvil -->
+                <div class="flex items-center gap-4 flex-shrink-0">
                     <button id="cart-icon-btn" class="relative text-amber-700 focus:outline-none">
                         <i class="fas fa-shopping-cart text-2xl"></i>
                         <span id="cart-count" class="absolute -top-2 -right-3 bg-amber-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
@@ -121,6 +120,7 @@
                     <button id="menu-btn" class="md:hidden text-amber-700 focus:outline-none"><i class="fas fa-bars text-2xl"></i></button>
                 </div>
             </div>
+            <!-- Menú móvil -->
             <div id="mobile-menu" class="hidden md:hidden pb-4 flex flex-col space-y-3 text-center bg-white/95 rounded-b-lg">
                 <a href="#home" class="text-gray-700 hover:text-amber-600 py-1">Inicio</a>
                 <a href="#sobre-mi" class="text-gray-700 hover:text-amber-600 py-1">Sobre mí</a>
