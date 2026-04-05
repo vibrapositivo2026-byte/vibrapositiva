@@ -50,34 +50,31 @@
         .logo-img {
             height: auto;
             width: auto;
-            max-height: 120px;  /* Base para móvil, se sobrescribe en media queries */
+            max-height: 130px;
         }
         @media (max-width: 768px) {
-            .nav-container { min-height: 140px !important; }
-            .logo-img { max-height: 100px; width: auto; }
+            .nav-container { min-height: 150px !important; }
+            .logo-img { max-height: 130px; }
             .nav-text { display: none; }
         }
         @media (min-width: 769px) and (max-width: 1024px) {
-            .nav-container { min-height: 160px !important; }
-            .logo-img { max-height: 130px; }
-        }
-        @media (min-width: 1025px) {
             .nav-container { min-height: 180px !important; }
             .logo-img { max-height: 160px; }
+        }
+        @media (min-width: 1025px) {
+            .nav-container { min-height: 220px !important; }
+            .logo-img { max-height: 200px; }
         }
         
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 140px;  /* Espacio para que no tape el navbar alto */
+            scroll-padding-top: 160px;
         }
         @media (max-width: 768px) {
-            html { scroll-padding-top: 120px; }
+            html { scroll-padding-top: 140px; }
         }
         
-        /* Separación del texto junto al logo */
-        .nav-text {
-            padding-left: 1rem;
-        }
+        .nav-text { padding-left: 1rem; }
         
         /* Mejoras táctiles para móviles */
         @media (max-width: 768px) {
@@ -85,31 +82,57 @@
                 min-height: 44px;
                 touch-action: manipulation;
             }
-            .mobile-menu a {
-                padding-top: 0.75rem;
-                padding-bottom: 0.75rem;
-            }
-            input, select, textarea {
-                font-size: 16px !important;
-            }
-            .cart-sidebar {
-                width: 90%;
-                max-width: 380px;
-            }
+            .mobile-menu a { padding: 0.75rem 0; }
+            input, select, textarea { font-size: 16px !important; }
+            .cart-sidebar { width: 90%; max-width: 380px; }
         }
         button:active, .add-to-cart-btn:active, .btn-primary:active {
             transform: scale(0.97);
             transition: transform 0.05s;
         }
+
+        /* Estilos del modal del formulario */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.open { display: flex; }
+        .modal-content {
+            background: white;
+            max-width: 550px;
+            width: 90%;
+            border-radius: 1rem;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.25rem; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 0.5rem;
+        }
+        .form-group.checkbox { display: flex; align-items: center; gap: 0.5rem; }
+        .form-group.checkbox input { width: auto; }
+        hr { margin: 1rem 0; }
     </style>
 </head>
 <body class="bg-amber-50 text-gray-800 font-sans">
 
-    <!-- ==================== NAVEGACIÓN CON LOGO JPG ENORME ==================== -->
+    <!-- ==================== NAVEGACIÓN ==================== -->
     <nav class="bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-amber-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center nav-container" style="min-height: 5rem;">
-                <!-- Logo enorme a la izquierda -->
                 <div class="flex items-center space-x-3 flex-shrink-0">
                     <img src="logo.jpg" alt="VIBRAPOSITIVA" class="logo-img">
                     <div class="hidden sm:block nav-text">
@@ -117,7 +140,6 @@
                         <div class="text-xs text-amber-600">Especialista en bienestar, fortalezas y cambio personal</div>
                     </div>
                 </div>
-                <!-- Menú escritorio centrado -->
                 <div class="hidden md:flex flex-1 justify-center space-x-6 lg:space-x-8 font-medium">
                     <a href="#home" class="text-gray-700 hover:text-amber-600">Inicio</a>
                     <a href="#sobre-mi" class="text-gray-700 hover:text-amber-600">Sobre mí</a>
@@ -126,7 +148,6 @@
                     <a href="#faq" class="text-gray-700 hover:text-amber-600">Preguntas frecuentes</a>
                     <a href="#contacto" class="text-gray-700 hover:text-amber-600">Contacto</a>
                 </div>
-                <!-- Carrito y menú móvil -->
                 <div class="flex items-center gap-4 flex-shrink-0">
                     <button id="cart-icon-btn" class="relative text-amber-700 focus:outline-none">
                         <i class="fas fa-shopping-cart text-2xl"></i>
@@ -135,7 +156,6 @@
                     <button id="menu-btn" class="md:hidden text-amber-700 focus:outline-none"><i class="fas fa-bars text-2xl"></i></button>
                 </div>
             </div>
-            <!-- Menú móvil -->
             <div id="mobile-menu" class="hidden md:hidden pb-4 flex flex-col space-y-3 text-center bg-white/95 rounded-b-lg">
                 <a href="#home" class="text-gray-700 hover:text-amber-600 py-2">Inicio</a>
                 <a href="#sobre-mi" class="text-gray-700 hover:text-amber-600 py-2">Sobre mí</a>
@@ -146,6 +166,131 @@
             </div>
         </div>
     </nav>
+
+    <!-- ==================== MODAL DEL FORMULARIO DE PRE-CONSULTA (CON WEB3FORMS) ==================== -->
+    <div id="preCheckModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-gray-800">Cuestionario de idoneidad</h2>
+                <button id="closeModalBtn" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+            </div>
+            <p class="mb-4 text-sm text-gray-600">Para garantizar que el acompañamiento es adecuado para ti, necesitamos conocer algunos aspectos de tu salud. Toda la información es confidencial.</p>
+            <!-- FORMULARIO CON WEB3FORMS -->
+            <form id="preCheckForm" action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="6cef22bf-2b7e-43a8-8ab8-15d2144795a8">
+                <input type="hidden" name="_subject" value="Nuevo cliente - Cuestionario de idoneidad">
+                <input type="hidden" name="_replyto" value="vibrapositivo2026@gmail.com">
+                
+                <!-- Datos personales -->
+                <div class="form-group">
+                    <label for="nombre">Nombre completo *</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo electrónico *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono (opcional)</label>
+                    <input type="tel" id="telefono" name="telefono">
+                </div>
+                
+                <hr>
+                <p class="font-semibold">Condiciones de salud mental (marca las que apliquen):</p>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="depresion" name="condiciones" value="Depresión mayor diagnosticada">
+                    <label for="depresion">Depresión mayor (diagnosticada)</label>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="ansiedad" name="condiciones" value="Trastorno de ansiedad generalizada">
+                    <label for="ansiedad">Trastorno de ansiedad generalizada</label>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="panico" name="condiciones" value="Trastorno de pánico">
+                    <label for="panico">Trastorno de pánico</label>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="bipolar" name="condiciones" value="Trastorno bipolar">
+                    <label for="bipolar">Trastorno bipolar</label>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="tpl" name="condiciones" value="Trastorno límite de la personalidad (TLP)">
+                    <label for="tpl">Trastorno límite de la personalidad (TLP)</label>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="tdah" name="condiciones" value="TDAH">
+                    <label for="tdah">TDAH</label>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="toc" name="condiciones" value="Trastorno obsesivo-compulsivo (TOC)">
+                    <label for="toc">Trastorno obsesivo-compulsivo (TOC)</label>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="tca" name="condiciones" value="Trastorno de la conducta alimentaria">
+                    <label for="tca">Trastorno de la conducta alimentaria (anorexia, bulimia)</label>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="psicosis" name="condiciones" value="Psicosis o esquizofrenia">
+                    <label for="psicosis">Psicosis o esquizofrenia</label>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="suicidio" name="condiciones" value="Ideación suicida activa o pasiva">
+                    <label for="suicidio">Ideación suicida (activa o pasiva)</label>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="autolesiones" name="condiciones" value="Autolesiones">
+                    <label for="autolesiones">Autolesiones</label>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="otro" name="condiciones" value="Otro trastorno clínico">
+                    <label for="otro">Otro trastorno clínico (especificar abajo)</label>
+                </div>
+                <div class="form-group">
+                    <label for="otro_texto">Si marcaste "otro", especifica:</label>
+                    <textarea id="otro_texto" name="otro_texto" rows="2"></textarea>
+                </div>
+                
+                <hr>
+                <div class="form-group">
+                    <label for="tratamiento">¿Actualmente estás en tratamiento psicológico o psiquiátrico?</label>
+                    <select id="tratamiento" name="tratamiento">
+                        <option value="ninguno">Ninguno</option>
+                        <option value="psicologo">Psicólogo</option>
+                        <option value="psiquiatra">Psiquiatra</option>
+                        <option value="ambos">Ambos (psicólogo y psiquiatra)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="medicacion">¿Estás tomando medicación psiquiátrica?</label>
+                    <select id="medicacion" name="medicacion">
+                        <option value="no">No</option>
+                        <option value="si">Sí</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="medicacion_texto">Si tomas medicación, por favor especifica cuál (opcional):</label>
+                    <textarea id="medicacion_texto" name="medicacion_texto" rows="2"></textarea>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="terapeuta_enterado" name="terapeuta_enterado" value="Sí">
+                    <label for="terapeuta_enterado">Si estás en terapia, tu terapeuta está al tanto de que buscas este acompañamiento complementario.</label>
+                </div>
+                
+                <hr>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="compromiso" required>
+                    <label for="compromiso">Comprendo que este acompañamiento se basa en Psicología Positiva y no sustituye la terapia clínica. *</label>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="acepto" required>
+                    <label for="acepto">Acepto que mis respuestas serán evaluadas para determinar si el acompañamiento es adecuado para mí. *</label>
+                </div>
+                
+                <button type="submit" class="btn-primary w-full py-2 rounded-full font-semibold mt-2">Enviar y continuar</button>
+                <p class="text-xs text-gray-500 mt-3">Tus datos serán tratados con confidencialidad. Recibirás respuesta en máximo 24 horas.</p>
+            </form>
+        </div>
+    </div>
 
     <!-- ==================== SIDEBAR DEL CARRITO ==================== -->
     <div id="cart-overlay" class="cart-overlay"></div>
@@ -182,7 +327,7 @@
                 <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-4">Acompañamiento práctico desde la Psicología Positiva. Fortalezas, claridad y cambio personal, a tu ritmo.</p>
                 <p class="text-base md:text-lg text-gray-500 max-w-2xl mx-auto mb-8">Hay un momento en el que sientes que algo no está funcionando. No estás mal, pero tampoco vibras. Ese cansancio emocional, esa sensación de estar fuera de sintonía contigo mismo, es real. Y puede ser el punto de partida perfecto.<br>No hemos venido aquí para "arreglarnos". Hemos venido a recuperar lo que ya tenemos dentro y a pulirlo.</p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="https://calendar.app.google/cJyW4weeZRJmbwde6" target="_blank" class="btn-primary font-semibold py-3 px-6 md:px-8 rounded-full inline-flex items-center justify-center gap-2 transition text-sm md:text-base"><i class="fas fa-calendar-check"></i> Reserva tu sesión diagnóstica</a>
+                    <button id="reservaDiagnosticaBtn" class="btn-primary font-semibold py-3 px-6 md:px-8 rounded-full inline-flex items-center justify-center gap-2 transition text-sm md:text-base"><i class="fas fa-calendar-check"></i> Reserva tu sesión diagnóstica</button>
                     <a href="pdfs/guia-reconectar-contigo-vibra-positivo-v2.pdf" download class="btn-secondary font-semibold py-3 px-6 md:px-8 rounded-full inline-flex items-center justify-center gap-2 transition text-sm md:text-base"><i class="fas fa-download"></i> Descarga la guía gratuita</a>
                 </div>
             </div>
@@ -267,25 +412,25 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="section-title text-center text-2xl md:text-3xl">Cómo puedo acompañarte</h2>
                 <div class="grid md:grid-cols-3 gap-6 md:gap-8 mt-8">
-                    <div class="card p-5 md:p-6 flex flex-col" data-id="serv-diagnostica" data-name="Sesión Diagnóstica" data-price="50">
+                    <div class="card p-5 md:p-6 flex flex-col" data-id="serv-diagnostica" data-name="Sesión Diagnóstica" data-price="15">
                         <i class="fas fa-stethoscope text-amber-500 text-3xl md:text-4xl mb-3"></i>
                         <h3 class="text-xl md:text-2xl font-bold">Sesión diagnóstica</h3>
-                        <p class="text-xl md:text-2xl font-semibold text-amber-600 mt-2">€50 <span class="text-sm md:text-base font-normal">| 60 minutos</span></p>
+                        <p class="text-xl md:text-2xl font-semibold text-amber-600 mt-2">€15 <span class="text-sm md:text-base font-normal">| 60 minutos</span></p>
                         <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Espacio para entendernos. Identificamos tu situación actual, lo que quieres cambiar y cómo puedo acompañarte. Sin compromiso. Solo claridad.</p>
                         <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-4 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
-                    <div class="card p-5 md:p-6 flex flex-col" data-id="serv-individual" data-name="Acompañamiento Individual" data-price="75">
+                    <div class="card p-5 md:p-6 flex flex-col" data-id="serv-individual" data-name="Acompañamiento Individual (1 sesión)" data-price="20">
                         <i class="fas fa-user-friends text-amber-500 text-3xl md:text-4xl mb-3"></i>
                         <h3 class="text-xl md:text-2xl font-bold">Acompañamiento individual</h3>
-                        <p class="text-xl md:text-2xl font-semibold text-amber-600 mt-2">€75 <span class="text-sm md:text-base font-normal">/sesión | Online o presencial</span></p>
-                        <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Sesiones estructuradas en las que trabajamos lo que de verdad importa. Con ejercicios prácticos, seguimiento entre sesiones y un plan diseñado para ti.</p>
+                        <p class="text-xl md:text-2xl font-semibold text-amber-600 mt-2">€20 <span class="text-sm md:text-base font-normal">/sesión</span></p>
+                        <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Sesiones estructuradas en las que trabajamos lo que de verdad importa.</p>
                         <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-4 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
-                    <div class="card p-5 md:p-6 flex flex-col" data-id="serv-procesos" data-name="Procesos Personalizados" data-price="280">
+                    <div class="card p-5 md:p-6 flex flex-col" data-id="serv-procesos" data-name="Paquete Conocer + Comenzar" data-price="95">
                         <i class="fas fa-chart-line text-amber-500 text-3xl md:text-4xl mb-3"></i>
                         <h3 class="text-xl md:text-2xl font-bold">Procesos personalizados</h3>
-                        <p class="text-xl md:text-2xl font-semibold text-amber-600 mt-2">Desde €280</p>
-                        <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Cuando necesitas ir más allá. Paquetes de 4, 8 o 12 sesiones con descuento progresivo. El cambio real requiere tiempo.</p>
+                        <p class="text-xl md:text-2xl font-semibold text-amber-600 mt-2">Desde €95</p>
+                        <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Paquetes de 4, 8 o 12 sesiones con descuento. Consulta los planes abajo.</p>
                         <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-4 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
                 </div>
@@ -297,47 +442,44 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="section-title text-center text-2xl md:text-3xl">Lo que dicen quienes ya han caminado conmigo</h2>
                 <div class="grid md:grid-cols-3 gap-6 md:gap-8 mt-8">
-                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-md italic text-sm md:text-base">“Llegué pensando que necesitaba ‘arreglarme’. Y descubrí que solo necesitaba escucharme a mí misma. Las herramientas que me dio son cosas que uso cada día.”<br><span class="font-bold not-italic mt-4 block">— María, 38 años</span></div>
-                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-md italic text-sm md:text-base">“Por primera vez en años, tomo una decisión y me siento bien con ella. No es que ahora todo sea perfecto. Es que estoy más conectado con lo que quiero.”<br><span class="font-bold not-italic mt-4 block">— Javier, 42 años</span></div>
-                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-md italic text-sm md:text-base">“Pensé que venir aquí era fracasar. Resultó ser lo más inteligente que hice. Cambió la forma en que me relaciono conmigo mismo.”<br><span class="font-bold not-italic mt-4 block">— Laura, 35 años</span></div>
+                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-md italic text-sm md:text-base">“Llegué pensando que necesitaba ‘arreglarme’. Y descubrí que solo necesitaba escucharme a mí misma.”<br><span class="font-bold not-italic mt-4 block">— María, 38 años</span></div>
+                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-md italic text-sm md:text-base">“Por primera vez en años, tomo una decisión y me siento bien con ella.”<br><span class="font-bold not-italic mt-4 block">— Javier, 42 años</span></div>
+                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-md italic text-sm md:text-base">“Cambió la forma en que me relaciono conmigo mismo.”<br><span class="font-bold not-italic mt-4 block">— Laura, 35 años</span></div>
                 </div>
             </div>
         </section>
 
-        <!-- ==================== OFERTAS ==================== -->
+        <!-- ==================== OFERTAS (PLANES) ==================== -->
         <section id="ofertas" class="py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="section-title text-center text-2xl md:text-3xl">Planes para acompañarte según el momento en el que estás</h2>
+                <h2 class="section-title text-center text-2xl md:text-3xl">Planes para acompañarte</h2>
                 <div class="grid md:grid-cols-3 gap-6 md:gap-8 mt-8">
-                    <div class="card p-5 md:p-6 border-t-4 border-amber-500 flex flex-col" data-id="plan-conocer" data-name="Plan Conocer + Comenzar" data-price="330">
+                    <div class="card p-5 md:p-6 border-t-4 border-amber-500 flex flex-col" data-id="plan-conocer" data-name="Plan Conocer + Comenzar" data-price="95">
                         <h3 class="text-lg md:text-xl font-bold">Conocer + Comenzar</h3>
-                        <p class="text-2xl font-bold text-amber-600 my-2">€330</p>
-                        <p class="text-gray-600 text-sm">Sesión diagnóstica + pack de 4 sesiones</p>
+                        <p class="text-2xl font-bold text-amber-600 my-2">€95</p>
+                        <p class="text-gray-600 text-sm">Sesión diagnóstica + 4 sesiones</p>
                         <ul class="mt-4 space-y-2 text-xs md:text-sm flex-grow">
-                            <li><i class="fas fa-check text-amber-500 mr-2"></i> 1 sesión diagnóstica</li>
-                            <li><i class="fas fa-check text-amber-500 mr-2"></i> 4 sesiones de acompañamiento</li>
-                            <li><i class="fas fa-check text-amber-500 mr-2"></i> Recursos privados</li>
+                            <li><i class="fas fa-check text-amber-500 mr-2"></i> 1 sesión diagnóstica (15€)</li>
+                            <li><i class="fas fa-check text-amber-500 mr-2"></i> 4 sesiones (20€ c/u)</li>
                         </ul>
                         <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-6 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
-                    <div class="card p-5 md:p-6 border-t-4 border-amber-500 flex flex-col" data-id="plan-transformacion" data-name="Plan Transformación Completa" data-price="775">
+                    <div class="card p-5 md:p-6 border-t-4 border-amber-500 flex flex-col" data-id="plan-transformacion" data-name="Plan Transformación Completa" data-price="160">
                         <h3 class="text-lg md:text-xl font-bold">Transformación completa</h3>
-                        <p class="text-2xl font-bold text-amber-600 my-2">€775</p>
-                        <p class="text-gray-600 text-sm">Pack de 8 sesiones + 3 meses de seguimiento</p>
+                        <p class="text-2xl font-bold text-amber-600 my-2">€160</p>
+                        <p class="text-gray-600 text-sm">8 sesiones + seguimiento</p>
                         <ul class="mt-4 space-y-2 text-xs md:text-sm flex-grow">
-                            <li><i class="fas fa-check text-amber-500 mr-2"></i> 8 sesiones semanales</li>
-                            <li><i class="fas fa-check text-amber-500 mr-2"></i> 3 sesiones de seguimiento mensual</li>
-                            <li><i class="fas fa-check text-amber-500 mr-2"></i> Grupo privado opcional</li>
+                            <li><i class="fas fa-check text-amber-500 mr-2"></i> 8 sesiones (20€ c/u)</li>
+                            <li><i class="fas fa-check text-amber-500 mr-2"></i> Seguimiento mensual gratuito</li>
                         </ul>
                         <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-6 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
-                    <div class="card p-5 md:p-6 border-t-4 border-amber-500 flex flex-col" data-id="plan-liberacion" data-name="Plan Liberación Sostenible" data-price="875">
+                    <div class="card p-5 md:p-6 border-t-4 border-amber-500 flex flex-col" data-id="plan-liberacion" data-name="Plan Liberación Sostenible" data-price="240">
                         <h3 class="text-lg md:text-xl font-bold">Liberación sostenible</h3>
-                        <p class="text-2xl font-bold text-amber-600 my-2">€875</p>
+                        <p class="text-2xl font-bold text-amber-600 my-2">€240</p>
                         <p class="text-gray-600 text-sm">12 sesiones + revisión trimestral</p>
                         <ul class="mt-4 space-y-2 text-xs md:text-sm flex-grow">
-                            <li><i class="fas fa-check text-amber-500 mr-2"></i> 12 sesiones personalizadas</li>
-                            <li><i class="fas fa-check text-amber-500 mr-2"></i> 1 sesión de revisión a los 3 meses</li>
+                            <li><i class="fas fa-check text-amber-500 mr-2"></i> 12 sesiones (20€ c/u)</li>
                             <li><i class="fas fa-check text-amber-500 mr-2"></i> Plan de mantenimiento personalizado</li>
                         </ul>
                         <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-6 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
@@ -364,32 +506,24 @@
         <section id="sesion-diagnostica" class="py-12 md:py-16 bg-white">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-10 md:mb-12">
-                    <h2 class="text-2xl md:text-4xl font-bold">Sesión diagnóstica: tu primer paso hacia la claridad</h2>
-                    <p class="text-base md:text-xl text-amber-600 font-semibold mt-2">€50 | 60 minutos | Sin compromiso | Respuesta en 24 horas</p>
+                    <h2 class="text-2xl md:text-4xl font-bold">Sesión diagnóstica: tu primer paso</h2>
+                    <p class="text-base md:text-xl text-amber-600 font-semibold mt-2">€15 | 60 minutos | Sin compromiso</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-8 md:gap-12">
                     <div>
-                        <p class="text-gray-700 mb-6">Muchas veces sabemos que algo necesita cambiar, pero no sabemos por dónde empezar. Esta sesión es eso: un mapa. Vienes tal como eres, cuentas tu historia y, juntos, identificamos qué necesitas. No es una venta. Es una conversación honesta.</p>
-                        <h3 class="font-bold text-lg md:text-xl mb-3">¿Qué pasará durante la sesión?</h3>
+                        <p class="text-gray-700 mb-6">Muchas veces sabemos que algo necesita cambiar, pero no sabemos por dónde empezar. Esta sesión es eso: un mapa.</p>
+                        <h3 class="font-bold text-lg md:text-xl mb-3">¿Qué pasará?</h3>
                         <ul class="space-y-2 mb-6 text-sm md:text-base">
-                            <li><i class="fas fa-clock text-amber-500 w-5"></i> <strong>Tu historia (15 min)</strong> – Me cuentas qué te trae hasta aquí.</li>
-                            <li><i class="fas fa-ear-listen text-amber-500"></i> <strong>Escucha y preguntas (25 min)</strong> – Yo escucho, pregunto e identificamos patrones.</li>
-                            <li><i class="fas fa-eye text-amber-500"></i> <strong>Mi perspectiva (15 min)</strong> – Te digo honestamente qué veo y cómo podríamos trabajarlo.</li>
-                            <li><i class="fas fa-comment text-amber-500"></i> <strong>Tus preguntas (5 min)</strong> – Todo lo que quieras saber, sin presión.</li>
-                        </ul>
-                        <h3 class="font-bold text-lg md:text-xl mb-2">¿Qué obtendrás?</h3>
-                        <ul class="space-y-1 mb-6 text-sm md:text-base">
-                            <li><i class="fas fa-check-circle text-green-600"></i> Claridad sobre tu situación</li>
-                            <li><i class="fas fa-check-circle text-green-600"></i> Dirección con pasos concretos</li>
-                            <li><i class="fas fa-check-circle text-green-600"></i> Confianza en que alguien te entiende</li>
-                            <li><i class="fas fa-check-circle text-green-600"></i> La libertad de decidir sin compromiso</li>
+                            <li><i class="fas fa-clock text-amber-500 w-5"></i> Tu historia (15 min)</li>
+                            <li><i class="fas fa-ear-listen text-amber-500"></i> Escucha y preguntas (25 min)</li>
+                            <li><i class="fas fa-eye text-amber-500"></i> Mi perspectiva (15 min)</li>
+                            <li><i class="fas fa-comment text-amber-500"></i> Tus preguntas (5 min)</li>
                         </ul>
                     </div>
                     <div class="bg-amber-50 p-5 md:p-6 rounded-xl shadow-md text-center">
                         <h3 class="font-bold text-lg md:text-xl mb-4">Reserva tu sesión ahora</h3>
-                        <p class="mb-4 text-sm md:text-base">Haz clic en el botón para agendar directamente en Google Calendar.</p>
-                        <a href="https://calendar.app.google/cJyW4weeZRJmbwde6" target="_blank" class="btn-primary w-full py-3 rounded-full font-bold inline-block text-center">Reservar mi sesión diagnóstica</a>
-                        <p class="text-center text-xs md:text-sm text-gray-500 mt-4">¿Tienes dudas? Escríbeme a <a href="mailto:vibrapositivo2026@gmail.com" class="text-amber-600">vibrapositivo2026@gmail.com</a></p>
+                        <button id="reservaDiagnosticaBtn2" class="btn-primary w-full py-3 rounded-full font-bold inline-block text-center">Reservar mi sesión diagnóstica</button>
+                        <p class="text-center text-xs md:text-sm text-gray-500 mt-4">¿Dudas? <a href="mailto:vibrapositivo2026@gmail.com" class="text-amber-600">vibrapositivo2026@gmail.com</a></p>
                     </div>
                 </div>
             </div>
@@ -400,13 +534,9 @@
             <div class="max-w-4xl mx-auto px-4">
                 <h2 class="section-title text-center text-2xl md:text-3xl">Preguntas frecuentes</h2>
                 <div class="space-y-4 mt-8">
-                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Cuál es la diferencia entre esto y la terapia?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">La terapia aborda problemas clínicos. Esto es acompañamiento para entenderte mejor, clarificar qué quieres y desarrollar tus fortalezas. Si tienes un diagnóstico clínico, puede ser complementario, pero no lo sustituye.</p></details>
-                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Necesito estar "mal" para venir?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">No. La mayoría de mis clientes está "bien", pero quiere estar mejor: con más claridad, más propósito y más confianza real. Es para personas que ya funcionan y quieren volver a vibrar.</p></details>
-                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Cuánto tiempo lleva ver cambios?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">Pequeños cambios pueden aparecer desde la primera sesión. La claridad emocional suele llegar en 2 o 3 semanas; los cambios de hábitos más sólidos, en 4 a 6 semanas; y una transformación profunda, en 8 a 12 semanas. No te prometo rapidez; te ofrezco solidez.</p></details>
-                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Cómo es realmente una sesión?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">Es una conversación profunda de 55 a 60 minutos. Tú hablas, yo escucho y luego te hago preguntas para comprender más allá de lo obvio. Al final, saldrás con ejercicios prácticos para aplicar fuera de la sesión.</p></details>
-                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Qué pasa si estoy en una crisis seria?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">Si existe una situación de riesgo —como ideación suicida, autolesión o una crisis severa—, este no es el espacio adecuado. Te recomendaré acudir a un profesional especializado. Esto es para quien se siente fuera de sintonía, no para quien está en peligro.</p></details>
-                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Las sesiones son confidenciales?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">Sí. Lo que compartes conmigo se trata con total confidencialidad. Quiero que este sea un espacio en el que puedas ser completamente sincero.</p></details>
-                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Puedo hacer sesiones online o presenciales?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">Ambas opciones. La mayoría elige online por comodidad, y también resulta muy efectivo.</p></details>
+                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Cuál es la diferencia entre esto y la terapia?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">La terapia aborda problemas clínicos. Esto es acompañamiento para entenderte mejor, clarificar qué quieres y desarrollar tus fortalezas.</p></details>
+                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Necesito estar "mal" para venir?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">No. La mayoría de mis clientes está "bien", pero quiere estar mejor.</p></details>
+                    <details class="bg-white p-4 rounded-lg shadow-sm"><summary class="text-sm md:text-base font-semibold">¿Qué pasa si tengo un diagnóstico clínico?</summary><p class="mt-2 text-gray-600 text-sm md:text-base">Si tienes depresión mayor, trastorno bipolar, psicosis o ideación suicida, este acompañamiento no es adecuado para ti. Te derivaré a un profesional de salud mental.</p></details>
                 </div>
             </div>
         </section>
@@ -419,11 +549,10 @@
                     <div>
                         <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Por qué hago esto</h2>
                         <p class="text-gray-700 mb-4 text-sm md:text-base">Hace años, yo también estaba ahí. Funcionaba perfectamente: iba al trabajo, tenía relaciones, me movía por la vida. Pero no vibraba. Pasé años buscando "la solución" en lugares equivocados, hasta que entendí algo: lo que me faltaba no era más información, sino conexión. Conmigo mismo. Desde ese momento, cambió todo.</p>
-                        <p class="text-gray-700 mb-4 text-sm md:text-base">Comencé a estudiar Psicología Positiva en serio. No para "arreglarme", sino para entender. Para descubrir que todos tenemos fortalezas que nunca miramos. Para aprender que la ansiedad y el estrés son mensajes, no enemigos. Cuando vi los resultados en mí mismo, supe que tenía que hacer esto con otros. No para "salvar" a nadie, sino para acompañar a personas inteligentes que ya saben que algo necesita cambiar.</p>
+                        <p class="text-gray-700 mb-4 text-sm md:text-base">Comencé a estudiar Psicología Positiva en serio. No para "arreglarme", sino para entender. Para descubrir que todos tenemos fortalezas que nunca miramos.</p>
                         <div class="flex flex-wrap gap-3 mt-6">
                             <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs md:text-sm">Diplomado en Psicología</span>
                             <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs md:text-sm">Especialización en Psicología Positiva</span>
-                            <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs md:text-sm">Desarrollo de fortalezas</span>
                         </div>
                         <a href="https://calendar.app.google/cJyW4weeZRJmbwde6" target="_blank" class="btn-primary inline-block mt-6 md:mt-8 px-5 md:px-6 py-2 md:py-3 rounded-full text-sm md:text-base">Quiero trabajar contigo</a>
                     </div>
@@ -435,9 +564,7 @@
         <section class="bg-amber-600 text-white py-12 md:py-16 text-center">
             <div class="max-w-3xl mx-auto px-4">
                 <h2 class="text-2xl md:text-4xl font-bold mb-4">Tu bienestar no puede esperar</h2>
-                <p class="text-base md:text-xl mb-6">Cada día que pasa sin conectar contigo es un día menos para vivir con claridad. La buena noticia es que eso puede cambiar hoy.</p>
-                <a href="https://calendar.app.google/cJyW4weeZRJmbwde6" target="_blank" class="bg-white text-amber-600 font-bold py-2 md:py-3 px-6 md:px-8 rounded-full inline-flex items-center gap-2 hover:bg-gray-100 transition text-sm md:text-base"><i class="fas fa-calendar-check"></i> Reserva tu sesión diagnóstica</a>
-                <p class="text-xs md:text-sm mt-4 opacity-90">Respuesta en 24 horas. Sesiones disponibles en horarios flexibles.</p>
+                <button id="reservaDiagnosticaBtn3" class="bg-white text-amber-600 font-bold py-2 md:py-3 px-6 md:px-8 rounded-full inline-flex items-center gap-2 hover:bg-gray-100 transition"><i class="fas fa-calendar-check"></i> Reserva tu sesión diagnóstica</button>
             </div>
         </section>
 
@@ -446,48 +573,36 @@
             <div class="max-w-7xl mx-auto px-4">
                 <img src="logo.jpg" alt="VIBRAPOSITIVA" class="h-8 md:h-10 mx-auto mb-4 opacity-80">
                 <p class="text-xs md:text-sm">© 2025 VIBRAPOSITIVA – Todos los derechos reservados.</p>
-                <p class="text-xs text-gray-400 mt-2">Acompañamiento desde la Psicología Positiva. Este espacio no sustituye la terapia psicológica ni la atención clínica.</p>
-                <div class="flex justify-center gap-6 mt-4"><a href="https://wa.me/353876071214" target="_blank" class="text-gray-400 hover:text-green-400 transition text-xl md:text-2xl"><i class="fab fa-whatsapp"></i></a></div>
+                <p class="text-xs text-gray-400 mt-2">Acompañamiento desde la Psicología Positiva. Este espacio no sustituye la terapia clínica.</p>
+                <div class="flex justify-center gap-6 mt-4"><a href="https://wa.me/353876071214" target="_blank" class="text-gray-400 hover:text-green-400 transition text-xl"><i class="fab fa-whatsapp"></i></a></div>
                 <p class="text-xs md:text-sm text-gray-400 mt-3">Contacto: <a href="mailto:vibrapositivo2026@gmail.com" class="text-amber-400 hover:underline">vibrapositivo2026@gmail.com</a></p>
             </div>
         </footer>
     </main>
 
     <script>
-        // ==================== CARRITO DE COMPRAS (mismo código funcional) ====================
+        // ==================== CARRITO Y LÓGICA DE FILTRO ====================
         let cart = [];
+        let pendingAction = null;
 
-        function loadCart() {
-            const stored = localStorage.getItem('vibrapositiva_cart');
-            if (stored) cart = JSON.parse(stored);
-            else cart = [];
-            updateCartDisplay();
-        }
+        function loadCart() { const stored = localStorage.getItem('vibrapositiva_cart'); cart = stored ? JSON.parse(stored) : []; updateCartDisplay(); }
         function saveCart() { localStorage.setItem('vibrapositiva_cart', JSON.stringify(cart)); }
         function addToCart(product) {
             const existing = cart.find(item => item.id === product.id);
             if (existing) existing.quantity += 1;
             else cart.push({ id: product.id, name: product.name, price: product.price, quantity: 1 });
-            saveCart();
-            updateCartDisplay();
-            showNotification(`✅ "${product.name}" añadido al carrito`);
+            saveCart(); updateCartDisplay(); showNotification(`✅ "${product.name}" añadido al carrito`);
         }
         function removeFromCart(productId) {
             const index = cart.findIndex(item => item.id === productId);
-            if (index !== -1) {
-                const removed = cart[index];
-                cart.splice(index, 1);
-                saveCart();
-                updateCartDisplay();
-                showNotification(`❌ "${removed.name}" eliminado del carrito`);
-            }
+            if (index !== -1) { const removed = cart[index]; cart.splice(index,1); saveCart(); updateCartDisplay(); showNotification(`❌ "${removed.name}" eliminado`); }
         }
         function updateQuantity(productId, newQty) {
             if (newQty < 1) { removeFromCart(productId); return; }
             const item = cart.find(i => i.id === productId);
             if (item) { item.quantity = newQty; saveCart(); updateCartDisplay(); }
         }
-        function getCartTotal() { return cart.reduce((sum, i) => sum + (i.price * i.quantity), 0); }
+        function getCartTotal() { return cart.reduce((sum,i) => sum + (i.price * i.quantity), 0); }
         function renderCartItems() {
             const container = document.getElementById('cart-items-container');
             if (!container) return;
@@ -496,103 +611,126 @@
             cart.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'flex gap-3 border-b pb-3';
-                div.innerHTML = `
-                    <div class="flex-shrink-0"><div class="w-16 h-16 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600 text-xl"><i class="fas fa-hands-helping"></i></div></div>
+                div.innerHTML = `<div class="flex-shrink-0"><div class="w-16 h-16 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600 text-xl"><i class="fas fa-hands-helping"></i></div></div>
                     <div class="flex-grow"><h4 class="font-semibold text-gray-800">${escapeHtml(item.name)}</h4>
                     <div class="flex justify-between items-center mt-1"><span class="text-amber-700 font-bold">€${item.price.toFixed(2)}</span>
-                    <div class="flex items-center gap-2"><button class="decr-qty w-6 h-6 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center justify-center text-xs font-bold" data-id="${item.id}">-</button>
-                    <span class="w-6 text-center text-sm font-medium">${item.quantity}</span>
-                    <button class="incr-qty w-6 h-6 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center justify-center text-xs font-bold" data-id="${item.id}">+</button>
-                    <button class="remove-item text-red-500 hover:text-red-700 text-sm ml-1" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button></div></div></div></div>
-                `;
+                    <div class="flex items-center gap-2"><button class="decr-qty" data-id="${item.id}">-</button><span>${item.quantity}</span><button class="incr-qty" data-id="${item.id}">+</button>
+                    <button class="remove-item" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button></div></div></div></div>`;
                 container.appendChild(div);
             });
-            document.querySelectorAll('.decr-qty').forEach(btn => btn.addEventListener('click', (e) => { const id = btn.getAttribute('data-id'); const it = cart.find(i => i.id === id); if (it) updateQuantity(id, it.quantity - 1); }));
-            document.querySelectorAll('.incr-qty').forEach(btn => btn.addEventListener('click', (e) => { const id = btn.getAttribute('data-id'); const it = cart.find(i => i.id === id); if (it) updateQuantity(id, it.quantity + 1); }));
+            document.querySelectorAll('.decr-qty').forEach(btn => btn.addEventListener('click', (e) => { const id = btn.getAttribute('data-id'); const it = cart.find(i=>i.id===id); if(it) updateQuantity(id, it.quantity-1); }));
+            document.querySelectorAll('.incr-qty').forEach(btn => btn.addEventListener('click', (e) => { const id = btn.getAttribute('data-id'); const it = cart.find(i=>i.id===id); if(it) updateQuantity(id, it.quantity+1); }));
             document.querySelectorAll('.remove-item').forEach(btn => btn.addEventListener('click', (e) => { const id = btn.getAttribute('data-id'); removeFromCart(id); }));
         }
         function updateCartDisplay() {
-            const countSpan = document.getElementById('cart-count');
-            const totalSpan = document.getElementById('cart-total');
-            const totalItems = cart.reduce((sum, i) => sum + i.quantity, 0);
-            if (countSpan) countSpan.textContent = totalItems;
-            if (totalSpan) totalSpan.textContent = `€${getCartTotal().toFixed(2)}`;
+            document.getElementById('cart-count').textContent = cart.reduce((s,i)=>s+i.quantity,0);
+            document.getElementById('cart-total').textContent = `€${getCartTotal().toFixed(2)}`;
             renderCartItems();
         }
-        function showNotification(msg) {
-            const notif = document.createElement('div');
-            notif.className = 'fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm';
-            notif.textContent = msg;
-            document.body.appendChild(notif);
-            setTimeout(() => notif.remove(), 2000);
-        }
-        function escapeHtml(str) { return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); }
-        function bindAddToCartEvents() {
-            document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-                btn.removeEventListener('click', addToCartHandler);
-                btn.addEventListener('click', addToCartHandler);
-            });
-        }
+        function showNotification(msg) { const n=document.createElement('div'); n.className='fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm'; n.textContent=msg; document.body.appendChild(n); setTimeout(()=>n.remove(),2000); }
+        function escapeHtml(str) { return str.replace(/[&<>]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+        function bindAddToCartEvents() { document.querySelectorAll('.add-to-cart-btn').forEach(btn=>{ btn.removeEventListener('click', addToCartHandler); btn.addEventListener('click', addToCartHandler); }); }
         function addToCartHandler(e) {
+            e.preventDefault();
             const btn = e.currentTarget;
             const productCard = btn.closest('[data-id]');
             if (!productCard) return;
             const id = productCard.getAttribute('data-id');
             const name = productCard.getAttribute('data-name');
             const price = parseFloat(productCard.getAttribute('data-price'));
-            if (id && name && !isNaN(price)) addToCart({ id, name, price });
-            else console.warn('Faltan atributos data-* en:', productCard);
+            if (id && name && !isNaN(price)) {
+                pendingAction = () => addToCart({ id, name, price });
+                openModal();
+            }
         }
-        function openCart() { document.getElementById('cart-sidebar')?.classList.add('open'); document.getElementById('cart-overlay')?.classList.add('open'); }
-        function closeCart() { document.getElementById('cart-sidebar')?.classList.remove('open'); document.getElementById('cart-overlay')?.classList.remove('open'); }
+        function openModal() { document.getElementById('preCheckModal').classList.add('open'); }
+        function closeModal() { document.getElementById('preCheckModal').classList.remove('open'); }
         
+        // Filtro de condiciones clínicas graves
+        function isApto(condiciones, tratamiento, medicacion) {
+            const condicionesGraves = ['Depresión mayor diagnosticada', 'Trastorno bipolar', 'Trastorno límite de la personalidad (TLP)', 'Psicosis o esquizofrenia', 'Ideación suicida activa o pasiva', 'Autolesiones'];
+            const tieneGrave = condiciones.some(c => condicionesGraves.includes(c));
+            if (tieneGrave) return false;
+            if (tratamiento === 'psiquiatra' || tratamiento === 'ambos') return false;
+            if (medicacion === 'si') return false;
+            return true;
+        }
+        
+        // Manejo del formulario con Web3Forms
+        const form = document.getElementById('preCheckForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!document.getElementById('acepto').checked) { alert('Debes aceptar los términos para continuar.'); return; }
+            if (!document.getElementById('compromiso').checked) { alert('Debes confirmar que comprendes el enfoque.'); return; }
+            
+            const condiciones = Array.from(document.querySelectorAll('input[name="condiciones"]:checked')).map(cb => cb.value);
+            const tratamiento = document.getElementById('tratamiento').value;
+            const medicacion = document.getElementById('medicacion').value;
+            
+            if (!isApto(condiciones, tratamiento, medicacion)) {
+                alert('Gracias por tu sinceridad. Según tus respuestas, este acompañamiento no es el adecuado para ti. Te recomiendo buscar ayuda de un profesional de salud mental. No podremos continuar con la reserva.');
+                closeModal();
+                pendingAction = null;
+                return;
+            }
+            
+            // Enviar a Web3Forms
+            const formData = new FormData(form);
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
+                if (response.ok) {
+                    alert('¡Formulario enviado correctamente! Ahora procederemos con la reserva.');
+                    if (pendingAction) { pendingAction(); pendingAction = null; }
+                    closeModal();
+                } else {
+                    const data = await response.json();
+                    alert('Error al enviar: ' + (data.message || 'Inténtalo de nuevo.'));
+                }
+            } catch (err) { alert('Error de conexión. Por favor, intenta más tarde.'); }
+        });
+        
+        document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+        window.addEventListener('click', (e) => { if (e.target === document.getElementById('preCheckModal')) closeModal(); });
+        
+        function handleReservaDiagnostica() {
+            pendingAction = () => { window.open('https://calendar.app.google/cJyW4weeZRJmbwde6', '_blank'); showNotification('🔔 Redirigiendo a Google Calendar.'); };
+            openModal();
+        }
+        document.querySelectorAll('#reservaDiagnosticaBtn, #reservaDiagnosticaBtn2, #reservaDiagnosticaBtn3').forEach(btn => btn.addEventListener('click', handleReservaDiagnostica));
+        
+        function openCartSidebar() { document.getElementById('cart-sidebar').classList.add('open'); document.getElementById('cart-overlay').classList.add('open'); }
+        function closeCartSidebar() { document.getElementById('cart-sidebar').classList.remove('open'); document.getElementById('cart-overlay').classList.remove('open'); }
         function handlePayPalCheckout() {
-            if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío. Agrega algún servicio primero.'); return; }
+            if (cart.length===0) { showNotification('Carrito vacío'); return; }
             const total = getCartTotal();
-            const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=JavierAyala168@paypal.com&amount=${total.toFixed(2)}&currency_code=EUR&item_name=Compra%20en%20Vibrapositiva&no_shipping=1`;
-            window.open(paypalUrl, '_blank');
-            showNotification(`🔔 Redirigiendo a PayPal para pagar €${total.toFixed(2)}`);
+            window.open(`https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=JavierAyala168@paypal.com&amount=${total.toFixed(2)}&currency_code=EUR&item_name=Compra%20en%20Vibrapositiva&no_shipping=1`, '_blank');
         }
         function handleRevolutCheckout() {
-            if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío. Agrega algún servicio primero.'); return; }
-            const total = getCartTotal();
-            const revolutUrl = `https://revolut.me/javier47j`;
-            window.open(revolutUrl, '_blank');
-            showNotification(`🔔 Redirigiendo a Revolut. Por favor, introduce el importe de €${total.toFixed(2)} manualmente.`);
+            if (cart.length===0) { showNotification('Carrito vacío'); return; }
+            window.open('https://revolut.me/javier47j', '_blank');
+            showNotification('Redirigiendo a Revolut. Introduce el importe manualmente.');
         }
-
+        
         document.addEventListener('DOMContentLoaded', () => {
-            loadCart();
-            bindAddToCartEvents();
-            document.getElementById('cart-icon-btn')?.addEventListener('click', openCart);
-            document.getElementById('close-cart-btn')?.addEventListener('click', closeCart);
-            document.getElementById('cart-overlay')?.addEventListener('click', closeCart);
-            document.getElementById('checkout-paypal-btn')?.addEventListener('click', handlePayPalCheckout);
-            document.getElementById('checkout-revolut-btn')?.addEventListener('click', handleRevolutCheckout);
-            
+            loadCart(); bindAddToCartEvents();
+            document.getElementById('cart-icon-btn').addEventListener('click', openCartSidebar);
+            document.getElementById('close-cart-btn').addEventListener('click', closeCartSidebar);
+            document.getElementById('cart-overlay').addEventListener('click', closeCartSidebar);
+            document.getElementById('checkout-paypal-btn').addEventListener('click', handlePayPalCheckout);
+            document.getElementById('checkout-revolut-btn').addEventListener('click', handleRevolutCheckout);
             const menuBtn = document.getElementById('menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
-            if (menuBtn) {
-                menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-            }
-            const mobileLinks = document.querySelectorAll('#mobile-menu a');
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-            
-            const form = document.getElementById('downloadForm');
-            if (form) {
-                form.addEventListener('submit', (e) => {
+            if (menuBtn) menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            document.querySelectorAll('#mobile-menu a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+            const downloadForm = document.getElementById('downloadForm');
+            if (downloadForm) {
+                downloadForm.addEventListener('submit', (e) => {
                     e.preventDefault();
-                    const link = document.createElement('a');
-                    link.href = 'pdfs/guia-reconectar-contigo-vibra-positivo-v2.pdf';
-                    link.download = 'guia-reconectar-contigo-vibra-positivo-v2.pdf';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    alert('✅ ¡Gracias por tu interés! La guía se está descargando. Revisa tu carpeta de descargas.');
+                    const a = document.createElement('a');
+                    a.href = 'pdfs/guia-reconectar-contigo-vibra-positivo-v2.pdf';
+                    a.download = 'guia-reconectar-contigo-vibra-positivo-v2.pdf';
+                    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                    alert('✅ Guía descargando...');
                     document.getElementById('emailInput').value = '';
                 });
             }
