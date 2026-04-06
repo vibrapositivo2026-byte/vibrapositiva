@@ -126,7 +126,7 @@
         .form-group.checkbox input { width: auto; }
         hr { margin: 1rem 0; }
 
-        /* Pestañas de precios */
+        /* Pestañas de precios (estilo uniforme) */
         .price-tab {
             cursor: pointer;
             padding: 0.5rem 1.5rem;
@@ -160,7 +160,7 @@
                         <div class="text-xs text-amber-600">Especialista en bienestar, fortalezas y cambio personal</div>
                     </div>
                 </div>
-                <!-- Menú escritorio centrado (evita solapamiento) -->
+                <!-- Menú escritorio centrado -->
                 <div class="hidden md:flex flex-1 justify-center space-x-6 lg:space-x-8 font-medium">
                     <a href="#home" class="text-gray-700 hover:text-amber-600 whitespace-nowrap">Inicio</a>
                     <a href="#sobre-mi" class="text-gray-700 hover:text-amber-600 whitespace-nowrap">Sobre mí</a>
@@ -272,11 +272,6 @@
         <!-- ==================== HOME ==================== -->
         <section id="home" class="py-12 md:py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <!-- Pestañas de selección de precios -->
-                <div class="flex justify-center gap-4 mb-8">
-                    <div id="price-eu" class="price-tab active">🇪🇺 Precios Europa</div>
-                    <div id="price-latam" class="price-tab">🌎 Precios Latinoamérica</div>
-                </div>
                 <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-4">Recupera tu bienestar <span class="text-amber-600">sin perder quién eres</span></h1>
                 <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-4">Acompañamiento práctico desde la Psicología Positiva. Fortalezas, claridad y cambio personal, a tu ritmo.</p>
                 <p class="text-base md:text-lg text-gray-500 max-w-2xl mx-auto mb-8">Hay un momento en el que sientes que algo no está funcionando. No estás mal, pero tampoco vibras. Ese cansancio emocional, esa sensación de estar fuera de sintonía contigo mismo, es real. Y puede ser el punto de partida perfecto.<br>No hemos venido aquí para "arreglarnos". Hemos venido a recuperar lo que ya tenemos dentro y a pulirlo.</p>
@@ -361,9 +356,14 @@
             </div>
         </section>
 
-        <!-- ==================== SERVICIOS (con precios dinámicos) ==================== -->
+        <!-- ==================== SERVICIOS (con selector de precios) ==================== -->
         <section id="servicios" class="py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Selector de región (Europa / Latinoamérica) dentro de la sección de servicios -->
+                <div class="flex justify-center gap-4 mb-8">
+                    <div id="price-eu" class="price-tab active">🇪🇺 Precios Europa</div>
+                    <div id="price-latam" class="price-tab">🌎 Precios Latinoamérica</div>
+                </div>
                 <h2 class="section-title text-center text-2xl md:text-3xl">Cómo puedo acompañarte</h2>
                 <div class="grid md:grid-cols-3 gap-6 md:gap-8 mt-8">
                     <!-- Tarjeta 1: Sesión diagnóstica -->
@@ -406,9 +406,14 @@
             </div>
         </section>
 
-        <!-- ==================== OFERTAS (PLANES con precios dinámicos) ==================== -->
+        <!-- ==================== OFERTAS (PLANES con selector de precios) ==================== -->
         <section id="ofertas" class="py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Selector de región también aquí (sincronizado) -->
+                <div class="flex justify-center gap-4 mb-8">
+                    <div id="price-eu2" class="price-tab active">🇪🇺 Precios Europa</div>
+                    <div id="price-latam2" class="price-tab">🌎 Precios Latinoamérica</div>
+                </div>
                 <h2 class="section-title text-center text-2xl md:text-3xl">Planes para acompañarte</h2>
                 <div class="grid md:grid-cols-3 gap-6 md:gap-8 mt-8">
                     <!-- Plan 1 -->
@@ -565,13 +570,18 @@
             // Cambiar visibilidad de los precios
             document.querySelectorAll('.price-eu').forEach(el => el.classList.toggle('hidden', !isEu));
             document.querySelectorAll('.price-latam').forEach(el => el.classList.toggle('hidden', isEu));
-            // Actualizar estilos de pestañas
-            document.getElementById('price-eu').classList.toggle('active', isEu);
-            document.getElementById('price-latam').classList.toggle('active', !isEu);
+            // Actualizar estilos de las pestañas (tanto en servicios como en ofertas)
+            const tabsEu = document.querySelectorAll('#price-eu, #price-eu2');
+            const tabsLatam = document.querySelectorAll('#price-latam, #price-latam2');
+            tabsEu.forEach(tab => tab.classList.toggle('active', isEu));
+            tabsLatam.forEach(tab => tab.classList.toggle('active', !isEu));
         }
 
+        // Eventos para los selectores de región (duplicados en ambas secciones)
         document.getElementById('price-eu').addEventListener('click', () => setRegion('eu'));
         document.getElementById('price-latam').addEventListener('click', () => setRegion('latam'));
+        document.getElementById('price-eu2').addEventListener('click', () => setRegion('eu'));
+        document.getElementById('price-latam2').addEventListener('click', () => setRegion('latam'));
 
         // ==================== CARRITO Y FILTRO ====================
         let cart = [];
