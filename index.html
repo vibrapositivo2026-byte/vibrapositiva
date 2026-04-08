@@ -516,21 +516,25 @@
             </div>
         </section>
 
-        <!-- ==================== SOBRE MÍ ==================== -->
+        <!-- ==================== SOBRE MÍ (NUEVO TEXTO, ETIQUETAS Y BOTÓN) ==================== -->
         <section id="sobre-mi" class="py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                     <div><img src="foto-perfil.png" alt="VIBRAPOSITIVA" class="rounded-2xl shadow-xl w-full max-w-md mx-auto"></div>
                     <div>
                         <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Por qué hago esto</h2>
-                        <p class="text-gray-700 mb-4 text-sm md:text-base">Hace años, yo también estaba ahí. Funcionaba perfectamente: iba al trabajo, tenía relaciones, me movía por la vida. Pero no vibraba. Pasé años buscando "la solución" en lugares equivocados, hasta que entendí algo: lo que me faltaba no era más información, sino conexión. Conmigo mismo. Desde ese momento, cambió todo.</p>
-                        <p class="text-gray-700 mb-4 text-sm md:text-base">Comencé a estudiar Psicología Positiva en serio. No para "arreglarme", sino para entender. Para descubrir que todos tenemos fortalezas que nunca miramos. Para aprender que la ansiedad y el estrés son mensajes, no enemigos. Cuando vi los resultados en mí mismo, supe que tenía que hacer esto con otros.</p>
+                        <p class="text-gray-700 mb-4 text-sm md:text-base">
+                            Hace años, yo también estaba ahí. Funcionaba perfectamente: iba al trabajo, tenía relaciones, me movía por la vida. Pero no vibraba. Pasé años buscando "la solución" en lugares equivocados, hasta que entendí algo: lo que me faltaba no era más información, sino conexión conmigo mismo. Desde ese momento, cambió todo.
+                        </p>
+                        <p class="text-gray-700 mb-4 text-sm md:text-base">
+                            Decidí que esa intuición necesitaba una base sólida y científica. Por eso, me formé como Experto Universitario en Psicología Positiva por el IEPP. No lo hice para "arreglarme", sino para entender que la ansiedad y el estrés son mensajes, no enemigos. Hoy, utilizo esa misma metodología de 500 horas de especialización técnica para ayudarte a descubrir las fortalezas que siempre han estado ahí, pero que aún no has aprendido a mirar.
+                        </p>
                         <div class="flex flex-wrap gap-3 mt-6">
-                            <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs md:text-sm">Diplomado en Psicología</span>
-                            <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs md:text-sm">Especialización en Psicología Positiva</span>
-                            <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs md:text-sm">Desarrollo de fortalezas</span>
+                            <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs md:text-sm">Experto en Psicología Positiva</span>
+                            <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs md:text-sm">Especialista en Gestión de Estrés</span>
+                            <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs md:text-sm">Consultor de Fortalezas</span>
                         </div>
-                        <a href="https://calendar.app.google/cJyW4weeZRJmbwde6" target="_blank" class="btn-primary inline-block mt-6 md:mt-8 px-5 md:px-6 py-2 md:py-3 rounded-full text-sm md:text-base">Quiero trabajar contigo</a>
+                        <button id="empecemosConectarBtn" class="btn-primary inline-block mt-6 md:mt-8 px-5 md:px-6 py-2 md:py-3 rounded-full text-sm md:text-base">Empecemos a conectar</button>
                     </div>
                 </div>
             </div>
@@ -695,7 +699,8 @@
             pendingAction = () => { window.open('https://calendar.app.google/cJyW4weeZRJmbwde6', '_blank'); showNotification('🔔 Redirigiendo a Google Calendar para agendar tu sesión.'); };
             openModal();
         }
-        document.querySelectorAll('#reservaDiagnosticaBtn, #reservaDiagnosticaBtn2, #reservaDiagnosticaBtn3').forEach(btn => btn.addEventListener('click', handleReservaDiagnostica));
+        // Asignar el mismo comportamiento a todos los botones de reserva y al nuevo botón "Empecemos a conectar"
+        document.querySelectorAll('#reservaDiagnosticaBtn, #reservaDiagnosticaBtn2, #reservaDiagnosticaBtn3, #empecemosConectarBtn').forEach(btn => btn.addEventListener('click', handleReservaDiagnostica));
         
         // ==================== PAGOS CON MONTO EXACTO ====================
         function openCartSidebar() { document.getElementById('cart-sidebar').classList.add('open'); document.getElementById('cart-overlay').classList.add('open'); }
