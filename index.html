@@ -448,7 +448,160 @@
                 <p class="text-center text-amber-700 italic mt-8">Todo esto sucede en un espacio seguro, sin prisas y a tu ritmo.</p>
             </div>
         </section>
+<!-- ======================== SECCIÓN TESTS - VIBRA POSITIVO ======================== -->
+<section class="py-20 bg-gradient-to-b from-slate-50 to-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-14">
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-900">Tests de Bienestar</h2>
+      <p class="text-xl text-gray-600 mt-4">Conócete mejor en solo unos minutos • Totalmente gratis y confidencial</p>
+    </div>
 
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      <!-- Tarjeta 1 -->
+      <div class="bg-white rounded-3xl shadow-xl overflow-hidden hover:-translate-y-3 transition-all duration-300 border border-slate-100">
+        <div class="h-2 bg-gradient-to-r from-pink-400 to-violet-500"></div>
+        <div class="p-8">
+          <div class="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center text-5xl mb-6">🪞</div>
+          <h3 class="text-2xl font-semibold text-gray-900">Test de autoestima</h3>
+          <p class="text-pink-600 text-xl font-medium mt-1">Siéntete más tú.</p>
+          <p class="mt-6 text-gray-600">Evalúa tu nivel de autoestima con la escala de Rosenberg y recibe consejos personalizados.</p>
+          <button onclick="mostrarTest('test-autoestima')" 
+                  class="mt-10 w-full bg-gradient-to-r from-pink-500 to-violet-500 hover:brightness-110 text-white font-medium py-4 rounded-2xl transition">
+            Hacer test de autoestima →
+          </button>
+        </div>
+      </div>
+
+      <!-- Tarjeta 2 -->
+      <div class="bg-white rounded-3xl shadow-xl overflow-hidden hover:-translate-y-3 transition-all duration-300 border border-slate-100">
+        <div class="h-2 bg-gradient-to-r from-orange-400 to-red-500"></div>
+        <div class="p-8">
+          <div class="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center text-5xl mb-6">🔥</div>
+          <h3 class="text-2xl font-semibold text-gray-900">Test de burnout</h3>
+          <p class="text-orange-600 text-xl font-medium mt-1">Detecta el desgaste emocional y laboral ahora.</p>
+          <p class="mt-6 text-gray-600">Descubre tu nivel de agotamiento físico, emocional y mental.</p>
+          <button onclick="mostrarTest('test-burnout')" 
+                  class="mt-10 w-full bg-gradient-to-r from-orange-500 to-red-500 hover:brightness-110 text-white font-medium py-4 rounded-2xl transition">
+            Hacer test de burnout →
+          </button>
+        </div>
+      </div>
+
+      <!-- Tarjeta 3 -->
+      <div class="bg-white rounded-3xl shadow-xl overflow-hidden hover:-translate-y-3 transition-all duration-300 border border-slate-100">
+        <div class="h-2 bg-gradient-to-r from-blue-400 to-cyan-500"></div>
+        <div class="p-8">
+          <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-5xl mb-6">🧠</div>
+          <h3 class="text-2xl font-semibold text-gray-900">Test de inteligencia emocional</h3>
+          <p class="text-blue-600 text-xl font-medium mt-1">Escucha tus emociones.</p>
+          <p class="mt-6 text-gray-600">Evalúa tu capacidad para reconocer, entender y gestionar emociones.</p>
+          <button onclick="mostrarTest('test-ie')" 
+                  class="mt-10 w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:brightness-110 text-white font-medium py-4 rounded-2xl transition">
+            Hacer test de inteligencia emocional →
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================== TESTS MODALES ======================== -->
+<style>
+  .test-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); z-index: 2000; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+  .test-modal.active { display: flex; }
+  .test-content { background: white; max-width: 720px; width: 100%; border-radius: 24px; padding: 35px; box-shadow: 0 25px 70px rgba(0,0,0,0.25); position: relative; }
+  .close-btn { position: absolute; top: 20px; right: 25px; font-size: 32px; cursor: pointer; color: #888; }
+  .close-btn:hover { color: #333; }
+</style>
+
+<div id="test-autoestima" class="test-modal">
+  <div class="test-content">
+    <span class="close-btn" onclick="cerrarTest()">✕</span>
+    <h2 class="text-3xl font-bold text-pink-600 text-center">Test de Autoestima</h2>
+    <p class="text-center text-gray-600 mt-2 mb-10">Escala de Rosenberg • 10 preguntas</p>
+    <div id="preguntas-autoestima" class="space-y-9"></div>
+    <button onclick="calcularAutoestima()" class="mt-12 w-full bg-gradient-to-r from-pink-500 to-violet-600 text-white py-5 rounded-2xl text-lg font-semibold">Ver mi resultado →</button>
+  </div>
+</div>
+
+<div id="test-burnout" class="test-modal">
+  <div class="test-content">
+    <span class="close-btn" onclick="cerrarTest()">✕</span>
+    <h2 class="text-3xl font-bold text-orange-600 text-center">Test de Burnout</h2>
+    <p class="text-center text-gray-600 mt-2 mb-10">Copenhagen Burnout Inventory • 10 preguntas</p>
+    <div id="preguntas-burnout" class="space-y-9"></div>
+    <button onclick="calcularBurnout()" class="mt-12 w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-5 rounded-2xl text-lg font-semibold">Ver mi resultado →</button>
+  </div>
+</div>
+
+<div id="test-ie" class="test-modal">
+  <div class="test-content">
+    <span class="close-btn" onclick="cerrarTest()">✕</span>
+    <h2 class="text-3xl font-bold text-blue-600 text-center">Test de Inteligencia Emocional</h2>
+    <p class="text-center text-gray-600 mt-2 mb-10">Wong & Law Emotional Intelligence Scale • 16 preguntas</p>
+    <div id="preguntas-ie" class="space-y-9"></div>
+    <button onclick="calcularIE()" class="mt-12 w-full bg-gradient-to-r from-blue-500 to-cyan-600 text-white py-5 rounded-2xl text-lg font-semibold">Ver mi resultado →</button>
+  </div>
+</div>
+
+<script>
+// ==================== FUNCIONES GENERALES ====================
+function mostrarTest(id) {
+  document.querySelectorAll('.test-modal').forEach(m => m.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarTest() {
+  document.querySelectorAll('.test-modal').forEach(m => m.classList.remove('active'));
+  document.body.style.overflow = 'visible';
+}
+
+// ==================== TEST AUTOESTIMA ====================
+const preguntasAutoestima = [
+  "Me siento una persona tan valiosa como las otras.", "Generalmente me inclino a pensar que soy un fracaso.",
+  "Creo que tengo algunas cualidades buenas.", "Soy capaz de hacer las cosas tan bien como los demás.",
+  "Creo que no tengo mucho de lo que estar orgulloso.", "Tengo una actitud positiva hacia mí mismo.",
+  "En general me siento satisfecho conmigo mismo.", "Me gustaría tener más respeto por mí mismo.",
+  "Realmente me siento inútil en algunas ocasiones.", "A veces pienso que no sirvo para nada."
+];
+
+function generarPreguntasAutoestima() {
+  let html = '';
+  preguntasAutoestima.forEach((preg, i) => {
+    html += `<div><p class="font-medium mb-4">${i+1}. ${preg}</p>
+      <div class="grid grid-cols-4 gap-2 text-sm">
+        <label><input type="radio" name="a${i}" value="1"> Muy en desacuerdo</label>
+        <label><input type="radio" name="a${i}" value="2"> En desacuerdo</label>
+        <label><input type="radio" name="a${i}" value="3"> De acuerdo</label>
+        <label><input type="radio" name="a${i}" value="4"> Muy de acuerdo</label>
+      </div></div>`;
+  });
+  document.getElementById('preguntas-autoestima').innerHTML = html;
+}
+
+function calcularAutoestima() {
+  let total = 0;
+  for(let i = 0; i < 10; i++) {
+    const v = document.querySelector(`input[name="a${i}"]:checked`);
+    if(!v) return alert("Por favor responde todas las preguntas");
+    let p = parseInt(v.value);
+    if([1,4,5,8,9,10].includes(i+1)) p = 5 - p;
+    total += p;
+  }
+  let msg = total >= 30 ? "Alta autoestima" : total >= 20 ? "Autoestima normal" : "Autoestima baja";
+  alert(`Tu puntuación: ${total}/40\n\nResultado: ${msg}\n\n¡Gracias por hacer el test!`);
+  cerrarTest();
+}
+
+// Inicializar
+window.onload = () => {
+  generarPreguntasAutoestima();
+};
+</script>
+<!-- ======================== FIN TESTS ======================== -->
         <!-- ==================== SERVICIOS ==================== -->
         <section id="servicios" class="py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
