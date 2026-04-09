@@ -895,19 +895,14 @@
             }
         }
         
-        function handleRevolutCheckout() {
-            if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío.'); return; }
-            const total = getCartTotal();
-            // Formato con amount y currency para intentar precargar el monto
-            const revolutUrl = `https://revolut.me/javier47j?amount=${total.toFixed(2)}&currency=EUR`;
-            if (confirm(`💳 El monto exacto a pagar con Revolut es: €${total.toFixed(2)}\nSerás redirigido a Revolut.`)) {
-                window.open(revolutUrl, '_blank');
-                // Si no funciona la precarga, mostramos un mensaje recordatorio
-                setTimeout(() => {
-                    showNotification(`🔔 Recuerda pagar exactamente €${total.toFixed(2)} en Revolut.`);
-                }, 1500);
-            }
-        }
+       function handleRevolutCheckout() {
+    if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío.'); return; }
+    const total = getCartTotal();
+    if (confirm(`💳 El monto exacto a pagar con Revolut es: €${total.toFixed(2)}\nSerás redirigido a Revolut. Deberás introducir manualmente esta cantidad.`)) {
+        window.open('https://revolut.me/javier47j', '_blank');
+        showNotification(`🔔 Recuerda pagar exactamente €${total.toFixed(2)} en Revolut.`);
+    }
+}
         
         function handleVenezuelaWire() {
             if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío.'); return; }
