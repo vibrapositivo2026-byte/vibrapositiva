@@ -187,7 +187,7 @@
             border-color: transparent;
         }
         
-        /* Pestañas de precios (estilo uniforme) */
+        /* Pestañas de precios */
         .price-tab {
             cursor: pointer;
             padding: 0.5rem 1.5rem;
@@ -449,17 +449,15 @@
             </div>
         </section>
 
-        <!-- ==================== SERVICIOS (con selector de precios) ==================== -->
+        <!-- ==================== SERVICIOS ==================== -->
         <section id="servicios" class="py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Selector de precios -->
                 <div class="flex justify-center gap-4 mb-8">
                     <div id="price-eu" class="price-tab active">🇪🇺 Precios Europa</div>
                     <div id="price-latam" class="price-tab">🌎 Precios Latinoamérica</div>
                 </div>
                 <h2 class="section-title text-center text-2xl md:text-3xl">Cómo puedo acompañarte</h2>
                 <div class="grid md:grid-cols-3 gap-6 md:gap-8 mt-8">
-                    <!-- Tarjeta 1: Sesión diagnóstica -->
                     <div class="card p-5 md:p-6 flex flex-col" data-id-eu="serv-diagnostica-eu" data-id-latam="serv-diagnostica-latam" data-name="Sesión Diagnóstica" data-price-eu="35" data-price-latam="15">
                         <i class="fas fa-stethoscope text-amber-500 text-3xl md:text-4xl mb-3"></i>
                         <h3 class="text-xl md:text-2xl font-bold">Sesión diagnóstica</h3>
@@ -467,7 +465,6 @@
                         <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Espacio para entendernos. Identificamos tu situación actual, lo que quieres cambiar y cómo puedo acompañarte. Sin compromiso. Solo claridad.</p>
                         <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-4 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
-                    <!-- Tarjeta 2: Acompañamiento individual -->
                     <div class="card p-5 md:p-6 flex flex-col" data-id-eu="serv-individual-eu" data-id-latam="serv-individual-latam" data-name="Acompañamiento Individual" data-price-eu="45" data-price-latam="20">
                         <i class="fas fa-user-friends text-amber-500 text-3xl md:text-4xl mb-3"></i>
                         <h3 class="text-xl md:text-2xl font-bold">Acompañamiento individual</h3>
@@ -475,7 +472,6 @@
                         <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Sesiones estructuradas en las que trabajamos lo que de verdad importa. Con ejercicios prácticos y seguimiento.</p>
                         <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-4 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
-                    <!-- Tarjeta 3: Procesos personalizados -->
                     <div class="card p-5 md:p-6 flex flex-col" data-id-eu="serv-procesos-eu" data-id-latam="serv-procesos-latam" data-name="Procesos Personalizados" data-price-eu="175" data-price-latam="95">
                         <i class="fas fa-chart-line text-amber-500 text-3xl md:text-4xl mb-3"></i>
                         <h3 class="text-xl md:text-2xl font-bold">Procesos personalizados</h3>
@@ -499,17 +495,15 @@
             </div>
         </section>
 
-        <!-- ==================== OFERTAS (PLANES con selector de precios) ==================== -->
+        <!-- ==================== OFERTAS ==================== -->
         <section id="ofertas" class="py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Selector de precios -->
                 <div class="flex justify-center gap-4 mb-8">
                     <div id="price-eu2" class="price-tab active">🇪🇺 Precios Europa</div>
                     <div id="price-latam2" class="price-tab">🌎 Precios Latinoamérica</div>
                 </div>
                 <h2 class="section-title text-center text-2xl md:text-3xl">Planes para acompañarte</h2>
                 <div class="grid md:grid-cols-3 gap-6 md:gap-8 mt-8">
-                    <!-- Plan 1 -->
                     <div class="card p-5 md:p-6 border-t-4 border-amber-500 flex flex-col" data-id-eu="plan-conocer-eu" data-id-latam="plan-conocer-latam" data-name="Plan Conocer + Comenzar" data-price-eu="215" data-price-latam="95">
                         <h3 class="text-lg md:text-xl font-bold">Conocer + Comenzar</h3>
                         <p class="text-2xl font-bold text-amber-600 my-2"><span class="price-eu">€215</span><span class="price-latam hidden">€95</span></p>
@@ -521,7 +515,6 @@
                         </ul>
                         <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-6 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
-                    <!-- Plan 2 -->
                     <div class="card p-5 md:p-6 border-t-4 border-amber-500 flex flex-col" data-id-eu="plan-transformacion-eu" data-id-latam="plan-transformacion-latam" data-name="Plan Transformación Completa" data-price-eu="635" data-price-latam="160">
                         <h3 class="text-lg md:text-xl font-bold">Transformación completa</h3>
                         <p class="text-2xl font-bold text-amber-600 my-2"><span class="price-eu">€635</span><span class="price-latam hidden">€160</span></p>
@@ -533,7 +526,6 @@
                         </ul>
                         <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-6 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
-                    <!-- Plan 3 -->
                     <div class="card p-5 md:p-6 border-t-4 border-amber-500 flex flex-col" data-id-eu="plan-liberacion-eu" data-id-latam="plan-liberacion-latam" data-name="Plan Liberación Sostenible" data-price-eu="545" data-price-latam="240">
                         <h3 class="text-lg md:text-xl font-bold">Liberación sostenible</h3>
                         <p class="text-2xl font-bold text-amber-600 my-2"><span class="price-eu">€545</span><span class="price-latam hidden">€240</span></p>
@@ -618,12 +610,8 @@
                     <div><img src="foto-perfil.png" alt="VIBRAPOSITIVO" class="rounded-2xl shadow-xl w-full max-w-md mx-auto"></div>
                     <div>
                         <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Por qué hago esto</h2>
-                        <p class="text-gray-700 mb-4 text-sm md:text-base">
-                            Hace años, yo también estaba ahí. Funcionaba perfectamente: iba al trabajo, tenía relaciones, me movía por la vida. Pero no vibraba. Pasé años buscando "la solución" en lugares equivocados, hasta que entendí algo: lo que me faltaba no era más información, sino conexión conmigo mismo. Desde ese momento, cambió todo.
-                        </p>
-                        <p class="text-gray-700 mb-4 text-sm md:text-base">
-                            Decidí que esa intuición necesitaba una base sólida y científica. Por eso, me formé como Experto Universitario en Psicología Positiva por el IEPP. No lo hice para "arreglarme", sino para entender que la ansiedad y el estrés son mensajes, no enemigos. Hoy, utilizo esa misma metodología de 500 horas de especialización técnica para ayudarte a descubrir las fortalezas que siempre han estado ahí, pero que aún no has aprendido a mirar.
-                        </p>
+                        <p class="text-gray-700 mb-4 text-sm md:text-base">Hace años, yo también estaba ahí. Funcionaba perfectamente: iba al trabajo, tenía relaciones, me movía por la vida. Pero no vibraba. Pasé años buscando "la solución" en lugares equivocados, hasta que entendí algo: lo que me faltaba no era más información, sino conexión conmigo mismo. Desde ese momento, cambió todo.</p>
+                        <p class="text-gray-700 mb-4 text-sm md:text-base">Decidí que esa intuición necesitaba una base sólida y científica. Por eso, me formé como Experto Universitario en Psicología Positiva por el IEPP. No lo hice para "arreglarme", sino para entender que la ansiedad y el estrés son mensajes, no enemigos. Hoy, utilizo esa misma metodología de 500 horas de especialización técnica para ayudarte a descubrir las fortalezas que siempre han estado ahí, pero que aún no has aprendido a mirar.</p>
                         <div class="flex flex-wrap gap-3 mt-6">
                             <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs md:text-sm">Experto en Psicología Positiva</span>
                             <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs md:text-sm">Especialista en Gestión de Estrés</span>
@@ -681,9 +669,8 @@
     </main>
 
     <script>
-        // ==================== CAMBIO DE PRECIOS ENTRE EUROPA Y LATAM ====================
+        // ==================== CAMBIO DE PRECIOS ====================
         let currentRegion = 'eu';
-
         function setRegion(region) {
             currentRegion = region;
             const isEu = region === 'eu';
@@ -694,7 +681,6 @@
             tabsEu.forEach(tab => tab.classList.toggle('active', isEu));
             tabsLatam.forEach(tab => tab.classList.toggle('active', !isEu));
         }
-
         document.getElementById('price-eu').addEventListener('click', () => setRegion('eu'));
         document.getElementById('price-latam').addEventListener('click', () => setRegion('latam'));
         document.getElementById('price-eu2').addEventListener('click', () => setRegion('eu'));
@@ -778,40 +764,25 @@
         document.getElementById('closeModalBtn').addEventListener('click', closeModal);
         window.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
         
-        // Lógica de checkboxes mutuos
+        // Lógica de checkboxes
         const ningunaCheck = document.getElementById('ninguna');
         const otrosChecks = document.querySelectorAll('#depresion, #ansiedad, #panico, #bipolar, #tpl, #tdah, #toc, #tca, #psicosis, #suicidio, #autolesiones, #otro');
-        function actualizarNinguna() {
-            if (ningunaCheck.checked) {
-                otrosChecks.forEach(cb => cb.checked = false);
-            }
-        }
-        function actualizarOtros() {
-            if (ningunaCheck.checked) {
-                ningunaCheck.checked = false;
-            }
-        }
+        function actualizarNinguna() { if (ningunaCheck.checked) otrosChecks.forEach(cb => cb.checked = false); }
+        function actualizarOtros() { if (ningunaCheck.checked) ningunaCheck.checked = false; }
         if (ningunaCheck) {
             ningunaCheck.addEventListener('change', actualizarNinguna);
             otrosChecks.forEach(cb => cb.addEventListener('change', actualizarOtros));
         }
         
-        // Formulario recurrente
+        // Cliente recurrente
         const recurrenteBtn = document.getElementById('recurrenteBtn');
         const recurrenteFormDiv = document.getElementById('recurrenteForm');
-        if (recurrenteBtn) {
-            recurrenteBtn.addEventListener('click', () => {
-                recurrenteFormDiv.classList.toggle('hidden');
-            });
-        }
+        if (recurrenteBtn) recurrenteBtn.addEventListener('click', () => recurrenteFormDiv.classList.toggle('hidden'));
         const agendarRecurrente = document.getElementById('agendarRecurrenteBtn');
         if (agendarRecurrente) {
             agendarRecurrente.addEventListener('click', () => {
                 const email = document.getElementById('recurrenteEmail').value;
-                if (!email) {
-                    alert('Por favor, ingresa tu email.');
-                    return;
-                }
+                if (!email) { alert('Por favor, ingresa tu email.'); return; }
                 window.open('https://calendar.app.google/cJyW4weeZRJmbwde6', '_blank');
                 showNotification('🔔 Redirigiendo a Google Calendar para agendar tu sesión.');
                 closeModal();
@@ -828,7 +799,6 @@
             if (medicacion === 'si') return false;
             return true;
         }
-        
         if (form) {
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -864,23 +834,32 @@
         }
         document.querySelectorAll('#reservaDiagnosticaBtn, #reservaDiagnosticaBtn2, #reservaDiagnosticaBtn3, #empecemosConectarBtn').forEach(btn => btn.addEventListener('click', handleReservaDiagnostica));
         
-        // ==================== PAGOS ====================
+        // ==================== PAGOS CORREGIDOS ====================
         function openCartSidebar() { document.getElementById('cart-sidebar').classList.add('open'); document.getElementById('cart-overlay').classList.add('open'); }
         function closeCartSidebar() { document.getElementById('cart-sidebar').classList.remove('open'); document.getElementById('cart-overlay').classList.remove('open'); }
         
+        // PayPal: usa PayPal.Me con monto (ejemplo: https://paypal.me/JavierAyala168/45)
+        // Si no tienes PayPal.Me, se muestra un mensaje con el correo.
         function handlePayPalCheckout() {
             if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío.'); return; }
             const total = getCartTotal();
+            // CAMBIA ESTE ENLACE POR TU PROPIO PAYPAL.ME
+            paypal.me/JavierAyala168 = `https://paypal.me/JavierAyala168/${total.toFixed(2)}`;
             if (confirm(`💰 El monto total a pagar con PayPal es: €${total.toFixed(2)}\n¿Deseas continuar?`)) {
-                const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=JavierAyala168@paypal.com&amount=${total.toFixed(2)}&currency_code=EUR&item_name=Compra%20en%20Vibrapositivo&no_shipping=1&no_note=1&rm=2`;
-                window.open(paypalUrl, '_blank');
+                window.open(paypalMeUrl, '_blank');
+                // Si el enlace no funciona, muestra el correo alternativo
+                setTimeout(() => {
+                    showNotification(`Si el enlace no abre, paga manualmente a JavierAyala168@paypal.com por el monto de €${total.toFixed(2)}`);
+                }, 1000);
             }
         }
         
+        // Revolut: usa parámetros de monto en la URL
         function handleRevolutCheckout() {
             if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío.'); return; }
             const total = getCartTotal();
-            const revolutUrl = `https://revolut.me/javier47j/${total.toFixed(2)}-eur`;
+            // Formato correcto para Revolut.me con monto y moneda
+            const revolutUrl = `https://revolut.me/javier47j?amount=${total.toFixed(2)}&currency=EUR`;
             if (confirm(`💳 El monto exacto a pagar con Revolut es: €${total.toFixed(2)}\nSerás redirigido a Revolut con el monto precargado.`)) {
                 window.open(revolutUrl, '_blank');
                 showNotification(`🔔 Se abrirá Revolut con el monto de €${total.toFixed(2)}.`);
