@@ -458,6 +458,7 @@
                 </div>
                 <h2 class="section-title text-center text-2xl md:text-3xl">Cómo puedo acompañarte</h2>
                 <div class="grid md:grid-cols-3 gap-6 md:gap-8 mt-8">
+                    <!-- Tarjeta 1: Sesión diagnóstica -->
                     <div class="card p-5 md:p-6 flex flex-col" data-id-eu="serv-diagnostica-eu" data-id-latam="serv-diagnostica-latam" data-name="Sesión Diagnóstica" data-price-eu="35" data-price-latam="15">
                         <i class="fas fa-stethoscope text-amber-500 text-3xl md:text-4xl mb-3"></i>
                         <h3 class="text-xl md:text-2xl font-bold">Sesión diagnóstica</h3>
@@ -465,6 +466,7 @@
                         <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Espacio para entendernos. Identificamos tu situación actual, lo que quieres cambiar y cómo puedo acompañarte. Sin compromiso. Solo claridad.</p>
                         <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-4 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
+                    <!-- Tarjeta 2: Acompañamiento individual -->
                     <div class="card p-5 md:p-6 flex flex-col" data-id-eu="serv-individual-eu" data-id-latam="serv-individual-latam" data-name="Acompañamiento Individual" data-price-eu="45" data-price-latam="20">
                         <i class="fas fa-user-friends text-amber-500 text-3xl md:text-4xl mb-3"></i>
                         <h3 class="text-xl md:text-2xl font-bold">Acompañamiento individual</h3>
@@ -472,6 +474,7 @@
                         <p class="text-gray-600 mt-3 flex-grow text-sm md:text-base">Sesiones estructuradas en las que trabajamos lo que de verdad importa. Con ejercicios prácticos y seguimiento.</p>
                         <button class="add-to-cart-btn w-full bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold py-2 rounded-full mt-4 transition flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
                     </div>
+                    <!-- Tarjeta 3: Procesos personalizados -->
                     <div class="card p-5 md:p-6 flex flex-col" data-id-eu="serv-procesos-eu" data-id-latam="serv-procesos-latam" data-name="Procesos Personalizados" data-price-eu="175" data-price-latam="95">
                         <i class="fas fa-chart-line text-amber-500 text-3xl md:text-4xl mb-3"></i>
                         <h3 class="text-xl md:text-2xl font-bold">Procesos personalizados</h3>
@@ -690,28 +693,47 @@
         let cart = [];
         let pendingAction = null;
 
-        function loadCart() { const stored = localStorage.getItem('vibrapositivo_cart'); cart = stored ? JSON.parse(stored) : []; updateCartDisplay(); }
-        function saveCart() { localStorage.setItem('vibrapositivo_cart', JSON.stringify(cart)); }
+        function loadCart() { 
+            const stored = localStorage.getItem('vibrapositivo_cart'); 
+            cart = stored ? JSON.parse(stored) : []; 
+            updateCartDisplay(); 
+        }
+        function saveCart() { 
+            localStorage.setItem('vibrapositivo_cart', JSON.stringify(cart)); 
+        }
         function addToCart(product) {
             const existing = cart.find(item => item.id === product.id);
             if (existing) existing.quantity += 1;
             else cart.push({ id: product.id, name: product.name, price: product.price, quantity: 1 });
-            saveCart(); updateCartDisplay(); showNotification(`✅ "${product.name}" añadido al carrito`);
+            saveCart(); 
+            updateCartDisplay(); 
+            showNotification(`✅ "${product.name}" añadido al carrito`);
         }
         function removeFromCart(productId) {
             const index = cart.findIndex(item => item.id === productId);
-            if (index !== -1) { const removed = cart[index]; cart.splice(index,1); saveCart(); updateCartDisplay(); showNotification(`❌ "${removed.name}" eliminado`); }
+            if (index !== -1) { 
+                const removed = cart[index]; 
+                cart.splice(index,1); 
+                saveCart(); 
+                updateCartDisplay(); 
+                showNotification(`❌ "${removed.name}" eliminado`); 
+            }
         }
         function updateQuantity(productId, newQty) {
             if (newQty < 1) { removeFromCart(productId); return; }
             const item = cart.find(i => i.id === productId);
             if (item) { item.quantity = newQty; saveCart(); updateCartDisplay(); }
         }
-        function getCartTotal() { return cart.reduce((sum,i) => sum + (i.price * i.quantity), 0); }
+        function getCartTotal() { 
+            return cart.reduce((sum,i) => sum + (i.price * i.quantity), 0); 
+        }
         function renderCartItems() {
             const container = document.getElementById('cart-items-container');
             if (!container) return;
-            if (cart.length === 0) { container.innerHTML = '<div class="text-center text-gray-500 py-8">Tu carrito está vacío.</div>'; return; }
+            if (cart.length === 0) { 
+                container.innerHTML = '<div class="text-center text-gray-500 py-8">Tu carrito está vacío.</div>'; 
+                return; 
+            }
             container.innerHTML = '';
             cart.forEach(item => {
                 const div = document.createElement('div');
@@ -733,8 +755,16 @@
             document.getElementById('cart-total').textContent = `€${total.toFixed(2)}`;
             renderCartItems();
         }
-        function showNotification(msg) { const n=document.createElement('div'); n.className='fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm'; n.textContent=msg; document.body.appendChild(n); setTimeout(()=>n.remove(),2000); }
-        function escapeHtml(str) { return str.replace(/[&<>]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+        function showNotification(msg) { 
+            const n=document.createElement('div'); 
+            n.className='fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm'; 
+            n.textContent=msg; 
+            document.body.appendChild(n); 
+            setTimeout(()=>n.remove(),3000); 
+        }
+        function escapeHtml(str) { 
+            return str.replace(/[&<>]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); 
+        }
         
         function bindAddToCartEvents() {
             document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
@@ -742,6 +772,7 @@
                 btn.addEventListener('click', addToCartHandler);
             });
         }
+        
         function addToCartHandler(e) {
             e.preventDefault();
             const btn = e.currentTarget;
@@ -757,24 +788,24 @@
             }
         }
         
-        // Modal fullscreen
         const modal = document.getElementById('preCheckModal');
-        function openModal() { modal.classList.add('open'); document.body.style.overflow = 'hidden'; }
-        function closeModal() { modal.classList.remove('open'); document.body.style.overflow = ''; }
-        document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+        function openModal() { if (modal) { modal.classList.add('open'); document.body.style.overflow = 'hidden'; } }
+        function closeModal() { if (modal) { modal.classList.remove('open'); document.body.style.overflow = ''; } }
+        const closeBtn = document.getElementById('closeModalBtn');
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
         window.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
         
-        // Lógica de checkboxes
+        // Checkboxes
         const ningunaCheck = document.getElementById('ninguna');
         const otrosChecks = document.querySelectorAll('#depresion, #ansiedad, #panico, #bipolar, #tpl, #tdah, #toc, #tca, #psicosis, #suicidio, #autolesiones, #otro');
-        function actualizarNinguna() { if (ningunaCheck.checked) otrosChecks.forEach(cb => cb.checked = false); }
-        function actualizarOtros() { if (ningunaCheck.checked) ningunaCheck.checked = false; }
+        function actualizarNinguna() { if (ningunaCheck && ningunaCheck.checked) otrosChecks.forEach(cb => cb.checked = false); }
+        function actualizarOtros() { if (ningunaCheck && ningunaCheck.checked) ningunaCheck.checked = false; }
         if (ningunaCheck) {
             ningunaCheck.addEventListener('change', actualizarNinguna);
             otrosChecks.forEach(cb => cb.addEventListener('change', actualizarOtros));
         }
         
-        // Cliente recurrente
+        // Recurrente
         const recurrenteBtn = document.getElementById('recurrenteBtn');
         const recurrenteFormDiv = document.getElementById('recurrenteForm');
         if (recurrenteBtn) recurrenteBtn.addEventListener('click', () => recurrenteFormDiv.classList.toggle('hidden'));
@@ -786,10 +817,11 @@
                 window.open('https://calendar.app.google/cJyW4weeZRJmbwde6', '_blank');
                 showNotification('🔔 Redirigiendo a Google Calendar para agendar tu sesión.');
                 closeModal();
+                pendingAction = null;
             });
         }
         
-        // Filtro de idoneidad
+        // Filtro idoneidad
         const form = document.getElementById('preCheckForm');
         function isApto(condiciones, tratamiento, medicacion) {
             const graves = ['Depresión mayor diagnosticada', 'Trastorno bipolar', 'Trastorno límite de la personalidad (TLP)', 'Psicosis o esquizofrenia', 'Ideación suicida activa o pasiva', 'Autolesiones'];
@@ -820,45 +852,52 @@
                 try {
                     const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
                     if (response.ok) {
-                        alert('¡Formulario enviado correctamente! Ahora procederemos con la reserva.');
+                        alert('¡Formulario enviado correctamente!');
                         if (pendingAction) { pendingAction(); pendingAction = null; }
                         closeModal();
-                    } else { alert('Error al enviar el formulario. Inténtalo de nuevo.'); }
-                } catch (err) { alert('Error de conexión. Por favor, intenta más tarde.'); }
+                    } else {
+                        alert('Error al enviar el formulario. Inténtalo de nuevo.');
+                    }
+                } catch (err) {
+                    alert('Error de conexión. Por favor, intenta más tarde.');
+                }
             });
         }
         
         function handleReservaDiagnostica() {
-            pendingAction = () => { window.open('https://calendar.app.google/cJyW4weeZRJmbwde6', '_blank'); showNotification('🔔 Redirigiendo a Google Calendar para agendar tu sesión.'); };
+            pendingAction = () => { 
+                window.open('https://calendar.app.google/cJyW4weeZRJmbwde6', '_blank'); 
+                showNotification('🔔 Redirigiendo a Google Calendar para agendar tu sesión.');
+            };
             openModal();
         }
         document.querySelectorAll('#reservaDiagnosticaBtn, #reservaDiagnosticaBtn2, #reservaDiagnosticaBtn3, #empecemosConectarBtn').forEach(btn => btn.addEventListener('click', handleReservaDiagnostica));
         
-        // ==================== PAGOS CORREGIDOS ====================
-        function openCartSidebar() { document.getElementById('cart-sidebar').classList.add('open'); document.getElementById('cart-overlay').classList.add('open'); }
-        function closeCartSidebar() { document.getElementById('cart-sidebar').classList.remove('open'); document.getElementById('cart-overlay').classList.remove('open'); }
+        // Pagos
+        function openCartSidebar() { 
+            document.getElementById('cart-sidebar').classList.add('open'); 
+            document.getElementById('cart-overlay').classList.add('open'); 
+        }
+        function closeCartSidebar() { 
+            document.getElementById('cart-sidebar').classList.remove('open'); 
+            document.getElementById('cart-overlay').classList.remove('open'); 
+        }
         
-        // PayPal: usa PayPal.Me con monto (ejemplo: https://paypal.me/JavierAyala168/45)
-        // Si no tienes PayPal.Me, se muestra un mensaje con el correo.
         function handlePayPalCheckout() {
             if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío.'); return; }
             const total = getCartTotal();
-            // CAMBIA ESTE ENLACE POR TU PROPIO PAYPAL.ME
-            paypal.me/JavierAyala168 = `https://paypal.me/JavierAyala168/${total.toFixed(2)}`;
+            const paypalUrl = `https://paypal.me/JavierAyala168/${total.toFixed(2)}`;
             if (confirm(`💰 El monto total a pagar con PayPal es: €${total.toFixed(2)}\n¿Deseas continuar?`)) {
-                window.open(paypalMeUrl, '_blank');
-                // Si el enlace no funciona, muestra el correo alternativo
+                window.open(paypalUrl, '_blank');
                 setTimeout(() => {
-                    showNotification(`Si el enlace no abre, paga manualmente a JavierAyala168@paypal.com por el monto de €${total.toFixed(2)}`);
+                    showNotification(`Si no se abre, usa el enlace manual: ${paypalUrl}`);
                 }, 1000);
             }
         }
         
-        // Revolut: usa parámetros de monto en la URL
         function handleRevolutCheckout() {
             if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío.'); return; }
             const total = getCartTotal();
-            // Formato correcto para Revolut.me con monto y moneda
             const revolutUrl = `https://revolut.me/javier47j?amount=${total.toFixed(2)}&currency=EUR`;
             if (confirm(`💳 El monto exacto a pagar con Revolut es: €${total.toFixed(2)}\nSerás redirigido a Revolut con el monto precargado.`)) {
                 window.open(revolutUrl, '_blank');
@@ -892,7 +931,8 @@
         }
         
         document.addEventListener('DOMContentLoaded', () => {
-            loadCart(); bindAddToCartEvents();
+            loadCart(); 
+            bindAddToCartEvents();
             document.getElementById('cart-icon-btn').addEventListener('click', openCartSidebar);
             document.getElementById('close-cart-btn').addEventListener('click', closeCartSidebar);
             document.getElementById('cart-overlay').addEventListener('click', closeCartSidebar);
