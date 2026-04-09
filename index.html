@@ -215,7 +215,6 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center nav-container" style="min-height: 5rem;">
                 <div class="flex items-center space-x-3 flex-shrink-0">
-                    <!-- LOGO DESDE LA RAÍZ -->
                     <img src="logo.png" alt="VIBRAPOSITIVO" class="logo-img" style="background: transparent;">
                     <div class="hidden sm:block nav-text">
                         <div class="text-lg md:text-xl font-bold text-amber-700 leading-tight">VIBRAPOSITIVO</div>
@@ -268,7 +267,7 @@
             <form id="preCheckForm" action="https://api.web3forms.com/submit" method="POST">
                 <input type="hidden" name="access_key" value="6cef22bf-2b7e-43a8-8ab8-15d2144795a8">
                 <input type="hidden" name="_subject" value="Nuevo cliente - Cuestionario de idoneidad">
-                <input type="hidden" name="_replyto" value="contacto@vibrapositivo.org">
+                <input type="hidden" name="_replyto" value="vibrapositivo2026@gmail.com">
                 
                 <div class="mb-4">
                     <label for="nombre" class="block font-semibold mb-1">Nombre completo</label>
@@ -588,7 +587,7 @@
                         <h3 class="font-bold text-lg md:text-xl mb-4">Reserva tu sesión ahora</h3>
                         <p class="mb-4 text-sm md:text-base">Haz clic en el botón para agendar directamente en Google Calendar.</p>
                         <button id="reservaDiagnosticaBtn2" class="btn-primary w-full py-3 rounded-full font-bold inline-block text-center">Reservar mi sesión diagnóstica</button>
-                        <p class="text-center text-xs md:text-sm text-gray-500 mt-4">¿Tienes dudas? Escríbeme a <a href="mailto:contacto@vibrapositivo.org" class="text-amber-600">contacto@vibrapositivo.org</a></p>
+                        <p class="text-center text-xs md:text-sm text-gray-500 mt-4">¿Tienes dudas? Escríbeme a <a href="mailto:vibrapositivo2026@gmail.com" class="text-amber-600">vibrapositivo2026@gmail.com</a></p>
                     </div>
                 </div>
             </div>
@@ -611,7 +610,6 @@
         <section id="sobre-mi" class="py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-                    <!-- FOTO DE PERFIL DESDE LA RAÍZ -->
                     <div><img src="foto-perfil.png" alt="VIBRAPOSITIVO" class="rounded-2xl shadow-xl w-full max-w-md mx-auto"></div>
                     <div>
                         <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Por qué hago esto</h2>
@@ -644,8 +642,8 @@
                     <div class="card p-6 flex flex-col items-center">
                         <i class="fas fa-envelope text-5xl text-amber-500 mb-4"></i>
                         <h3 class="text-xl font-bold mb-2">Correo electrónico</h3>
-                        <p class="text-gray-600 mb-4">contacto@vibrapositivo.org</p>
-                        <a href="mailto:contacto@vibrapositivo.org" class="btn-secondary inline-flex items-center gap-2 px-5 py-2 rounded-full">
+                        <p class="text-gray-600 mb-4">vibrapositivo2026@gmail.com</p>
+                        <a href="mailto:vibrapositivo2026@gmail.com" class="btn-secondary inline-flex items-center gap-2 px-5 py-2 rounded-full">
                             <i class="fas fa-envelope"></i> Enviar email
                         </a>
                     </div>
@@ -875,7 +873,7 @@
         }
         document.querySelectorAll('#reservaDiagnosticaBtn, #reservaDiagnosticaBtn2, #reservaDiagnosticaBtn3, #empecemosConectarBtn').forEach(btn => btn.addEventListener('click', handleReservaDiagnostica));
         
-        // Pagos
+        // ==================== PAGOS ====================
         function openCartSidebar() { 
             document.getElementById('cart-sidebar').classList.add('open'); 
             document.getElementById('cart-overlay').classList.add('open'); 
@@ -900,9 +898,14 @@
         function handleRevolutCheckout() {
             if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío.'); return; }
             const total = getCartTotal();
-            if (confirm(`💳 El monto exacto a pagar con Revolut es: €${total.toFixed(2)}\nSerás redirigido a Revolut. Deberás introducir manualmente esta cantidad.`)) {
-                window.open('https://revolut.me/javier47j', '_blank');
-                showNotification(`🔔 Recuerda pagar exactamente €${total.toFixed(2)} en Revolut.`);
+            // Formato con amount y currency para intentar precargar el monto
+            const revolutUrl = `https://revolut.me/javier47j?amount=${total.toFixed(2)}&currency=EUR`;
+            if (confirm(`💳 El monto exacto a pagar con Revolut es: €${total.toFixed(2)}\nSerás redirigido a Revolut.`)) {
+                window.open(revolutUrl, '_blank');
+                // Si no funciona la precarga, mostramos un mensaje recordatorio
+                setTimeout(() => {
+                    showNotification(`🔔 Recuerda pagar exactamente €${total.toFixed(2)} en Revolut.`);
+                }, 1500);
             }
         }
         
