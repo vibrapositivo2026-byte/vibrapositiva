@@ -46,11 +46,16 @@
         }
         .cart-overlay.open { display: block; }
         
-        /* ===== LOGO ENORME EN EL NAVBAR ===== */
+        /* ===== LOGO ENORME Y TRANSPARENTE ===== */
         .logo-img {
             height: auto;
             width: auto;
             max-height: 130px;
+            background: transparent !important;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        .nav-container {
+            background: transparent;
         }
         @media (max-width: 768px) {
             .nav-container { min-height: 150px !important; }
@@ -91,59 +96,88 @@
             transition: transform 0.05s;
         }
 
-        /* Estilos del modal del formulario */
-        .modal {
+        /* Modal de pantalla completa (popup) */
+        .modal-fullscreen {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal.open { display: flex; }
-        .modal-content {
             background: white;
-            max-width: 550px;
-            width: 90%;
-            border-radius: 1rem;
-            max-height: 90vh;
+            z-index: 2000;
             overflow-y: auto;
+            padding: 2rem 1rem;
+        }
+        .modal-fullscreen.open {
+            display: block;
+        }
+        .modal-fullscreen .modal-content {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 1rem;
             padding: 1.5rem;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.1);
         }
-        .form-group { margin-bottom: 1rem; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 0.25rem; }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ccc;
-            border-radius: 0.5rem;
-        }
-        .form-group.checkbox { display: flex; align-items: center; gap: 0.5rem; }
-        .form-group.checkbox input { width: auto; }
-        hr { margin: 1rem 0; }
-
-        /* Pestañas de precios (estilo uniforme) */
-        .price-tab {
+        .close-fullscreen {
+            position: sticky;
+            top: 1rem;
+            float: right;
+            font-size: 2rem;
             cursor: pointer;
-            padding: 0.5rem 1.5rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            transition: all 0.2s;
+            background: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 10;
         }
-        .price-tab.active {
-            background-color: #f59e0b;
-            color: white;
+        
+        /* Espaciado para condiciones */
+        .condiciones-title {
+            margin-bottom: 1rem;
         }
-        .price-tab:not(.active) {
-            background-color: #fef3c7;
-            color: #b45309;
+        .checkbox-group {
+            margin-bottom: 0.75rem;
         }
-        .price-tab:not(.active):hover {
-            background-color: #fde68a;
+        
+        /* Dropdown con flecha */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1rem;
+            padding-right: 2rem;
+        }
+        
+        /* Radio buttons en línea */
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            margin-top: 0.25rem;
+        }
+        .radio-group label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: normal;
+        }
+        
+        /* Formulario recurrente simplificado */
+        .recurrent-form {
+            background: #fef3c7;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -154,7 +188,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center nav-container" style="min-height: 5rem;">
                 <div class="flex items-center space-x-3 flex-shrink-0">
-                    <img src="logo.jpg" alt="VIBRAPOSITIVO" class="logo-img">
+                    <img src="logo.jpg" alt="VIBRAPOSITIVO" class="logo-img" style="background: transparent;">
                     <div class="hidden sm:block nav-text">
                         <div class="text-lg md:text-xl font-bold text-amber-700 leading-tight">VIBRAPOSITIVO</div>
                         <div class="text-xs text-amber-600">Especialista en bienestar, fortalezas y cambio personal</div>
@@ -189,14 +223,23 @@
         </div>
     </nav>
 
-    <!-- ==================== MODAL DEL FORMULARIO DE PRE-CONSULTA (WEB3FORMS) ==================== -->
-    <div id="preCheckModal" class="modal">
+    <!-- ==================== MODAL FULLSCREEN DEL FORMULARIO DE PRE-CONSULTA ==================== -->
+    <div id="preCheckModal" class="modal-fullscreen">
+        <div class="close-fullscreen" id="closeModalBtn">&times;</div>
         <div class="modal-content">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold text-gray-800">Cuestionario de idoneidad</h2>
-                <button id="closeModalBtn" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
-            </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Cuestionario de idoneidad</h2>
             <p class="mb-4 text-sm text-gray-600">Para garantizar que el acompañamiento es adecuado para ti, necesitamos conocer algunos aspectos de tu salud. Toda la información es confidencial.</p>
+            
+            <!-- Botón para clientes recurrentes -->
+            <div class="recurrent-form">
+                <p class="font-semibold mb-2">⚡ ¿Ya eres cliente recurrente?</p>
+                <button id="recurrenteBtn" class="btn-secondary text-sm py-1 px-3 rounded-full">Agendar directamente (solo email)</button>
+                <div id="recurrenteForm" class="hidden mt-3">
+                    <input type="email" id="recurrenteEmail" placeholder="Tu email registrado" class="w-full p-2 border rounded-lg mb-2">
+                    <button id="agendarRecurrenteBtn" class="btn-primary w-full py-2 rounded-full text-sm">Agendar sesión</button>
+                </div>
+            </div>
+            
             <form id="preCheckForm" action="https://api.web3forms.com/submit" method="POST">
                 <input type="hidden" name="access_key" value="6cef22bf-2b7e-43a8-8ab8-15d2144795a8">
                 <input type="hidden" name="_subject" value="Nuevo cliente - Cuestionario de idoneidad">
@@ -216,33 +259,47 @@
                 </div>
                 
                 <hr>
-                <p class="font-semibold">Condiciones de salud mental (marca las que apliquen):</p>
-                <div class="form-group checkbox"><input type="checkbox" id="depresion" name="condiciones" value="Depresión mayor diagnosticada"><label for="depresion">Depresión mayor (diagnosticada)</label></div>
-                <div class="form-group checkbox"><input type="checkbox" id="ansiedad" name="condiciones" value="Trastorno de ansiedad generalizada"><label for="ansiedad">Trastorno de ansiedad generalizada</label></div>
-                <div class="form-group checkbox"><input type="checkbox" id="panico" name="condiciones" value="Trastorno de pánico"><label for="panico">Trastorno de pánico</label></div>
-                <div class="form-group checkbox"><input type="checkbox" id="bipolar" name="condiciones" value="Trastorno bipolar"><label for="bipolar">Trastorno bipolar</label></div>
-                <div class="form-group checkbox"><input type="checkbox" id="tpl" name="condiciones" value="Trastorno límite de la personalidad (TLP)"><label for="tpl">Trastorno límite de la personalidad (TLP)</label></div>
-                <div class="form-group checkbox"><input type="checkbox" id="tdah" name="condiciones" value="TDAH"><label for="tdah">TDAH</label></div>
-                <div class="form-group checkbox"><input type="checkbox" id="toc" name="condiciones" value="Trastorno obsesivo-compulsivo (TOC)"><label for="toc">Trastorno obsesivo-compulsivo (TOC)</label></div>
-                <div class="form-group checkbox"><input type="checkbox" id="tca" name="condiciones" value="Trastorno de la conducta alimentaria"><label for="tca">Trastorno de la conducta alimentaria</label></div>
-                <div class="form-group checkbox"><input type="checkbox" id="psicosis" name="condiciones" value="Psicosis o esquizofrenia"><label for="psicosis">Psicosis o esquizofrenia</label></div>
-                <div class="form-group checkbox"><input type="checkbox" id="suicidio" name="condiciones" value="Ideación suicida activa o pasiva"><label for="suicidio">Ideación suicida (activa o pasiva)</label></div>
-                <div class="form-group checkbox"><input type="checkbox" id="autolesiones" name="condiciones" value="Autolesiones"><label for="autolesiones">Autolesiones</label></div>
-                <div class="form-group checkbox"><input type="checkbox" id="otro" name="condiciones" value="Otro trastorno clínico"><label for="otro">Otro trastorno clínico (especificar abajo)</label></div>
+                <p class="font-semibold condiciones-title">Condiciones de salud mental (marca las que apliquen):</p>
+                <div class="checkbox-group"><input type="checkbox" id="ninguna" name="condiciones" value="Ninguna condición diagnosticada"><label for="ninguna">No tengo ninguna condición diagnosticada</label></div>
+                <div class="checkbox-group"><input type="checkbox" id="depresion" name="condiciones" value="Depresión mayor diagnosticada"><label for="depresion">Depresión mayor (diagnosticada)</label></div>
+                <div class="checkbox-group"><input type="checkbox" id="ansiedad" name="condiciones" value="Trastorno de ansiedad generalizada"><label for="ansiedad">Trastorno de ansiedad generalizada</label></div>
+                <div class="checkbox-group"><input type="checkbox" id="panico" name="condiciones" value="Trastorno de pánico"><label for="panico">Trastorno de pánico</label></div>
+                <div class="checkbox-group"><input type="checkbox" id="bipolar" name="condiciones" value="Trastorno bipolar"><label for="bipolar">Trastorno bipolar</label></div>
+                <div class="checkbox-group"><input type="checkbox" id="tpl" name="condiciones" value="Trastorno límite de la personalidad (TLP)"><label for="tpl">Trastorno límite de la personalidad (TLP)</label></div>
+                <div class="checkbox-group"><input type="checkbox" id="tdah" name="condiciones" value="TDAH"><label for="tdah">TDAH</label></div>
+                <div class="checkbox-group"><input type="checkbox" id="toc" name="condiciones" value="Trastorno obsesivo-compulsivo (TOC)"><label for="toc">Trastorno obsesivo-compulsivo (TOC)</label></div>
+                <div class="checkbox-group"><input type="checkbox" id="tca" name="condiciones" value="Trastorno de la conducta alimentaria"><label for="tca">Trastorno de la conducta alimentaria</label></div>
+                <div class="checkbox-group"><input type="checkbox" id="psicosis" name="condiciones" value="Psicosis o esquizofrenia"><label for="psicosis">Psicosis o esquizofrenia</label></div>
+                <div class="checkbox-group"><input type="checkbox" id="suicidio" name="condiciones" value="Ideación suicida activa o pasiva"><label for="suicidio">Ideación suicida (activa o pasiva)</label></div>
+                <div class="checkbox-group"><input type="checkbox" id="autolesiones" name="condiciones" value="Autolesiones"><label for="autolesiones">Autolesiones</label></div>
+                <div class="checkbox-group"><input type="checkbox" id="otro" name="condiciones" value="Otro trastorno clínico"><label for="otro">Otro trastorno clínico (especificar abajo)</label></div>
                 <div class="form-group"><label for="otro_texto">Si marcaste "otro", especifica:</label><textarea id="otro_texto" name="otro_texto" rows="2"></textarea></div>
                 
                 <hr>
-                <div class="form-group"><label for="tratamiento">¿Actualmente estás en tratamiento psicológico o psiquiátrico?</label><select id="tratamiento" name="tratamiento"><option value="ninguno">Ninguno</option><option value="psicologo">Psicólogo</option><option value="psiquiatra">Psiquiatra</option><option value="ambos">Ambos</option></select></div>
-                <div class="form-group"><label for="medicacion">¿Estás tomando medicación psiquiátrica?</label><select id="medicacion" name="medicacion"><option value="no">No</option><option value="si">Sí</option></select></div>
+                <div class="form-group">
+                    <label for="tratamiento">¿Actualmente estás en tratamiento psicológico o psiquiátrico?</label>
+                    <select id="tratamiento" name="tratamiento">
+                        <option value="ninguno">Ninguno</option>
+                        <option value="psicologo">Psicólogo</option>
+                        <option value="psiquiatra">Psiquiatra</option>
+                        <option value="ambos">Ambos</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>¿Estás tomando medicación psiquiátrica?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="medicacion" value="no" checked> No</label>
+                        <label><input type="radio" name="medicacion" value="si"> Sí</label>
+                    </div>
+                </div>
                 <div class="form-group"><label for="medicacion_texto">Si tomas medicación, especifica cuál (opcional):</label><textarea id="medicacion_texto" name="medicacion_texto" rows="2"></textarea></div>
                 
-                <!-- NUEVA PREGUNTA: atención psicológica previa -->
+                <!-- Pregunta atención psicológica previa -->
                 <div class="form-group">
                     <label for="atencion_previa">¿Has recibido previa atención psicológica? ¿Por qué?</label>
                     <textarea id="atencion_previa" name="atencion_previa" rows="2" placeholder="Ejemplo: Sí, hace dos años por ansiedad. / No, nunca."></textarea>
                 </div>
-                
-                <div class="form-group checkbox"><input type="checkbox" id="terapeuta_enterado" name="terapeuta_enterado" value="Sí"><label for="terapeuta_enterado">Si estás en terapia, tu terapeuta está al tanto de que buscas este acompañamiento complementario.</label></div>
                 
                 <hr>
                 <div class="form-group checkbox"><input type="checkbox" id="compromiso" required><label for="compromiso">Comprendo que este acompañamiento se basa en Psicología Positiva y no sustituye la terapia clínica. *</label></div>
@@ -267,7 +324,18 @@
         <div class="p-4 border-t bg-white">
             <div class="flex justify-between text-lg font-bold mb-4"><span>Total:</span><span id="cart-total">€0.00</span></div>
             <div class="flex flex-col gap-3">
-                <button id="checkout-paypal-btn" class="w-full bg-[#003087] hover:bg-[#002c6a] text-white font-bold py-3 rounded-full transition flex items-center justify-center gap-2"><i class="fab fa-paypal"></i> Pagar con PayPal</button>
+                <!-- Botón PayPal que ahora usa formulario POST -->
+                <form id="paypalForm" action="https://www.paypal.com/cgi-bin/webscr" method="POST" target="_blank">
+                    <input type="hidden" name="cmd" value="_xclick">
+                    <input type="hidden" name="business" value="JavierAyala168@paypal.com">
+                    <input type="hidden" name="item_name" value="Compra en Vibrapositivo">
+                    <input type="hidden" name="currency_code" value="EUR">
+                    <input type="hidden" id="paypalAmount" name="amount" value="0.00">
+                    <input type="hidden" name="no_shipping" value="1">
+                    <button id="checkout-paypal-btn" type="submit" class="w-full bg-[#003087] hover:bg-[#002c6a] text-white font-bold py-3 rounded-full transition flex items-center justify-center gap-2">
+                        <i class="fab fa-paypal"></i> Pagar con PayPal
+                    </button>
+                </form>
                 <button id="checkout-revolut-btn" class="w-full bg-[#0077B5] hover:bg-[#006494] text-white font-bold py-3 rounded-full transition flex items-center justify-center gap-2"><i class="fas fa-credit-card"></i> Pagar con Revolut</button>
                 <button id="venezuelaWireBtn" class="w-full bg-[#8B5CF6] hover:bg-[#7C3AED] text-white font-bold py-3 rounded-full transition flex items-center justify-center gap-2"><i class="fas fa-university"></i> Pagar desde Venezuela (Transferencia)</button>
             </div>
@@ -547,7 +615,7 @@
             </div>
         </section>
 
-        <!-- ==================== CONTACTO (NUEVA SECCIÓN) ==================== -->
+        <!-- ==================== CONTACTO ==================== -->
         <section id="contacto" class="py-12 md:py-16 bg-white">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h2 class="section-title text-center text-2xl md:text-3xl">Contacto</h2>
@@ -658,7 +726,11 @@
         }
         function updateCartDisplay() {
             document.getElementById('cart-count').textContent = cart.reduce((s,i)=>s+i.quantity,0);
-            document.getElementById('cart-total').textContent = `€${getCartTotal().toFixed(2)}`;
+            const total = getCartTotal();
+            document.getElementById('cart-total').textContent = `€${total.toFixed(2)}`;
+            // Actualizar el monto en el formulario de PayPal
+            const paypalAmount = document.getElementById('paypalAmount');
+            if (paypalAmount) paypalAmount.value = total.toFixed(2);
             renderCartItems();
         }
         function showNotification(msg) { const n=document.createElement('div'); n.className='fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm'; n.textContent=msg; document.body.appendChild(n); setTimeout(()=>n.remove(),2000); }
@@ -685,14 +757,55 @@
             }
         }
         
-        // Modal y filtro
+        // Modal fullscreen
         const modal = document.getElementById('preCheckModal');
-        const form = document.getElementById('preCheckForm');
-        function openModal() { modal.classList.add('open'); }
-        function closeModal() { modal.classList.remove('open'); }
+        function openModal() { modal.classList.add('open'); document.body.style.overflow = 'hidden'; }
+        function closeModal() { modal.classList.remove('open'); document.body.style.overflow = ''; }
         document.getElementById('closeModalBtn').addEventListener('click', closeModal);
         window.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
         
+        // Lógica de checkboxes mutuos
+        const ningunaCheck = document.getElementById('ninguna');
+        const otrosChecks = document.querySelectorAll('#depresion, #ansiedad, #panico, #bipolar, #tpl, #tdah, #toc, #tca, #psicosis, #suicidio, #autolesiones, #otro');
+        function actualizarNinguna() {
+            if (ningunaCheck.checked) {
+                otrosChecks.forEach(cb => cb.checked = false);
+            }
+        }
+        function actualizarOtros() {
+            if (ningunaCheck.checked) {
+                ningunaCheck.checked = false;
+            }
+        }
+        if (ningunaCheck) {
+            ningunaCheck.addEventListener('change', actualizarNinguna);
+            otrosChecks.forEach(cb => cb.addEventListener('change', actualizarOtros));
+        }
+        
+        // Formulario recurrente
+        const recurrenteBtn = document.getElementById('recurrenteBtn');
+        const recurrenteFormDiv = document.getElementById('recurrenteForm');
+        if (recurrenteBtn) {
+            recurrenteBtn.addEventListener('click', () => {
+                recurrenteFormDiv.classList.toggle('hidden');
+            });
+        }
+        const agendarRecurrente = document.getElementById('agendarRecurrenteBtn');
+        if (agendarRecurrente) {
+            agendarRecurrente.addEventListener('click', () => {
+                const email = document.getElementById('recurrenteEmail').value;
+                if (!email) {
+                    alert('Por favor, ingresa tu email.');
+                    return;
+                }
+                window.open('https://calendar.app.google/cJyW4weeZRJmbwde6', '_blank');
+                showNotification('🔔 Redirigiendo a Google Calendar para agendar tu sesión.');
+                closeModal();
+            });
+        }
+        
+        // Filtro de idoneidad
+        const form = document.getElementById('preCheckForm');
         function isApto(condiciones, tratamiento, medicacion) {
             const graves = ['Depresión mayor diagnosticada', 'Trastorno bipolar', 'Trastorno límite de la personalidad (TLP)', 'Psicosis o esquizofrenia', 'Ideación suicida activa o pasiva', 'Autolesiones'];
             const tieneGrave = condiciones.some(c => graves.includes(c));
@@ -702,49 +815,59 @@
             return true;
         }
         
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!document.getElementById('acepto').checked || !document.getElementById('compromiso').checked) {
-                alert('Debes aceptar todos los términos para continuar.');
-                return;
-            }
-            const condiciones = Array.from(document.querySelectorAll('input[name="condiciones"]:checked')).map(cb => cb.value);
-            const tratamiento = document.getElementById('tratamiento').value;
-            const medicacion = document.getElementById('medicacion').value;
-            if (!isApto(condiciones, tratamiento, medicacion)) {
-                alert('Gracias por tu sinceridad. Según tus respuestas, este acompañamiento no es el adecuado para ti. Te recomiendo buscar ayuda de un profesional de salud mental.');
-                closeModal();
-                pendingAction = null;
-                return;
-            }
-            const formData = new FormData(form);
-            try {
-                const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
-                if (response.ok) {
-                    alert('¡Formulario enviado correctamente! Ahora procederemos con la reserva.');
-                    if (pendingAction) { pendingAction(); pendingAction = null; }
+        if (form) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (!document.getElementById('acepto').checked || !document.getElementById('compromiso').checked) {
+                    alert('Debes aceptar todos los términos para continuar.');
+                    return;
+                }
+                const condiciones = Array.from(document.querySelectorAll('input[name="condiciones"]:checked')).map(cb => cb.value);
+                const tratamiento = document.getElementById('tratamiento').value;
+                const medicacionRadio = document.querySelector('input[name="medicacion"]:checked');
+                const medicacion = medicacionRadio ? medicacionRadio.value : 'no';
+                if (!isApto(condiciones, tratamiento, medicacion)) {
+                    alert('Gracias por tu sinceridad. Según tus respuestas, este acompañamiento no es el adecuado para ti. Te recomiendo buscar ayuda de un profesional de salud mental.');
                     closeModal();
-                } else { alert('Error al enviar el formulario. Inténtalo de nuevo.'); }
-            } catch (err) { alert('Error de conexión. Por favor, intenta más tarde.'); }
-        });
+                    pendingAction = null;
+                    return;
+                }
+                const formData = new FormData(form);
+                try {
+                    const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
+                    if (response.ok) {
+                        alert('¡Formulario enviado correctamente! Ahora procederemos con la reserva.');
+                        if (pendingAction) { pendingAction(); pendingAction = null; }
+                        closeModal();
+                    } else { alert('Error al enviar el formulario. Inténtalo de nuevo.'); }
+                } catch (err) { alert('Error de conexión. Por favor, intenta más tarde.'); }
+            });
+        }
         
         function handleReservaDiagnostica() {
             pendingAction = () => { window.open('https://calendar.app.google/cJyW4weeZRJmbwde6', '_blank'); showNotification('🔔 Redirigiendo a Google Calendar para agendar tu sesión.'); };
             openModal();
         }
-        // Asignar el mismo comportamiento a todos los botones de reserva y al nuevo botón "Empecemos a conectar"
         document.querySelectorAll('#reservaDiagnosticaBtn, #reservaDiagnosticaBtn2, #reservaDiagnosticaBtn3, #empecemosConectarBtn').forEach(btn => btn.addEventListener('click', handleReservaDiagnostica));
         
-        // ==================== PAGOS CON MONTO EXACTO ====================
+        // ==================== PAGOS ====================
         function openCartSidebar() { document.getElementById('cart-sidebar').classList.add('open'); document.getElementById('cart-overlay').classList.add('open'); }
         function closeCartSidebar() { document.getElementById('cart-sidebar').classList.remove('open'); document.getElementById('cart-overlay').classList.remove('open'); }
         
-        function handlePayPalCheckout() {
-            if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío.'); return; }
-            const total = getCartTotal();
-            if (confirm(`💰 El monto total a pagar con PayPal es: €${total.toFixed(2)}\n¿Deseas continuar?`)) {
-                window.open(`https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=JavierAyala168@paypal.com&amount=${total.toFixed(2)}&currency_code=EUR&item_name=Compra%20en%20Vibrapositivo&no_shipping=1`, '_blank');
-            }
+        // PayPal ahora se maneja con el formulario, pero también aseguramos que el monto se actualice al enviar
+        const paypalFormElem = document.getElementById('paypalForm');
+        if (paypalFormElem) {
+            paypalFormElem.addEventListener('submit', (e) => {
+                if (cart.length === 0) {
+                    e.preventDefault();
+                    showNotification('⚠️ Tu carrito está vacío.');
+                    return false;
+                }
+                // El monto ya se actualizó en updateCartDisplay
+                if (!confirm(`💰 El monto total a pagar con PayPal es: €${getCartTotal().toFixed(2)}\n¿Deseas continuar?`)) {
+                    e.preventDefault();
+                }
+            });
         }
         
         function handleRevolutCheckout() {
@@ -786,7 +909,6 @@
             document.getElementById('cart-icon-btn').addEventListener('click', openCartSidebar);
             document.getElementById('close-cart-btn').addEventListener('click', closeCartSidebar);
             document.getElementById('cart-overlay').addEventListener('click', closeCartSidebar);
-            document.getElementById('checkout-paypal-btn').addEventListener('click', handlePayPalCheckout);
             document.getElementById('checkout-revolut-btn').addEventListener('click', handleRevolutCheckout);
             document.getElementById('venezuelaWireBtn').addEventListener('click', handleVenezuelaWire);
             const menuBtn = document.getElementById('menu-btn');
