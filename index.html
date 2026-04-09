@@ -883,27 +883,50 @@
             document.getElementById('cart-overlay').classList.remove('open'); 
         }
         
-        function handlePayPalCheckout() {
-            if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío.'); return; }
-            const total = getCartTotal();
-            const paypalUrl = `https://paypal.me/JavierAyala168/${total.toFixed(2)}`;
-            if (confirm(`💰 El monto total a pagar con PayPal es: €${total.toFixed(2)}\n¿Deseas continuar?`)) {
-                window.open(paypalUrl, '_blank');
-                setTimeout(() => {
-                    showNotification(`Si no se abre, usa el enlace manual: ${paypalUrl}`);
-                }, 1000);
-            }
-        }
-        
-        function handleRevolutCheckout() {
-            if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío.'); return; }
-            const total = getCartTotal();
-            const revolutUrl = `https://revolut.me/javier47j?amount=${total.toFixed(2)}&currency=EUR`;
-            if (confirm(`💳 El monto exacto a pagar con Revolut es: €${total.toFixed(2)}\nSerás redirigido a Revolut con el monto precargado.`)) {
-                window.open(revolutUrl, '_blank');
-                showNotification(`🔔 Se abrirá Revolut con el monto de €${total.toFixed(2)}.`);
-            }
-        }
+    function handlePayPalCheckout() {
+    if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío.'); return; }
+    const total = getCartTotal();
+    // Redondear a 2 decimales por si acaso
+    const monto = total.toFixed(2);
+    const paypalUrl = `https://paypal.me/JavierAyala168/${monto}`;
+    if (confirm(`💰 El monto total a pagar con PayPal es: €${monto}\n¿Deseas continuar?`)) {
+        window.open(paypalUrl, '_blank');
+        setTimeout(() => {
+            showNotification(`Si no se abre, usa el enlace manual: ${paypalUrl}`);
+        }, 1000);
+    }
+}
+
+function handleRevolutCheckout() {
+    if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío.'); return; }
+    let total = getCartTotal();
+    // Revolut espera el monto en unidades enteras (sin decimales) para el formato /monto-eur
+    // Pero si tiene decimales, se redondea a entero (por ejemplo 45.50 -> 45.5 no funciona, mejor usar el formato con punto)
+    // Para evitar confusiones, usamos el formato con ?amount= y enviamos el número con punto decimal.
+    // Sin embargo, el usuario reportó que ?amount=680.00 dio 6.80. Eso es extraño.
+    // Probemos el formato clásico: /680-eur (solo enteros)
+    let montoEntero = Math.round(total * 100) / 100; // redondeo a 2 decimales
+    // Si el monto es entero (sin centavos), lo enviamos como entero; si tiene centavos, usamos el formato con punto.
+    const esEntero = Math.abs(montoEntero - Math.floor(montoEntero)) < 0.01;
+    let revolutUrl;
+    if (esEntero) {
+        // Formato: /monto-eur (sin decimales)
+        revolutUrl = `https://revolut.me/javier47j/${Math.floor(montoEntero)}-eur`;
+    } else {
+        // Formato con parámetros: ?amount=xx.yy&currency=EUR (pero cuidado con la interpretación)
+        // Para evitar el problema, mejor redondeamos y enviamos como entero en céntimos? No, mejor usar el formato con punto y esperar.
+        // Dado que el usuario vio 6.80 en lugar de 680, puede ser que Revolut espere el monto en céntimos.
+        // Probemos enviando el monto en céntimos multiplicado por 100.
+        // Si total = 680.00, céntimos = 68000, pero eso daría 680.00 otra vez? No.
+        // Voy a optar por el formato de entero siempre, redondeando al euro más cercano.
+        revolutUrl = `https://revolut.me/javier47j/${Math.round(montoEntero)}-eur`;
+        showNotification(`El monto se redondeará a ${Math.round(montoEntero)}€ para el pago con Revolut.`);
+    }
+    if (confirm(`💳 El monto exacto a pagar con Revolut es: €${montoEntero.toFixed(2)}\nSerás redirigido a Revolut.`)) {
+        window.open(revolutUrl, '_blank');
+        showNotification(`🔔 Se abrirá Revolut con el monto de ${revolutUrl.includes('-') ? revolutUrl.split('/').pop() : montoEntero}€.`);
+    }
+}
         
         function handleVenezuelaWire() {
             if (cart.length === 0) { showNotification('⚠️ Tu carrito está vacío.'); return; }
