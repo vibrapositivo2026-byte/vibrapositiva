@@ -335,23 +335,16 @@
     <div id="preCheckModal" class="modal-fullscreen">
         <div class="close-fullscreen" id="closeModalBtn">&times;</div>
         <div class="modal-content">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">Antes de reservar</h2>
-            <p class="mb-4 text-sm text-gray-600">Solo necesito tu nombre y email para poder contactarte. No te pido datos de salud en este paso.</p>
-            
-            <div class="recurrent-form">
-                <p class="font-semibold mb-2">⚡ ¿Ya eres cliente recurrente?</p>
-                <button id="recurrenteBtn" class="btn-secondary text-sm py-1 px-3 rounded-full">Agendar directamente (solo email)</button>
-                <div id="recurrenteForm" class="hidden mt-3">
-                    <input type="email" id="recurrenteEmail" placeholder="Tu email registrado" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent">
-                    <button id="agendarRecurrenteBtn" class="btn-primary w-full py-2 rounded-full text-sm mt-2">Agendar sesión</button>
-                </div>
-            </div>
+            <div id="modalIntro"><h2 class="text-xl font-bold text-gray-800 mb-4">Antes de reservar</h2>
+            <p class="mb-4 text-sm text-gray-600">Solo necesito tu nombre y email para poder contactarte. No te pido datos de salud en este paso.</p></div>
             
             <form id="preCheckForm" action="https://api.web3forms.com/submit" method="POST">
                 <input type="hidden" name="access_key" value="6cef22bf-2b7e-43a8-8ab8-15d2144795a8">
                 <input type="hidden" name="subject" value="Nueva solicitud de sesión - Vibrapositivo">
                 <input type="hidden" name="replyto" value="vibrapositivo2026@gmail.com">
                 <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off">
+                <input type="hidden" name="region" id="regionField" value="eu">
+                <input type="hidden" name="servicio" id="servicioField" value="">
                 <div class="mb-4">
                     <label for="nombre" class="block font-semibold mb-1">Nombre</label>
                     <input type="text" id="nombre" name="nombre" required autocomplete="name" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent">
@@ -370,9 +363,30 @@
                     <div class="checkbox-group"><input type="checkbox" id="compromiso" required><label for="compromiso" class="ml-2">Comprendo que este acompañamiento es coaching desde la Psicología Positiva y no sustituye la terapia ni un diagnóstico. *</label></div>
                 </div>
                 <p class="text-xs text-red-700 bg-red-50 rounded-lg p-3 mb-3 text-center">Si estás en crisis o piensas en hacerte daño, no esperes respuesta de este formulario: llama al <strong>112</strong>. Irlanda: Samaritans <strong>116 123</strong>. España: <strong>024</strong>. Otro país: <a href="https://findahelpline.com" target="_blank" rel="noopener" class="underline">findahelpline.com</a>.</p>
-                <button type="submit" class="btn-primary w-full py-2 rounded-full font-semibold mt-2">Continuar a la reserva</button>
-                <p class="text-xs text-gray-500 mt-3 text-center">Después de confirmar tu reserva te enviaré un breve cuestionario previo a la sesión. Recibirás respuesta en 1-2 días laborables.</p>
+                <button type="submit" class="btn-primary w-full py-2 rounded-full font-semibold mt-2">Continuar</button>
+                <p class="text-xs text-gray-500 mt-3 text-center">Después de confirmar tu reserva te enviaré un breve cuestionario previo a la sesión.</p>
             </form>
+
+            <div id="depositPanel" class="hidden text-center">
+                <div class="text-4xl mb-2">✅</div>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Recibí tu solicitud</h3>
+                <p class="text-sm text-gray-700 mb-3">Para abrirte mi agenda, paga una <strong>seña de €15</strong>. Se descuenta del precio de la sesión diagnóstica (€35), así que el resto (€20) lo pagas antes de empezar.</p>
+                <div class="flex flex-col gap-2 mb-3">
+                    <a href="https://paypal.me/JavierAyala168/15EUR" target="_blank" rel="noopener" class="block text-center w-full bg-[#003087] hover:bg-[#002c6a] text-white font-bold py-3 rounded-full transition">Pagar seña €15 con PayPal</a>
+                    <a href="https://revolut.me/javier47j" target="_blank" rel="noopener" class="block text-center w-full bg-gray-900 hover:bg-black text-white font-bold py-3 rounded-full transition">Pagar seña con Revolut (€15)</a>
+                </div>
+                <p class="text-xs text-gray-600 mb-2">Cuando vea tu pago te escribo al email que dejaste con el enlace para elegir tu horario. Normalmente en 1-2 días laborables.</p>
+                <p class="text-xs text-gray-500">Si cancelas con menos de 24 h de aviso, la seña no se devuelve. <a href="terminos.html" target="_blank" class="text-amber-600 underline">Ver términos</a>.</p>
+                <button type="button" id="depositCloseBtn" class="btn-secondary text-sm py-2 px-5 rounded-full mt-4">Cerrar</button>
+            </div>
+            <div id="latamPanel" class="hidden text-center">
+                <div class="text-4xl mb-2">✅</div>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Recibí tu solicitud</h3>
+                <p class="text-sm text-gray-700 mb-4">Elige tu horario en mi agenda. El pago de la sesión se hace al momento de la cita.</p>
+                <a href="https://calendar.app.google/H8Fxm8dhLwjxordF9" target="_blank" rel="noopener" class="btn-primary block text-center w-full py-3 rounded-full font-bold">Elegir mi horario</a>
+                <p class="text-xs text-gray-500 mt-3">Cancelaciones sin coste hasta 24 h antes. <a href="terminos.html" target="_blank" class="text-amber-600 underline">Ver términos</a>.</p>
+                <button type="button" id="latamCloseBtn" class="btn-secondary text-sm py-2 px-5 rounded-full mt-4">Cerrar</button>
+            </div>
         </div>
     </div>
 
@@ -648,7 +662,7 @@
                         </div>
                         <div class="bg-amber-50 p-5 md:p-6 rounded-xl shadow-md text-center">
                             <h3 class="font-bold text-lg md:text-xl mb-4">Reserva tu sesión ahora</h3>
-                            <p class="mb-4 text-sm md:text-base">Haz clic en el botón para agendar directamente en Google Calendar.</p>
+                            <p class="mb-4 text-sm md:text-base">Deja tus datos y te explico los pasos. En Europa se reserva con una seña de €15 que se descuenta del precio.</p>
                             <button id="reservaDiagnosticaBtn2" class="btn-primary w-full py-3 rounded-full font-bold inline-block text-center">Reservar mi sesión diagnóstica</button>
                             <p class="text-center text-xs md:text-sm text-gray-500 mt-4">¿Tienes dudas? Escríbeme a <a href="mailto:vibrapositivo2026@gmail.com" class="text-amber-600">vibrapositivo2026@gmail.com</a></p>
                         </div>
@@ -787,6 +801,7 @@
         // ==================== CARRITO ====================
         let cart = [];
         let pendingAction = null;
+        let bookingFlow = false;
 
         function loadCart() { 
             const stored = localStorage.getItem('vibrapositivo_cart'); 
@@ -878,6 +893,9 @@
             let price = currentRegion === 'eu' ? card.getAttribute('data-price-eu') : card.getAttribute('data-price-latam');
             price = parseFloat(price);
             if (id && name && !isNaN(price)) {
+                bookingFlow = false;
+                resetBookingModal();
+                document.getElementById('servicioField').value = name;
                 pendingAction = () => addToCart({ id, name, price });
                 openModal();
             }
@@ -885,7 +903,7 @@
         
         const modal = document.getElementById('preCheckModal');
         function openModal() { if (modal) { modal.classList.add('open'); document.body.style.overflow = 'hidden'; } }
-        function closeModal() { if (modal) { modal.classList.remove('open'); document.body.style.overflow = ''; } }
+        function closeModal() { if (modal) { modal.classList.remove('open'); document.body.style.overflow = ''; resetBookingModal(); } }
         const closeBtn = document.getElementById('closeModalBtn');
         if (closeBtn) closeBtn.addEventListener('click', closeModal);
         window.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
@@ -900,22 +918,6 @@
             otrosChecks.forEach(cb => cb.addEventListener('change', actualizarOtros));
         }
         
-        // Recurrente
-        const recurrenteBtn = document.getElementById('recurrenteBtn');
-        const recurrenteFormDiv = document.getElementById('recurrenteForm');
-        if (recurrenteBtn) recurrenteBtn.addEventListener('click', () => recurrenteFormDiv.classList.toggle('hidden'));
-        const agendarRecurrente = document.getElementById('agendarRecurrenteBtn');
-        if (agendarRecurrente) {
-            agendarRecurrente.addEventListener('click', () => {
-                const email = document.getElementById('recurrenteEmail').value;
-                if (!email) { alert('Por favor, ingresa tu email.'); return; }
-                window.open('https://calendar.app.google/H8Fxm8dhLwjxordF9', '_blank');
-                showNotification('🔔 Redirigiendo a Google Calendar para agendar tu sesión.');
-                closeModal();
-                pendingAction = null;
-            });
-        }
-        
         // Formulario corto previo a la reserva (sin datos de salud)
         const form = document.getElementById('preCheckForm');
         if (form) {
@@ -925,14 +927,21 @@
                     showNotification('⚠️ Debes aceptar las casillas marcadas con * para continuar.');
                     return;
                 }
+                document.getElementById('regionField').value = currentRegion;
                 const formData = new FormData(form);
                 try {
                     const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
                     if (response.ok) {
-                        showNotification('✅ Listo. Continúa con tu reserva.');
-                        if (pendingAction) { pendingAction(); pendingAction = null; }
-                        closeModal();
-                        form.reset();
+                        if (bookingFlow) {
+                            form.classList.add('hidden'); document.getElementById('modalIntro').classList.add('hidden');
+                            document.getElementById(currentRegion === 'eu' ? 'depositPanel' : 'latamPanel').classList.remove('hidden');
+                            form.reset();
+                        } else {
+                            showNotification('✅ Listo.');
+                            if (pendingAction) { pendingAction(); pendingAction = null; }
+                            closeModal();
+                            form.reset();
+                        }
                     } else {
                         showNotification('⚠️ No se pudo enviar. Inténtalo de nuevo o escríbeme a vibrapositivo2026@gmail.com.');
                     }
@@ -941,12 +950,17 @@
                 }
             });
         }
+        function resetBookingModal() {
+            ['depositPanel','latamPanel'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.add('hidden'); });
+            const f = document.getElementById('preCheckForm'); if (f) f.classList.remove('hidden'); const mi = document.getElementById('modalIntro'); if (mi) mi.classList.remove('hidden');
+        }
+        ['depositCloseBtn','latamCloseBtn'].forEach(id => { const b = document.getElementById(id); if (b) b.addEventListener('click', () => { closeModal(); resetBookingModal(); bookingFlow = false; }); });
         
         function handleReservaDiagnostica() {
-            pendingAction = () => { 
-                window.open('https://calendar.app.google/H8Fxm8dhLwjxordF9', '_blank'); 
-                showNotification('🔔 Redirigiendo a Google Calendar para agendar tu sesión.');
-            };
+            bookingFlow = true;
+            pendingAction = null;
+            resetBookingModal();
+            document.getElementById('servicioField').value = 'Sesión diagnóstica';
             openModal();
         }
         document.querySelectorAll('#reservaDiagnosticaBtn, #reservaDiagnosticaBtn2, #reservaDiagnosticaBtn3, #empecemosConectarBtn').forEach(btn => btn.addEventListener('click', handleReservaDiagnostica));
